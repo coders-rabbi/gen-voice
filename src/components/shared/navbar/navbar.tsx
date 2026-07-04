@@ -17,7 +17,7 @@ const Navber = () => {
         </Link>
       </li>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
-        <Link href="/popular-news" className="block px-4 py-2">
+        <Link href="/popular_news" className="block px-4 py-2">
           Popular News
         </Link>
       </li>
@@ -44,7 +44,6 @@ const Navber = () => {
     </>
   );
 
-  // মোবাইলের জন্য আলাদা স্ট্রাকচার (যাতে মেনুর ভেতর মেনু ভেঙে না যায়)
   const MobileNavItems = (
     <>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
@@ -62,7 +61,6 @@ const Navber = () => {
           Popular News
         </Link>
       </li>
-      {/* মোবাইলের জন্য উল্লম্ব ড্রপডাউন */}
       <li className="text-black">
         <span className="font-semibold px-4 py-2">Categories</span>
         <ul className="pl-4 space-y-1">
@@ -83,7 +81,6 @@ const Navber = () => {
 
   return (
     <div className="navbar shadow-sm px-4 z-50">
-      {/* ১. বাম পাশে লোগো */}
       <div className="navbar-start">
         <Link href="/" className="flex items-center gap-2">
           <Image
@@ -97,15 +94,12 @@ const Navber = () => {
         </Link>
       </div>
 
-      {/* বড় স্ক্রিনের জন্য মিডল মেনু */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-1 px-1">{DesktopNavItems}</ul>
       </div>
 
-      {/* ২. ডান পাশে বাটন এবং বার্গার মেনু */}
       <div className="navbar-end gap-2">
-        {/* ডেক্সটপ লগইন বাটন */}
-        <label className="input hidden sm:inline-flex outline-none bg-[#EAF3FF] border-0 rounded-xl">
+        <label className="input hidden sm:inline-flex outline-none bg-[#EAF3FF] border-0 rounded-xl w-[60%]">
           <svg
             className="h-[1em] opacity-50 "
             xmlns="http://www.w3.org/2000/svg"
