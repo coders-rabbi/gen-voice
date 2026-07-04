@@ -47,12 +47,12 @@ const page = () => {
             >
               Login <FaArrowRight className="ml-2" />
             </button>
-            <button
+            <Link href="register"
               className="btn btn-neutral bg-black text-white mt-1"
               type="reset"
             >
               CREATE NEW ACCOUNT
-            </button>
+            </Link>
           </form>
         </div>
         <div>

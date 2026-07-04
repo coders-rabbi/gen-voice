@@ -17,7 +17,7 @@ const Navber = () => {
         </Link>
       </li>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
-        <Link href="/popular_news" className="block px-4 py-2">
+        <Link href="/popular-news" className="block px-4 py-2">
           Popular News
         </Link>
       </li>
@@ -80,7 +80,7 @@ const Navber = () => {
   );
 
   return (
-    <div className="navbar shadow-sm px-4 z-50">
+    <div className="navbar px-4 z-50">
       <div className="navbar-start">
         <Link href="/" className="flex items-center gap-2">
           <Image

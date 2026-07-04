@@ -4,7 +4,7 @@ import React from "react";
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="container mx-auto bg-[#F5F5F5] min-h-screen">
+    <div className="container mx-auto  min-h-screen">
       <Navbar />
       {children}
       <Footer />

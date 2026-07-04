@@ -117,12 +117,12 @@ const page = () => {
             >
               SIGN UP
             </button>
-            <button
+            <Link href="/login"
               className="btn btn-neutral border-0 rounded-xs bg-black text-white mt-1"
               type="reset"
             >
               BACK TO LOGIN
-            </button>
+            </Link>
           </form>
         </div>
 

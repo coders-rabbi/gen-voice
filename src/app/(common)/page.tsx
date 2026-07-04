@@ -1,9 +1,12 @@
-import React from 'react';
+import Herosection from "@/components/ui/home/herosection";
+import PopularCategory from "@/components/ui/home/popularCategory";
+import React from "react";
 
 const Home = () => {
   return (
     <div>
-      <h1 className='text-2xl text-amber-300 text-center'>This is home page</h1>
+      <Herosection />
+      <PopularCategory />
     </div>
   );
 };
