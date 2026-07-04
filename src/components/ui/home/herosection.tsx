@@ -139,6 +139,7 @@ const Herosection = () => {
             </div>
           </div>
         </div>
+        
         <div className="flex gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 max-w-2xl items-center">
           <div className="w-[35%] aspect-square relative flex-shrink-0">
             <Image

@@ -1,5 +1,6 @@
 import Herosection from "@/components/ui/home/herosection";
 import PopularCategory from "@/components/ui/home/popularCategory";
+import Sports from "@/components/ui/home/sports";
 import React from "react";
 
 const Home = () => {
@@ -7,6 +8,7 @@ const Home = () => {
     <div>
       <Herosection />
       <PopularCategory />
+      <Sports />
     </div>
   );
 };

@@ -17,13 +17,13 @@ const page = () => {
       </div>
       <div className="flex justify-center items-center">
         <div>
-          <h3 className="text-xl font-semibold px-4">Sign In</h3>
-          <form className="fieldset bg-base-200  rounded-box w-xs p-4">
+          <h3 className="text-xl font-semibold px-4 text-black">Sign In</h3>
+          <form className="fieldset bg-white  rounded-box w-xs p-4">
             <fieldset className="fieldset">
-              <label className="label">Email</label>
+              <label className="label text-black">Email</label>
               <input
                 type="email"
-                className="input validator"
+                className="input validator bg-white text-black border"
                 placeholder="Email"
                 required
               />
@@ -31,7 +31,7 @@ const page = () => {
             </fieldset>
 
             <label className="fieldset">
-              <span className="label">Password</span>
+              <span className="label text-black">Password</span>
               <input
                 type="password"
                 className="input validator"
@@ -47,7 +47,8 @@ const page = () => {
             >
               Login <FaArrowRight className="ml-2" />
             </button>
-            <Link href="register"
+            <Link
+              href="register"
               className="btn btn-neutral bg-black text-white mt-1"
               type="reset"
             >
@@ -68,7 +69,10 @@ const page = () => {
           Terms and conditions
         </Link>
 
-        <Link href="/register" className="link link-hover flex items-center gap-1">
+        <Link
+          href="/register"
+          className="link link-hover flex items-center gap-1"
+        >
           <GoDotFill /> Privacy policy
         </Link>
       </div>
