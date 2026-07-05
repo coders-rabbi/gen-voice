@@ -7,10 +7,13 @@ import VideoNewsHorizontalCard from "./components/videoNewsHorizontalCard";
 import VideoNewsVerticalCard from "./components/videoNewsVerticalCard";
 import Advertisement from "@/components/advertisement";
 import Politics from "./components/politics";
+import NewsletterForm from "./components/newsLetter";
+import NewsLetter from "./components/newsLetter";
+import StayConnet from "./components/stayConnet";
 
 const VideoNews = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 min-h-screen">
       <div className="md:col-span-7">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 mb-2.5  ">
@@ -34,7 +37,7 @@ const VideoNews = () => {
             <hr className="w-full border-t border-[#3384FE33]" />
           </div>
         </div>
-        
+
         <div className="my-4 md:flex flex-col md:flex-row gap-4">
           <iframe
             src="https://www.youtube.com/embed/LijdyVaaDnY?si=UddbM73azEwKYvNS"
@@ -102,7 +105,16 @@ const VideoNews = () => {
         </div>
       </div>
 
-      <div className="md:col-span-5"></div>
+      <div className="md:col-span-5">
+        <div className="grid grid-cols-12 gap-4">
+          <div className="md:col-span-6">
+            <NewsLetter />
+          </div>
+          <div className="md:col-span-6">
+            <StayConnet />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
