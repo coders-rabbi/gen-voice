@@ -10,7 +10,7 @@ const NewsCardVertical = () => {
           <Image
             src={img04}
             alt="Gen voice"
-            className="rounded-xl object-cover w-full h-[200px]"
+            className="rounded-xl object-cover  h-[200px]"
           />
         </div>
         <div className="flex flex-col flex-1 justify-between h-full gap-2">

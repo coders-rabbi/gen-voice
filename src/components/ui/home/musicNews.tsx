@@ -1,10 +1,10 @@
 import Advertisement from "@/components/advertisement";
-import NewsCard from "@/components/newsCardHorizontal";
+import NewsCardVertical from "@/components/newsCardVertical";
 import Link from "next/link";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 
-const TechNews = () => {
+const MusicNews = () => {
   return (
     <div className="mt-12">
       <div className="flex justify-between items-center">
@@ -33,12 +33,20 @@ const TechNews = () => {
       </div>
 
       <div className="flex gap-3 mt-4">
-        <NewsCard />
-        <NewsCard />
+        <NewsCardVertical />
+        <NewsCardVertical />
+        <NewsCardVertical />
+        <NewsCardVertical />
+      </div>
+      <div className="flex gap-3 mt-4">
+        <NewsCardVertical />
+        <NewsCardVertical />
+        <NewsCardVertical />
+        <NewsCardVertical />
       </div>
       <Advertisement />
     </div>
   );
 };
 
-export default TechNews;
+export default MusicNews;

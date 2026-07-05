@@ -1,17 +1,16 @@
-import Advertisement from "@/components/advertisement";
-import NewsCard from "@/components/newsCardHorizontal";
 import Link from "next/link";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
+import WritesCard from "./components/writesCard";
 
-const TechNews = () => {
+const TopWrite = () => {
   return (
     <div className="mt-12">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2 mb-2.5  ">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
           <h2 className="text-[14px] font-semibold text-[#3E3232] ">
-            Technology
+            Top Writes
           </h2>
         </div>
 
@@ -32,13 +31,14 @@ const TechNews = () => {
         </div>
       </div>
 
-      <div className="flex gap-3 mt-4">
-        <NewsCard />
-        <NewsCard />
+      <div className="flex justify-between gap-3 mt-5">
+        <WritesCard />
+        <WritesCard />
+        <WritesCard />
+        <WritesCard />
       </div>
-      <Advertisement />
     </div>
   );
 };
 
-export default TechNews;
+export default TopWrite;

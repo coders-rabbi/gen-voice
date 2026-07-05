@@ -10,7 +10,7 @@ import TechnologyCard from "./components/technology";
 
 const Herosection = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
+    <div className="grid grid-cols-1 md:grid-cols-12 mb-14">
       <div className="md:col-span-8">
         <div className="flex gap-3 items-center">
           <Image src={breakingImage} alt="gen voice" className="h-auto" />
