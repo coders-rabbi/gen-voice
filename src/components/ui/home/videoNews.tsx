@@ -6,6 +6,7 @@ import { MdArrowForwardIos, MdArrowOutward } from "react-icons/md";
 import VideoNewsHorizontalCard from "./components/videoNewsHorizontalCard";
 import VideoNewsVerticalCard from "./components/videoNewsVerticalCard";
 import Advertisement from "@/components/advertisement";
+import Politics from "./components/politics";
 
 const VideoNews = () => {
   return (
@@ -33,6 +34,7 @@ const VideoNews = () => {
             <hr className="w-full border-t border-[#3384FE33]" />
           </div>
         </div>
+        
         <div className="my-4 md:flex flex-col md:flex-row gap-4">
           <iframe
             src="https://www.youtube.com/embed/LijdyVaaDnY?si=UddbM73azEwKYvNS"
@@ -88,13 +90,16 @@ const VideoNews = () => {
           <VideoNewsHorizontalCard />
         </div>
 
-        <div className="md:flex gap-4 mt-4">
+        <div className="flex flex-col md:flex-row gap-4 mt-4">
           <VideoNewsVerticalCard />
           <VideoNewsVerticalCard />
           <VideoNewsVerticalCard />
         </div>
-
         <Advertisement />
+
+        <div>
+          <Politics />
+        </div>
       </div>
 
       <div className="md:col-span-5"></div>
