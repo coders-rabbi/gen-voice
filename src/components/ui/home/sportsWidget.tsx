@@ -5,7 +5,7 @@ import Compition from "./components/compition";
 
 const SportsWidget = () => {
   return (
-    <div className="w-full relative overflow-hidden rounded-lg">
+    <div className="w-full relative overflow-hidden rounded-lg mt-12">
       <Image
         src={blurImage}
         alt="gen voice"

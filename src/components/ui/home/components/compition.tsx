@@ -10,13 +10,13 @@ const Compition = () => {
         <Image
           src={team2}
           alt="gen voice"
-          className="w-[150px] h-auto object-cover"
+          className="w-[100px] h-auto object-cover"
         />
         <h1 className="text-4xl text-[#F81539] font-semibold">VS</h1>
         <Image
           src={team1}
           alt="gen voice"
-          className="w-[150px] h-auto object-cover"
+          className="w-[100px] h-auto object-cover"
         />
       </div>
       <p className="text-center mb-2">sunday , august 8th</p>
