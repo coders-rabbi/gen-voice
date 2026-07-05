@@ -23,7 +23,7 @@ const VoteOpinion = () => {
         </Link>
       </div>
 
-      <div className="flex gap-3 items-center w-full mt-2.5">
+      <div className="flex gap-3 items-center w-full mt-2">
         <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
         <div className="flex flex-col gap-0.5 flex-1">
           <hr className="w-full border-t border-[#3384FE33]" />
@@ -31,8 +31,8 @@ const VoteOpinion = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <div className="card py-4 px-1.5 shadow-sm mt-6 border rounded-xl">
+      <div className="flex flex-col gap-2">
+        <div className="card py-4 px-1.5 shadow-sm mt-2 border rounded-xl">
           <div className="flex items-center gap-2">
             <Image src={vote} alt="gen voice" className="w-14 h-14" />
             <div>
@@ -106,14 +106,14 @@ const VoteOpinion = () => {
             </div>
 
             {/* Optional Submit Button */}
-            <div className="pt-2">
+            {/* <div className="pt-2">
               <button
                 type="submit"
                 className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 text-[10px]"
               >
                 Submit Vote
               </button>
-            </div>
+            </div> */}
           </form>
         </div>
         <div className="card py-4 px-1.5 shadow-sm border rounded-xl">
@@ -190,14 +190,14 @@ const VoteOpinion = () => {
             </div>
 
             {/* Optional Submit Button */}
-            <div className="pt-2">
+            {/* <div className="pt-2">
               <button
                 type="submit"
                 className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 text-[10px]"
               >
                 Submit Vote
               </button>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>

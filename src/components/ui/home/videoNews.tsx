@@ -7,12 +7,12 @@ import VideoNewsHorizontalCard from "./components/videoNewsHorizontalCard";
 import VideoNewsVerticalCard from "./components/videoNewsVerticalCard";
 import Advertisement from "@/components/advertisement";
 import Politics from "./components/politics";
-import NewsletterForm from "./components/newsLetter";
 import NewsLetter from "./components/newsLetter";
 import StayConnet from "./components/stayConnet";
 import SideCategory from "./components/sideCategory";
 import VoteOpinion from "./components/voteOpinion";
 import CaltureSideBar from "./components/caltureSideBar";
+import BusinessSideBar from "./components/businessSideBar";
 
 const VideoNews = () => {
   return (
@@ -112,6 +112,7 @@ const VideoNews = () => {
         <div className="grid grid-cols-12 gap-4">
           <div className="md:col-span-6">
             <NewsLetter />
+            <BusinessSideBar />
           </div>
           <div className="md:col-span-6">
             <StayConnet />

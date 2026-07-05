@@ -35,7 +35,7 @@ const CaltureSideBar = () => {
       </div>
 
       <div className="mt-4">
-        <div className="md:flex gap-0.5 mb-4">
+        <div className="md:flex gap-0.5 mb-2">
           <Link href="/">
             <div>
               <h5 className="text-[#6D757F] text-xs font-semibold">
@@ -55,7 +55,7 @@ const CaltureSideBar = () => {
             className="w-24 h-24 object-cover"
           />
         </div>
-        <div className="md:flex gap-0.5 mb-4">
+        <div className="md:flex gap-0.5 mb-2">
           <Link href="/">
             <div>
               <h5 className="text-[#6D757F] text-xs font-semibold">
@@ -75,7 +75,7 @@ const CaltureSideBar = () => {
             className="w-24 h-24 object-cover"
           />
         </div>
-        <div className="md:flex gap-0.5 mb-4">
+        {/* <div className="md:flex gap-0.5 mb-2">
           <Link href="/">
             <div>
               <h5 className="text-[#6D757F] text-xs font-semibold">
@@ -114,9 +114,8 @@ const CaltureSideBar = () => {
             alt="gen voice"
             className="w-24 h-24 object-cover"
           />
-        </div>
+        </div> */}
       </div>
-
     </div>
   );
 };

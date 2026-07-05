@@ -19,7 +19,7 @@ const SideCategory = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 mt-6">
+      <div className="flex flex-col gap-1 mt-2">
         <div className="flex justify-between">
           <div className="flex gap-2 items-center">
             <GoDotFill className="text-[#F65050]" />
