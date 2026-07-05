@@ -11,7 +11,7 @@ const VoteOpinion = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2 mb-2.5  ">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-          <h2 className="text-[10px] text-[#3E3232] ">Video News</h2>
+          <h2 className="text-[14px] font-semibold text-[#3E3232] ">Vote Your Opinion</h2>
         </div>
 
         <Link

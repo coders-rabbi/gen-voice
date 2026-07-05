@@ -12,6 +12,7 @@ import NewsLetter from "./components/newsLetter";
 import StayConnet from "./components/stayConnet";
 import SideCategory from "./components/sideCategory";
 import VoteOpinion from "./components/voteOpinion";
+import CaltureSideBar from "./components/caltureSideBar";
 
 const VideoNews = () => {
   return (
@@ -116,6 +117,7 @@ const VideoNews = () => {
             <StayConnet />
             <SideCategory />
             <VoteOpinion />
+            <CaltureSideBar />
           </div>
         </div>
       </div>
