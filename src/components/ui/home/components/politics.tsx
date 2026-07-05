@@ -14,7 +14,7 @@ const Politics = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2 mb-2.5  ">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-          <h2 className="text-xl text-[#3E3232] ">Video News</h2>
+          <h2 className="text-xl text-[#3E3232] ">Politics</h2>
         </div>
 
         <Link

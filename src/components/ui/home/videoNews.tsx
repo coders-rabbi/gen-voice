@@ -11,6 +11,7 @@ import NewsletterForm from "./components/newsLetter";
 import NewsLetter from "./components/newsLetter";
 import StayConnet from "./components/stayConnet";
 import SideCategory from "./components/sideCategory";
+import VoteOpinion from "./components/voteOpinion";
 
 const VideoNews = () => {
   return (
@@ -114,6 +115,7 @@ const VideoNews = () => {
           <div className="md:col-span-6">
             <StayConnet />
             <SideCategory />
+            <VoteOpinion />
           </div>
         </div>
       </div>
