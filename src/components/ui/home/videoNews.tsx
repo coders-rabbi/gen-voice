@@ -3,6 +3,9 @@ import React from "react";
 import { CiCalendar } from "react-icons/ci";
 import { IoIosTime } from "react-icons/io";
 import { MdArrowForwardIos, MdArrowOutward } from "react-icons/md";
+import VideoNewsHorizontalCard from "./components/videoNewsHorizontalCard";
+import VideoNewsVerticalCard from "./components/videoNewsVerticalCard";
+import Advertisement from "@/components/advertisement";
 
 const VideoNews = () => {
   return (
@@ -79,6 +82,19 @@ const VideoNews = () => {
             </div>
           </div>
         </div>
+        <div className="flex gap-4">
+          <VideoNewsHorizontalCard />
+          <VideoNewsHorizontalCard />
+          <VideoNewsHorizontalCard />
+        </div>
+
+        <div className="md:flex gap-4 mt-4">
+          <VideoNewsVerticalCard />
+          <VideoNewsVerticalCard />
+          <VideoNewsVerticalCard />
+        </div>
+
+        <Advertisement />
       </div>
 
       <div className="md:col-span-5"></div>
