@@ -13,7 +13,7 @@ const TechnologyCard = () => {
         </h1>
         <GoBookmark className="text-3xl text-[#3385FF]" />
       </div>
-      <h1 className="text-xl md:text-4xl mb-6 font-semibold text-black">
+      <h1 className="text-xl md:text-[28px] mb-4 font-semibold text-black">
         The Impact of Technology on the Workplace: How Technology is Changing
       </h1>
       <div className="flex items-center gap-2">

@@ -11,7 +11,7 @@ import TechnologyCard from "./components/technology";
 const Herosection = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
-      <div className="md:col-span-8 p-4">
+      <div className="md:col-span-8">
         <div className="flex gap-3 items-center">
           <Image src={breakingImage} alt="gen voice" className="h-auto" />
           <Topnotice />
@@ -28,7 +28,7 @@ const Herosection = () => {
         <TechnologyCard />
       </div>
 
-      <div className="md:col-span-4 w-full p-4 md:p-2">
+      <div className="md:col-span-4 w-full md:p-2">
         <div className="flex flex-row items-center justify-between gap-2 mb-4">
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
@@ -93,6 +93,7 @@ const Herosection = () => {
             </div>
           </div>
         </div>
+        
         <div className="flex gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 max-w-2xl items-center">
           <div className="w-[35%] aspect-square relative flex-shrink-0">
             <Image

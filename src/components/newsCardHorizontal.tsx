@@ -5,7 +5,7 @@ import { GoBookmark } from "react-icons/go";
 const NewsCard = () => {
   return (
     <div>
-      <div className="flex gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 items-center">
+      <div className="flex gap-4 bg-white rounded-2xl shadow-sm border border-gray-100 items-center">
         <div className="w-[35%] aspect-square relative flex-shrink-0">
           <Image
             src={img04}

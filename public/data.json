@@ -1,0 +1,222 @@
+[
+  {
+    "article_image": "https://images.unsplash.com/photo-1507666405895-422efe53f00e?w=600&auto=format&fit=crop",
+    "title": "What a Disabled Squirrel Taught Me About Life, Work, and Love",
+    "subtitle": "Why it helps to know what it's like, and the exquisite beauty of empathy These days, the wood patio area...",
+    "author": {
+      "name": "Jon Kantner",
+      "avatar_image": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop",
+      "date": "July 14, 2022"
+    },
+    "is_bookmarked": true
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&auto=format&fit=crop",
+    "title": "The Art of Slowing Down in a Hyper-Connected Digital World",
+    "subtitle": "Finding peace when notification metrics dominate our daily focus. Here is how unplugging for an hour changes everything...",
+    "author": {
+      "name": "Marcus Aureli",
+      "avatar_image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop",
+      "date": "March 22, 2024"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=600&auto=format&fit=crop",
+    "title": "Why Spending Time Alone in the Woods Cures Corporate Burnout",
+    "subtitle": "Scientific backing behind shinrin-yoku or forest bathing, and why your brain deeply craves raw nature...",
+    "author": {
+      "name": "Elena Rostova",
+      "avatar_image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop",
+      "date": "January 05, 2025"
+    },
+    "is_bookmarked": true
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=600&auto=format&fit=crop",
+    "title": "Building Products That People Love: The Missing Ingredient",
+    "subtitle": "It is not about the engineering velocity or sleek marketing metrics; it comes down to genuine user empathy...",
+    "author": {
+      "name": "Devon Lane",
+      "avatar_image": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop",
+      "date": "November 12, 2023"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop",
+    "title": "Lessons in Patience from My Stray Rescue Dog",
+    "subtitle": "Trust isn't built in a single day. How a terrified golden pup slowly learned to wag his tail again...",
+    "author": {
+      "name": "Sarah Jenkins",
+      "avatar_image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop",
+      "date": "August 30, 2024"
+    },
+    "is_bookmarked": true
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop",
+    "title": "Designing Interfaces for the Next Generation of Spatial Computing",
+    "subtitle": "Moving beyond flat screens requires a total overhaul of depth, physical constraints, and human eye movement...",
+    "author": {
+      "name": "Alex Riviera",
+      "avatar_image": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop",
+      "date": "June 18, 2025"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&auto=format&fit=crop",
+    "title": "The Daily Rituals of Historically Prolific Writers",
+    "subtitle": "From early morning walks to exact coffee ratios, explore the habits that kept literary titans creating consistently...",
+    "author": {
+      "name": "Clara Higgins",
+      "avatar_image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop",
+      "date": "February 14, 2024"
+    },
+    "is_bookmarked": true
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop",
+    "title": "Why JavaScript Framework Fatigue is a Symptom of a Deeper Issue",
+    "subtitle": "Chasing the latest tooling trends often hides architectural flaws. Let's look closer at web fundamentals...",
+    "author": {
+      "name": "Kenji Sato",
+      "avatar_image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop",
+      "date": "October 03, 2023"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1470246973918-29a93221c455?w=600&auto=format&fit=crop",
+    "title": "How Growing a Small Kitchen Garden Changes Your Relationship with Food",
+    "subtitle": "The extreme satisfaction of watching a tiny seed sprout into a meal, and what it teaches about modern logistics...",
+    "author": {
+      "name": "Chloe Bennett",
+      "avatar_image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop",
+      "date": "April 19, 2025"
+    },
+    "is_bookmarked": true
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop",
+    "title": "Climbing Beyond Your Comfort Zone: Lessons from the Peaks",
+    "subtitle": "Mountaineering isn't about defeating nature; it's an internal battle against personal doubt and sheer fatigue...",
+    "author": {
+      "name": "Liam Vance",
+      "avatar_image": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&auto=format&fit=crop",
+      "date": "July 02, 2024"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&auto=format&fit=crop",
+    "title": "Fostering Psychological Safety Within Remote Product Teams",
+    "subtitle": "When team members are afraid to fail openly, innovation grinds to a halt. Here is how to reverse the trend...",
+    "author": {
+      "name": "Nadia Sterling",
+      "avatar_image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop",
+      "date": "September 27, 2024"
+    },
+    "is_bookmarked": true
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&auto=format&fit=crop",
+    "title": "The Subtle Wisdom of Iceland’s Volcanic Landscapes",
+    "subtitle": "Walking over cooled, hardened black lava flows gives a jarring perspective on human life spans and time...",
+    "author": {
+      "name": "Jonas Karl",
+      "avatar_image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop",
+      "date": "December 15, 2023"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1472289065668-ce650ac443d2?w=600&auto=format&fit=crop",
+    "title": "Why Hand Lettering Still Matters in a World of Generative Vector Art",
+    "subtitle": "The tiny human imperfections in ink and brushwork hold a specific soul that algorithms cannot replicate...",
+    "author": {
+      "name": "Maya Lin",
+      "avatar_image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop",
+      "date": "May 08, 2025"
+    },
+    "is_bookmarked": true
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop",
+    "title": "The Cognitive Science Behind Deep Focus and Flow States",
+    "subtitle": "What actually happens to your neural pathways when you manage to block out distractions for ninety straight minutes...",
+    "author": {
+      "name": "Dr. Aris Thorne",
+      "avatar_image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop",
+      "date": "January 29, 2024"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=600&auto=format&fit=crop",
+    "title": "Reclaiming the Lost Ritual of the Afternoon Tea Break",
+    "subtitle": "Stepping away from screens to watch water boil and tea leaves expand offers a mini-meditation we all need...",
+    "author": {
+      "name": "Amara Okafor",
+      "avatar_image": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=150&auto=format&fit=crop",
+      "date": "October 14, 2024"
+    },
+    "is_bookmarked": true
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop",
+    "title": "How Legacy Codebases Paralyze Modern Product Companies",
+    "subtitle": "Technical debt isn't just a developer complaint; it actively dictates how fast marketing can execute strategies...",
+    "author": {
+      "name": "Simon de Wit",
+      "avatar_image": "https://images.unsplash.com/photo-1628157582853-a796fa650a6a?w=150&auto=format&fit=crop",
+      "date": "June 01, 2025"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=600&auto=format&fit=crop",
+    "title": "Discovering Forgotten Pathways in the Heart of Kyoto",
+    "subtitle": "Stepping off the crowded tourist routes opens up centuries-old moss gardens maintained by silent caretakers...",
+    "author": {
+      "name": "Takashi Sato",
+      "avatar_image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop",
+      "date": "August 11, 2023"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=600&auto=format&fit=crop",
+    "title": "Chasing Sunrises: Why I Photographed 100 Consecutive Dawns",
+    "subtitle": "The physical toll of early wakeups was heavy, but the clarity gained from quiet mornings changed my life...",
+    "author": {
+      "name": "Lily Vance",
+      "avatar_image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop",
+      "date": "February 28, 2025"
+    },
+    "is_bookmarked": true
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=600&auto=format&fit=crop",
+    "title": "Designing Beyond Aesthetics: Accessibility in Everyday UX",
+    "subtitle": "High contrast and screen reader compatibility aren't feature requests; they are foundational civil rights...",
+    "author": {
+      "name": "Jordan Cruz",
+      "avatar_image": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&auto=format&fit=crop",
+      "date": "November 09, 2024"
+    },
+    "is_bookmarked": false
+  },
+  {
+    "article_image": "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&auto=format&fit=crop",
+    "title": "Why Your Brain Thinks Better When You Learn to Doodle",
+    "subtitle": "Visual thinking bridges the gap between structured logical constraints and messy creative solutions...",
+    "author": {
+      "name": "Rachel Green",
+      "avatar_image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop",
+      "date": "May 15, 2024"
+    },
+    "is_bookmarked": true
+  }
+]

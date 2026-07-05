@@ -1,7 +1,7 @@
 import { PopularCategoryCarousel } from "./components/popularCategoryCarousel";
 const PopularCategory = () => {
   return (
-    <div>
+    <div className="mt-10">
       <div className="flex items-center gap-2">
         <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
         <h2 className="text-2xl text-[#3E3232] ">Popular Category</h2>
