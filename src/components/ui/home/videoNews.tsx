@@ -90,13 +90,13 @@ const VideoNews = () => {
             </div>
           </div>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 mt-8">
           <VideoNewsHorizontalCard />
           <VideoNewsHorizontalCard />
           <VideoNewsHorizontalCard />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4 mt-4">
+        <div className="flex flex-col md:flex-row gap-4 mt-8">
           <VideoNewsVerticalCard />
           <VideoNewsVerticalCard />
           <VideoNewsVerticalCard />

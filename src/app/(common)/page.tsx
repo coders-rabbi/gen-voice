@@ -1,3 +1,4 @@
+import EntertainmentNews from "@/components/ui/home/entertainmentNews";
 import Herosection from "@/components/ui/home/herosection";
 import MusicNews from "@/components/ui/home/musicNews";
 import PopularCategory from "@/components/ui/home/popularCategory";
@@ -21,6 +22,7 @@ const Home = () => {
       <MusicNews />
       <WeatherWidget />
       <TopWrite />
+      <EntertainmentNews />
     </div>
   );
 };
