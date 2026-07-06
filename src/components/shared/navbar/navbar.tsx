@@ -29,13 +29,38 @@ const Navber = () => {
           </summary>
           <ul className="p-2 bg-white text-black w-40 z-50 shadow-md">
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/recent-news" className="block px-4 py-2">
-                Submenu 1
+              <Link href="/recent_news" className="block px-4 py-2">
+                Food
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/popular-news" className="block px-4 py-2">
-                Submenu 2
+              <Link href="/popular_news" className="block px-4 py-2">
+                Animal
+              </Link>
+            </li>
+            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+              <Link href="/popular_news" className="block px-4 py-2">
+                Car
+              </Link>
+            </li>
+            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+              <Link href="/popular_news" className="block px-4 py-2">
+                Sport
+              </Link>
+            </li>
+            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+              <Link href="/popular_news" className="block px-4 py-2">
+                Music
+              </Link>
+            </li>
+            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+              <Link href="/popular_news" className="block px-4 py-2">
+                Techonolgy
+              </Link>
+            </li>
+            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+              <Link href="/popular_news" className="block px-4 py-2">
+                Abstract
               </Link>
             </li>
           </ul>

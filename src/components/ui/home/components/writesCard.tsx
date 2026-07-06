@@ -16,18 +16,18 @@ const WritesCard = () => {
         <div className="flex justify-between items-center gap-2">
           <Link
             href="/"
-            className="flex gap-3 items-center border-2 py-1 px-3 rounded-xl"
+            className="flex gap-2 items-center border-2 py-1 px-2 rounded-xl text-sm"
           >
             <FaPlus />
             Follow
           </Link>
 
           <Link
-            href="/"
-            className="flex gap-3 items-center border-2 py-1 px-3 rounded-xl bg-[#3385FF] text-white"
+            href="/dashboard"
+            className="flex gap-2 items-center border-2 py-1 px-2 rounded-xl bg-[#3385FF] text-white text-sm"
           >
             <FaEye />
-            Follow
+            View Profile
           </Link>
 
           <FaRegBookmark className="text-2xl" />
