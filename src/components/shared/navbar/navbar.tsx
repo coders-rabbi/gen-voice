@@ -12,12 +12,12 @@ const Navber = () => {
         </Link>
       </li>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
-        <Link href="/recent-news" className="block px-4 py-2">
+        <Link href="/recent_news" className="block px-4 py-2">
           Recent News
         </Link>
       </li>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
-        <Link href="/popular-news" className="block px-4 py-2">
+        <Link href="/popular_news" className="block px-4 py-2">
           Popular News
         </Link>
       </li>
@@ -52,12 +52,12 @@ const Navber = () => {
         </Link>
       </li>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
-        <Link href="/recent-news" className="block px-4 py-2">
+        <Link href="/recent_news" className="block px-4 py-2">
           Recent News
         </Link>
       </li>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
-        <Link href="/popular-news" className="block px-4 py-2">
+        <Link href="/popular_news" className="block px-4 py-2">
           Popular News
         </Link>
       </li>
