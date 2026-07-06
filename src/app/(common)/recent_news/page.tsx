@@ -14,7 +14,7 @@ const RecentNews4 = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-            <h2 className="text-xl text-[#3E3232] ">All Writers</h2>
+            <h2 className="text-xl text-[#3E3232] ">Recent News</h2>
           </div>
         </div>
 
