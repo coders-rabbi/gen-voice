@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import WritesCard from "./components/writesCard";
+import Advertisement from "@/components/advertisement";
 
 const TopWrite = () => {
   return (
@@ -31,12 +32,19 @@ const TopWrite = () => {
         </div>
       </div>
 
-      <div className="flex justify-between gap-3 mt-5">
+      <div className="flex justify-between gap-1.5 mt-5">
         <WritesCard />
         <WritesCard />
         <WritesCard />
         <WritesCard />
       </div>
+      <div className="flex justify-between gap-1.5 mt-5">
+        <WritesCard />
+        <WritesCard />
+        <WritesCard />
+        <WritesCard />
+      </div>
+      <Advertisement />
     </div>
   );
 };
