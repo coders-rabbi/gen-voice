@@ -20,7 +20,7 @@ const Home = () => {
       <SportsWidget />
       <TechNews />
       <MusicNews />
-      <WeatherWidget />
+      {/* <WeatherWidget /> */}
       <TopWrite />
       <EntertainmentNews />
     </div>

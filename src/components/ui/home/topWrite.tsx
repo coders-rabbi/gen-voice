@@ -32,13 +32,13 @@ const TopWrite = () => {
         </div>
       </div>
 
-      <div className="flex justify-between gap-1.5 mt-5">
+      <div className="flex flex-col md:flex-row justify-between gap-2 mt-5">
         <WritesCard />
         <WritesCard />
         <WritesCard />
         <WritesCard />
       </div>
-      <div className="flex justify-between gap-1.5 mt-5">
+      <div className="flex flex-col md:flex-row justify-between gap-2 mt-2">
         <WritesCard />
         <WritesCard />
         <WritesCard />

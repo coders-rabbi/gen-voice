@@ -32,13 +32,13 @@ const MusicNews = () => {
         </div>
       </div>
 
-      <div className="flex gap-3 mt-4">
+      <div className="flex flex-col md:flex-row gap-3 mt-4">
         <NewsCardVertical />
         <NewsCardVertical />
         <NewsCardVertical />
         <NewsCardVertical />
       </div>
-      <div className="flex gap-3 mt-4">
+      <div className="flex-col md:flex-row gap-3 mt-4">
         <NewsCardVertical />
         <NewsCardVertical />
         <NewsCardVertical />

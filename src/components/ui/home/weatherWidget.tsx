@@ -3,13 +3,13 @@ import Image from "next/image";
 
 const WeatherWidget = () => {
   return (
-    <div className="bg-[#EAF3FF] py-16 grid grid-cols-12 gap-5 px-16">
+    <div className="bg-[#EAF3FF] py-16 grid md:grid-cols-12 gap-5 px-16">
       <div className="col-span-6 bg-amber-500">Rabbi</div>
       <div className="col-span-6 ">
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gradient-to-br from-red-500/90 via-yello-600/85 to-teal-500/80 mixed-blend-multiply p-6 rounded-xl">
-            <div className="flex justify-between">
-              <div className="flex flex-col gap-2">
+            <div className="flex flex-col md:flex-row justify-between">
+              <div className="flex gap-2">
                 <p className="text-white">Precipitation: 0%</p>
                 <p className="text-white">Humidity: 41%</p>
                 <p className="text-white">Wind: 27 km/h</p>

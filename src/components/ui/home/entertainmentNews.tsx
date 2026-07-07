@@ -31,12 +31,12 @@ const EntertainmentNews = () => {
         </div>
       </div>
 
-      <div className="flex gap-5 mt-4">
+      <div className="flex flex-col md:flex-row gap-2 mt-4">
         <NewsCard />
         <NewsCard />
         <NewsCard />
       </div>
-      <div className="flex gap-5 mt-4">
+      <div className="flex flex-col md:flex-row gap-2 mt-2">
         <NewsCard />
         <NewsCard />
         <NewsCard />
