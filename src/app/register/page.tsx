@@ -13,7 +13,7 @@ const page = () => {
           <Image
             src={logo}
             alt="Logo"
-            className="w-32 md:w-auto h-auto object-contain"
+            className="w-32 h-auto object-contain"
           />
         </div>
 
