@@ -119,7 +119,7 @@ export default function FooterVideoGallery() {
             />
 
             {/* রেসপন্সিভ প্লে বাটন (মোবাইলে ছোট এবং ডেক্সটপে বড় দেখাবে) */}
-            <div className="absolute w-[35px] h-[35px] sm:w-[60px] sm:h-[60px] bg-white/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors duration-300 group-hover:bg-white/90 shadow-md z-10">
+            <div className="absolute w-[30px] h-[30px] sm:w-[30px] sm:h-[30px] bg-white/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors duration-300 group-hover:bg-white/90 shadow-md z-10">
               <div className="w-0 h-0 border-t-[6px] sm:border-t-[10px] border-t-transparent border-b-[6px] sm:border-b-[10px] border-b-transparent border-l-[10px] sm:border-l-[16px] border-l-gray-800 ml-0.5 sm:ml-1"></div>
             </div>
           </div>
