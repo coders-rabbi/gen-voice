@@ -44,7 +44,7 @@ const ProfileInfo = () => {
           Edit Profile
         </Link>
         <Link
-          href=""
+          href="dashboard/create_post"
           className="flex items-center gap-2.5 text-white bg-[#3385FF] py-2.5 pl-4 pr-6 border rounded-[12px]"
         >
           <FaPlus />
