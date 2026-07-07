@@ -20,7 +20,7 @@ const page = () => {
       </div>
 
       {/* profile chart */}
-      <div className="grid md:grid-cols-12 gap-4">
+      <div className="grid md:grid-cols-12 gap-4 px-3 md:px-0">
         <div className="grid md:col-span-9 mt-12">
           <div className="flex items-center gap-2 mb-5">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
@@ -33,7 +33,7 @@ const page = () => {
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
             <h2 className="text-xl text-[#3E3232]">Satisfaction of Posts</h2>
           </div>
-          <div className="grid grid-cols-3 gap-1">
+          <div className="grid grid-cols-4 md:grid-cols-3 gap-1 mx-auto mt-2">
             <PostSatisfactionReaction />
             <PostSatisfactionReaction />
             <PostSatisfactionReaction />
