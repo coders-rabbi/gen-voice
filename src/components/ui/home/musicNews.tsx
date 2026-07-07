@@ -10,9 +10,7 @@ const MusicNews = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2 mb-2.5  ">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-          <h2 className="text-[14px] font-semibold text-[#3E3232] ">
-            Music
-          </h2>
+          <h2 className="text-[14px] font-semibold text-[#3E3232] ">Music</h2>
         </div>
 
         <Link
@@ -38,7 +36,7 @@ const MusicNews = () => {
         <NewsCardVertical />
         <NewsCardVertical />
       </div>
-      <div className="flex-col md:flex-row gap-3 mt-4">
+      <div className="flex flex-col md:flex-row gap-3 mt-4">
         <NewsCardVertical />
         <NewsCardVertical />
         <NewsCardVertical />
