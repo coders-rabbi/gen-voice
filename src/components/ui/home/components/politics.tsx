@@ -54,7 +54,7 @@ const Politics = () => {
         </div>
 
         <div className="md:col-span-4">
-          <div className="md:flex gap-0.5 mb-4">
+          <div className="flex gap-0.5">
             <Link href="/">
               <div>
                 <h5 className="text-[#6D757F] text-xs font-semibold">
@@ -74,7 +74,8 @@ const Politics = () => {
               className="w-24 h-24 object-cover"
             />
           </div>
-          <div className="md:flex gap-0.5 mb-4">
+          <hr className="my-2" />
+          <div className="flex gap-0.5 ">
             <Link href="/">
               <div>
                 <h5 className="text-[#6D757F] text-xs font-semibold">
@@ -94,7 +95,8 @@ const Politics = () => {
               className="w-24 h-24 object-cover"
             />
           </div>
-          <div className="md:flex gap-0.5 mb-4">
+          <hr className="my-2" />
+          <div className="flex gap-0.5 ">
             <Link href="/">
               <div>
                 <h5 className="text-[#6D757F] text-xs font-semibold">
@@ -114,7 +116,8 @@ const Politics = () => {
               className="w-24 h-24 object-cover"
             />
           </div>
-          <div className="md:flex gap-0.5">
+          <hr className="my-2" />
+          <div className="flex gap-0.5">
             <Link href="/">
               <div>
                 <h5 className="text-[#6D757F] text-xs font-semibold">
