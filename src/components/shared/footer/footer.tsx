@@ -6,7 +6,7 @@ import FooterVideoGallery from "./components/footerVideoGallery";
 
 const Footer = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 px-4 md:px-0 gap-4 mt-12">
+    <div className="grid grid-cols-1 md:grid-cols-12 px-4 gap-4 mt-12">
       <div className="md:col-span-9">
         <div className="grid md:grid-cols-2">
           <div>
@@ -54,12 +54,12 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-2 gap-5 mt-4 md:mt-0">
             <div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2  ">
                   <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-                  <h2 className="text-xl text-[#3E3232] ">Category</h2>
+                  <h2 className="text-[16px] text-[#3E3232] font-semibold">Category</h2>
                 </div>
               </div>
 
@@ -71,17 +71,17 @@ const Footer = () => {
                 </div>
               </div>
               <ul className="flex flex-col gap-2 text-[#3E3232] mt-2">
-                <Link href="/">Calture</Link>
-                <Link href="/">Fashion</Link>
-                <Link href="/">Featured</Link>
-                <Link href="/">Food</Link>
-                <Link href="/">Healthy Link ving</Link>
-                <Link href="/">Technology</Link>
+                <Link href="/" className="text-sm">Calture</Link>
+                <Link href="/" className="text-sm">Fashion</Link>
+                <Link href="/" className="text-sm">Featured</Link>
+                <Link href="/" className="text-sm">Food</Link>
+                <Link href="/" className="text-sm">Healthy Link ving</Link>
+                <Link href="/" className="text-sm">Technology</Link>
               </ul>
               <div className="flex justify-between items-center mt-6">
                 <div className="flex items-center gap-2  ">
                   <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-                  <h2 className="text-xl text-[#3E3232] ">Follow Us On</h2>
+                  <h2 className="text-[16px] text-[#3E3232] font-semibold">Follow Us On</h2>
                 </div>
               </div>
 
@@ -112,7 +112,7 @@ const Footer = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2  ">
                   <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-                  <h2 className="text-xl text-[#3E3232] ">Quick Links</h2>
+                  <h2 className="text-[16px] font-semibold text-[#3E3232] ">Quick Links</h2>
                 </div>
               </div>
 
@@ -124,15 +124,15 @@ const Footer = () => {
                 </div>
               </div>
               <ul className="flex flex-col gap-2 text-[#3E3232] mt-2">
-                <Link href="/popular_news">Popular New</Link>
-                <Link href="/recent_news">Recent News</Link>
-                <Link href="/">Featured News</Link>
-                <Link href="/">Most Viewed News</Link>
+                <Link href="/popular_news" className="text-sm">Popular New</Link>
+                <Link href="/recent_news" className="text-sm">Recent News</Link>
+                <Link href="/" className="text-sm">Featured News</Link>
+                <Link href="/" className="text-sm">Most Viewed News</Link>
               </ul>
               <div className="flex justify-between items-center mt-3">
                 <div className="flex items-center gap-2  ">
                   <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-                  <h2 className="text-xl text-[#3E3232] ">Others Links</h2>
+                  <h2 className="text-[16px] text-[#3E3232] font-semibold">Others Links</h2>
                 </div>
               </div>
 
@@ -144,10 +144,10 @@ const Footer = () => {
                 </div>
               </div>
               <ul className="flex flex-col gap-2 text-[#3E3232] mt-2">
-                <Link href="/">Home</Link>
-                <Link href="/about_us">About Us</Link>
-                <Link href="/contact">Contact</Link>
-                <Link href="/writers">Writers</Link>
+                <Link href="/" className="text-sm">Home</Link>
+                <Link href="/about_us" className="text-sm">About Us</Link>
+                <Link href="/contact" className="text-sm">Contact</Link>
+                <Link href="/writers" className="text-sm">Writers</Link>
               </ul>
             </div>
           </div>
@@ -167,7 +167,7 @@ const Footer = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2  ">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-            <h2 className="text-xl text-[#3E3232] ">Top Videos</h2>
+            <h2 className="text-[16px] text-[#3E3232] font-semibold">Top Videos</h2>
           </div>
         </div>
 
