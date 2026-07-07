@@ -42,20 +42,22 @@ const VideoNews = () => {
         </div>
 
         <div className="my-4 md:flex flex-col md:flex-row gap-4">
-          <iframe
-            src="https://www.youtube.com/embed/LijdyVaaDnY?si=UddbM73azEwKYvNS"
-            title="YouTube video player"
-            style={{
-              border: "none",
-              width: "100vw",
-              maxWidth: "350px",
-              height: "250px",
-              flexShrink: 0,
-            }}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
+          <div className="min-w-[350px]  overflow-hidden">
+            <iframe
+              src="https://www.youtube.com/embed/LijdyVaaDnY?si=UddbM73azEwKYvNS"
+              title="YouTube video player"
+              style={{
+                border: "none",
+                width: "100vw",
+                // maxWidth: "350px",
+                height: "250px",
+                flexShrink: 0,
+              }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
+          </div>
           <div>
             <h5 className="text-[#6D757F] text-xs font-semibold mb-2.5 mt-3 md:mt-0">
               Sports
