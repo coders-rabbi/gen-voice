@@ -111,7 +111,7 @@ const VideoNews = () => {
       </div>
 
       <div className="md:col-span-5">
-        <div className="grid grid-cols-12 gap-4">
+        <div className="grid md:grid-cols-12 gap-4">
           <div className="md:col-span-6">
             <NewsLetter />
             <BusinessSideBar />
