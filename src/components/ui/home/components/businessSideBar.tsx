@@ -5,6 +5,7 @@ import businessMan from "@/assets/home/businessman.jpg";
 import Image from "next/image";
 import { CiCalendar } from "react-icons/ci";
 import sideBarImage from "@/assets/home/sidebarimage.jpg";
+import BusinessSideCart from "./businessSideCart";
 
 const BusinessSideBar = () => {
   return (
@@ -12,7 +13,9 @@ const BusinessSideBar = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2 mb-2.5  ">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-          <h2 className="text-[14px] font-semibold text-[#3E3232] ">Calture</h2>
+          <h2 className="text-[14px] font-semibold text-[#3E3232] ">
+            Business
+          </h2>
         </div>
 
         <Link
@@ -34,62 +37,11 @@ const BusinessSideBar = () => {
 
       <div className="mt-4">
         <Image src={businessMan} alt="gen voice" className="h-[210px] w-full" />
-        <div>
-          <p className="text-xs text-[#6D757F] font-semibold mt-5">AUDIT</p>
-          <h4 className="text-[16px] text-[#183354] font-bold mt-1">
-            Take a Look Back at the Moseret Gala Red Carpet Ever
-          </h4>
-          <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
-            <CiCalendar /> 27 Jun, 2026
-          </p>
-        </div>
 
-        <hr className="text-[#DFDFDF] my-5" />
-
-        <div>
-          <p className="text-xs text-[#6D757F] font-semibold mt-5">AUDIT</p>
-          <h4 className="text-[16px] text-[#183354] font-bold mt-1">
-            Take a Look Back at the Moseret Gala Red Carpet Ever
-          </h4>
-          <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
-            <CiCalendar /> 27 Jun, 2026
-          </p>
-        </div>
-
-        <hr className="text-[#DFDFDF] my-5" />
-
-        <div>
-          <p className="text-xs text-[#6D757F] font-semibold mt-5">AUDIT</p>
-          <h4 className="text-[16px] text-[#183354] font-bold mt-1">
-            Take a Look Back at the Moseret Gala Red Carpet Ever
-          </h4>
-          <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
-            <CiCalendar /> 27 Jun, 2026
-          </p>
-        </div>
-
-        <hr className="text-[#DFDFDF] my-5" />
-
-        <div>
-          <p className="text-xs text-[#6D757F] font-semibold mt-5">AUDIT</p>
-          <h4 className="text-[16px] text-[#183354] font-bold mt-1">
-            Take a Look Back at the Moseret Gala Red Carpet Ever
-          </h4>
-          <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
-            <CiCalendar /> 27 Jun, 2026
-          </p>
-        </div>
-
-        <hr className="text-[#DFDFDF] my-5" />
-
-        <div>
-          <p className="text-xs text-[#6D757F] font-semibold mt-5">AUDIT</p>
-          <h4 className="text-[16px] text-[#183354] font-bold mt-1">
-            Take a Look Back at the Moseret Gala Red Carpet Ever
-          </h4>
-          <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
-            <CiCalendar /> 27 Jun, 2026
-          </p>
+        <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
+          {[1, 2, 3, 4, 5].map((item) => (
+            <BusinessSideCart />
+          ))}
         </div>
 
         {/* side bar Image */}

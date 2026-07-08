@@ -31,15 +31,11 @@ const EntertainmentNews = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-2 mt-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 mt-4">
         <NewsCard />
-        <NewsCard />
-        <NewsCard />
-      </div>
-      <div className="flex flex-col md:flex-row gap-2 mt-2">
-        <NewsCard />
-        <NewsCard />
-        <NewsCard />
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+          <NewsCard />
+        ))}
       </div>
     </div>
   );

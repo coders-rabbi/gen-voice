@@ -11,7 +11,7 @@ import NewsCard from "@/components/newsCardHorizontal";
 
 const Herosection = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 mb-14 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 mt-7">
       <div className="md:col-span-8">
         <div className="flex gap-3 items-center">
           <Image src={breakingImage} alt="gen voice" className="h-auto" />
@@ -94,10 +94,11 @@ const Herosection = () => {
             </div>
           </div>
         </div> */}
-        <div className="flex flex-col gap-4">
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
+        <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-4">
+          
+          {
+            [1,2,3].map((item)=>(<NewsCard />))
+          }
         </div>
       </div>
     </div>

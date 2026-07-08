@@ -16,7 +16,7 @@ import BusinessSideBar from "./components/businessSideBar";
 
 const VideoNews = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 min-h-screen">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-screen">
       <div className="md:col-span-7">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 mb-2.5  ">

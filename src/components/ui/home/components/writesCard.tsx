@@ -8,15 +8,15 @@ const WritesCard = () => {
   return (
     <div className="flex items-center gap-2 border p-1.5 w-full rounded-[12px]">
       <Image src={img} alt="gen voice" className="h-20 w-20 object-cover" />
-      <div>
+      <div className="w-full">
         <div className="flex justify-between mb-2">
           <h3>Louis Hebregts</h3>
           <p className="text-[#3E3232BF]">27 post</p>
         </div>
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-center">
           <Link
             href="/"
-            className="flex gap-2 items-center border-2 py-1 px-2 rounded-xl text-sm"
+            className="flex gap-1 items-center border py-1 px-2 rounded-xl text-[10px]"
           >
             <FaPlus />
             Follow
@@ -24,13 +24,13 @@ const WritesCard = () => {
 
           <Link
             href="/dashboard"
-            className="flex gap-2 items-center border-2 py-1 px-2 rounded-xl bg-[#3385FF] text-white text-sm"
+            className="flex gap-1 items-center border-2 py-1 px-2 rounded-xl bg-[#3385FF] text-white text-[10px]"
           >
             <FaEye />
             View Profile
           </Link>
 
-          <FaRegBookmark className="text-2xl" />
+          <FaRegBookmark className="text-[16px]" />
         </div>
       </div>
     </div>

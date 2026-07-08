@@ -32,18 +32,12 @@ const TopWrite = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between gap-2 mt-5">
-        <WritesCard />
-        <WritesCard />
-        <WritesCard />
-        <WritesCard />
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+          <WritesCard />
+        ))}
       </div>
-      <div className="flex flex-col md:flex-row justify-between gap-2 mt-2">
-        <WritesCard />
-        <WritesCard />
-        <WritesCard />
-        <WritesCard />
-      </div>
+
       <Advertisement />
     </div>
   );

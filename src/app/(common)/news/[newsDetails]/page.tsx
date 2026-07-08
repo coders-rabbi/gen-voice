@@ -1,0 +1,327 @@
+import Image from "next/image";
+import Link from "next/link";
+import { BsSend } from "react-icons/bs";
+import { CiBookmark } from "react-icons/ci";
+import {
+  FaCalendar,
+  FaComment,
+  FaFile,
+  FaRegCommentDots,
+} from "react-icons/fa6";
+import news from "@/assets/news/news.jpg";
+import img from "@/assets/news/img2.jpg";
+import Advertisement from "@/components/advertisement";
+import WritesCard from "@/components/ui/home/components/writesCard";
+import manImg from "@/assets/home/man.jpg";
+import { IoMdPaperPlane } from "react-icons/io";
+
+const page = () => {
+  return (
+    <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 px-4 gap-4">
+      <div className="md:col-span-8">
+        <h1 className="text-xl md:text-3xl text-black">
+          How to Spend the Perfect Day on Croatia’s Most Magical Island
+        </h1>
+        <Image
+          src={news}
+          alt="gen voice"
+          className="w-full h-[60vh] object-cover rounded-[10px] my-5"
+        />
+        <div className="flex flex-col md:flex-row  gap-3 justify-between flex-wrap">
+          <div className="flex gap-2 md:gap-5">
+            <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
+              <FaCalendar />
+              July 14 , 2022
+            </p>
+            <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
+              <FaComment />
+              comments : 35
+            </p>
+            <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
+              <FaFile />
+              Category : Sport
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Link
+              href=""
+              className="px-3 py-1 bg-[#F5F5F5] flex items-center w-fit rounded-[8px] gap-1.5"
+            >
+              <BsSend />
+              Share
+            </Link>
+            <Link
+              href=""
+              className="px-3 py-1 bg-[#F5F5F5] flex items-center w-fit rounded-[8px] gap-1.5"
+            >
+              <CiBookmark />
+              Share
+            </Link>
+            <Link
+              href=""
+              className="px-3 py-1 bg-[#F5F5F5] flex items-center w-fit rounded-[8px] gap-1.5"
+            >
+              <FaRegCommentDots />
+              Share
+            </Link>
+          </div>
+        </div>
+        <div className="mt-10">
+          <h4 className="text-xl text-[#3E3232] font-semibold">
+            Don’t wait. The purpose of our lives is to be happy!
+          </h4>
+          <p className="mt-4 text-[#3E3232] text-[16px]">
+            Upon arrival, your senses will be rewarded with the pleasant scent
+            of lemongrass oil used to clean the natural wood found throughout
+            the room, creating a relaxing atmosphere within the space. A
+            wonderful serenity has taken possession of my entire soul, like
+            these sweet mornings of spring which I enjoy with my whole heart. I
+            am alone, and feel the charm of existence in this spot, which was
+            created for the bliss of souls like mine. I am so happy, my dear
+            friend, so absorbed in the exquisite.
+          </p>
+          <Image
+            src={img}
+            alt="gen voice"
+            className="w-full md:w-2/3 h-[50vh] mx-auto object-cover rounded-[10px] my-12"
+          />
+          <h4 className="text-xl text-[#3E3232] font-semibold">
+            Not how long, but how well you have lived is the main thing.
+          </h4>
+          <p className="mt-4 text-[#3E3232] text-[16px]">
+            When you are ready to indulge your sense of excitement, check out
+            the range of water- sports opportunities at the resort’s on-site
+            water-sports center. Want to leave your stress on the water? The
+            resort has kayaks, paddleboards, or the low-key pedal boats.
+            Snorkeling equipment is available as well, so you can experience the
+            ever-changing undersea environment. Not only do visitors to a bed
+            and breakfast get a unique perspective on the place they are
+            visiting, they have options for special packages not available in
+            other hotel settings. Bed and breakfasts can partner easily with
+            local businesses for a smoothly organized and highly personalized
+            vacation experience. The Fife and Drum Inn offers options such as
+            the Historic Triangle Package that includes three nights at the Inn,
+            breakfasts, and admissions to historic Williamsburg, Jamestown, and
+            Yorktown. Bed and breakfasts also lend themselves to romance. Part
+            of the charm of a bed and breakfast is the uniqueness; art, décor,
+            and food are integrated to create a complete experience. For
+            example, the Fife and Drum retains the colonial feel of the area in
+            all its guest rooms. Special features include antique furnishings,
+            elegant four poster beds in some guest rooms, as well folk art and
+            artifacts from the restoration period of the historic area available
+            for guests to enjoy.
+          </p>
+          <p className="bg-[#EAF3FF] text-[#181A2A] p-8 rounded-[12px] text-xs border-l-3 border-[#3385FF] mt-2">
+            “ Want to leave your stress on the water? The resort has kayaks,
+            paddleboards, or the low-key pedal boats. Snorkeling equipment is
+            available as well, so you can experience the ever-changing undersea
+            environment. ”
+          </p>
+          <Advertisement />
+          <h4 className="text-xl text-[#3E3232] font-semibold">
+            Not how long, but how well you have lived is the main thing.
+          </h4>
+          <p className="mt-4 text-[#3E3232] text-[16px]">
+            When you are ready to indulge your sense of excitement, check out
+            the range of water- sports opportunities at the resort’s on-site
+            water-sports center. Want to leave your stress on the water? The
+            resort has kayaks, paddleboards, or the low-key pedal boats.
+            Snorkeling equipment is available as well, so you can experience the
+            ever-changing undersea environment. Not only do visitors to a bed
+            and breakfast get a unique perspective on the place they are
+            visiting, they have options for special packages not available in
+            other hotel settings. Bed and breakfasts can partner easily with
+            local businesses for a smoothly organized and highly personalized
+            vacation experience. The Fife and Drum Inn offers options such as
+            the Historic Triangle Package that includes three nights at the Inn,
+            breakfasts, and admissions to historic Williamsburg, Jamestown, and
+            Yorktown. Bed and breakfasts also lend themselves to romance. Part
+            of the charm of a bed and breakfast is the uniqueness; art, décor,
+            and food are integrated to create a complete experience. For
+            example, the Fife and Drum retains the colonial feel of the area in
+            all its guest rooms. Special features include antique furnishings,
+            elegant four poster beds in some guest rooms, as well folk art and
+            artifacts from the restoration period of the historic area available
+            for guests to enjoy.
+          </p>
+          <div className="flex items-center">
+            <div className="flex gap-3 items-center w-full mt-2.5">
+              <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
+              <div className="flex flex-col gap-0.5 flex-1">
+                <hr className="w-full border-t border-[#3384FE33]" />
+                <hr className="w-full border-t border-[#3384FE33]" />
+              </div>
+            </div>
+            <div className="flex gap-3  w-full mt-2.5">
+              <div className="w-8 h-2 rounded-tl-2xl rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
+              <div className="flex flex-col gap-0.5 flex-1">
+                <hr className="w-full border-t border-[#3384FE33]" />
+                <hr className="w-full border-t border-[#3384FE33]" />
+              </div>
+            </div>
+            <div className="w-8 h-2 rounded-tl-2xl bg-[#3385FF] flex-shrink-0"></div>
+          </div>
+        </div>
+
+        {/* reader comment section */}
+        <div className="my-12">
+          <div className="flex items-center gap-2 mb-2.5  ">
+            <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
+            <h2 className="text-xl text-[#3E3232] ">Comments</h2>
+          </div>
+          <div className="flex gap-3 items-center w-full mt-2.5 mb-5">
+            <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
+            <div className="flex flex-col gap-0.5 flex-1">
+              <hr className="w-full border-t border-[#3384FE33]" />
+              <hr className="w-full border-t border-[#3384FE33]" />
+            </div>
+          </div>
+
+          <div className="p-4 bg-[#EAF3FF] rounded-xs">
+            <div className="flex justify-between">
+              <div className="flex gap-4 items-center mb-3">
+                <Image
+                  src={manImg}
+                  alt="gen voice"
+                  className="w-16 h-16 rounded-xl object-cover"
+                />
+                <div>
+                  <h4>Rabbi Mia</h4>
+                  <p className="flex gap-2 items-center text-[#3E3232BF]">
+                    {" "}
+                    <FaCalendar /> 2022 04 July
+                  </p>
+                </div>
+              </div>
+              <button className="btn btn-ghost bg-[#3E32320D] rounded-xl">
+                Reply
+              </button>
+            </div>
+            <p className="text-xs">
+              An island (or isle) is an isolated piece of habitat that is
+              surrounded by a dramatically different habitat, such as water.
+              Very small islands such as emergent land features on atolls can be
+              called islets, skerries, cays or keys.
+            </p>
+          </div>
+
+          {/* comment form */}
+          <div>
+            <div className="flex items-center gap-2 mb-2.5  mt-12.5">
+              <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
+              <h2 className="text-xl text-[#3E3232] ">Write Comments</h2>
+            </div>
+            <div className="flex gap-3 items-center w-full mt-2.5 mb-5">
+              <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
+              <div className="flex flex-col gap-0.5 flex-1">
+                <hr className="w-full border-t border-[#3384FE33]" />
+                <hr className="w-full border-t border-[#3384FE33]" />
+              </div>
+            </div>
+            <form action="">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <div>
+                    <legend className="fieldset-legend text-black">Name</legend>
+                    <input
+                      type="text"
+                      className="input border border-[#E6E6E6] rounded-[8px] bg-[#F5F5F5] w-full"
+                      placeholder=""
+                    />
+                  </div>
+                  <div>
+                    <legend className="fieldset-legend text-black">
+                      Website
+                    </legend>
+                    <input
+                      type="text"
+                      className="input border border-[#E6E6E6] rounded-[8px] bg-[#F5F5F5] w-full"
+                      placeholder=""
+                    />
+                  </div>
+                  <div>
+                    <legend className="fieldset-legend text-black">
+                      Email
+                    </legend>
+                    <input
+                      type="text"
+                      className="input border border-[#E6E6E6] rounded-[8px] bg-[#F5F5F5] w-full"
+                      placeholder=""
+                    />
+                  </div>
+                </div>
+                <div className="w-full flex flex-col">
+                  <h4 className="mb-2">Comment</h4>
+                  <textarea
+                    className="textarea h-full rounded-[8px] border w-full bg-[#F5F5F5] text-[#3E3232BF]"
+                    placeholder="Type..."
+                  />
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className="px-3 py-2 mt-2 bg-[#3385FF] hover:bg-[#2570E0] text-white font-medium rounded-xl text-sm shadow-sm transition-all active:scale-95 flex gap-1 items-center w-fit"
+                    >
+                      <FaComment />
+                      Send Comment
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className="md:col-span-4">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
+          <h2 className="text-xl text-[#3E3232] ">Writer Profile</h2>
+        </div>
+        <div className="flex gap-3 items-center w-full mb-2">
+          <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
+          <div className="flex flex-col gap-0.5 flex-1">
+            <hr className="w-full border-t border-[#3384FE33]" />
+            <hr className="w-full border-t border-[#3384FE33]" />
+          </div>
+        </div>
+        <WritesCard />
+        <div className="flex items-center gap-2 mb-2 mt-10">
+          <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
+          <h2 className="text-xl text-[#3E3232] ">Tags</h2>
+        </div>
+        <div className="flex flex-col gap-0.5 flex-1">
+          <hr className="w-full border-t border-[#3384FE33]" />
+          <hr className="w-full border-t border-[#3384FE33]" />
+        </div>
+        <div className="mt-5 flex gap-4 flex-wrap">
+          <Link
+            href=""
+            className="px-4 py-2.5 rounded-xl text-[#3E3232BF] bg-[#F5F5F5]"
+          >
+            Travel
+          </Link>
+          <Link
+            href=""
+            className="px-4 py-2.5 rounded-xl text-[#3E3232BF] bg-[#F5F5F5]"
+          >
+            Travel
+          </Link>
+          <Link
+            href=""
+            className="px-4 py-2.5 rounded-xl text-[#3E3232BF] bg-[#F5F5F5]"
+          >
+            Travel
+          </Link>
+          <Link
+            href=""
+            className="px-4 py-2.5 rounded-xl text-[#3E3232BF] bg-[#F5F5F5]"
+          >
+            Travel
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default page;

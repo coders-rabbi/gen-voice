@@ -10,7 +10,7 @@ const Writers = () => {
         alt="gen voice"
         className="w-full h-40 rounded-xl object-center"
       />
-      <div className="mt-12 px-3 md:px-0">
+      <div className="mt-12 px-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
@@ -26,17 +26,11 @@ const Writers = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-2">
-          <WritesCard />
-          <WritesCard />
-          <WritesCard />
-          <WritesCard />
-          <WritesCard />
-          <WritesCard />
-          <WritesCard />
-          <WritesCard />
-          <WritesCard />
-          <WritesCard />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
+         {
+           [1,2,3,4,5,6,7,6,6,6].map((item)=> (<WritesCard />))
+         }
+         
         </div>
       </div>
     </div>

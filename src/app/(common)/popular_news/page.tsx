@@ -25,15 +25,10 @@ const PopularNews = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-2">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
           <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
+        ))}
         </div>
       </div>
     </div>

@@ -6,12 +6,16 @@ import { MdArrowForwardIos } from "react-icons/md";
 import vote from "@/assets/home/vote.png";
 
 const VoteOpinion = () => {
+  const res = fetch("")
+
   return (
     <div className="mt-5">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2 mb-2.5  ">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-          <h2 className="text-[14px] font-semibold text-[#3E3232] ">Vote Your Opinion</h2>
+          <h2 className="text-[14px] font-semibold text-[#3E3232] ">
+            Vote Your Opinion
+          </h2>
         </div>
 
         <Link
@@ -37,10 +41,10 @@ const VoteOpinion = () => {
             <Image src={vote} alt="gen voice" className="w-14 h-14" />
             <div>
               <div className="flex justify-between items-center ">
-                <h4 className="text-[#6D757F] font-semibold text-sm">
+                <h4 className="text-[#6D757F] font-semibold text-xs">
                   CALTURE
                 </h4>
-                <p className="flex items-center gap-1 text-[16px] text-[#6D757F] font-semibold">
+                <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold">
                   <CiCalendar /> 27 Jun, 2026
                 </p>
               </div>
@@ -121,10 +125,10 @@ const VoteOpinion = () => {
             <Image src={vote} alt="gen voice" className="w-14 h-14" />
             <div>
               <div className="flex justify-between items-center ">
-                <h4 className="text-[#6D757F] font-semibold text-sm">
+                <h4 className="text-[#6D757F] font-semibold text-xs">
                   CALTURE
                 </h4>
-                <p className="flex items-center gap-1 text-[16px] text-[#6D757F] font-semibold">
+                <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold">
                   <CiCalendar /> 27 Jun, 2026
                 </p>
               </div>

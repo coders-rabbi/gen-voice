@@ -19,8 +19,8 @@ const VideoNewsVerticalCard = () => {
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
       ></iframe>
-      <div className="">
-        <h2 className="card-title mt-2.5">TECH</h2>
+      <div className="px-2">
+        <h2 className="card-title mt-2">TECH</h2>
         <p className="text-[#183354] text-[17px] font-bold mt-2.5">
           Implementing A Reset Password Feature With Dynamic Routes
         </p>

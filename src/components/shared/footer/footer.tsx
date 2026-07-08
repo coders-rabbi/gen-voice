@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logo from "@/assets/logo/logo.png";
+import logo from "@/assets/logo/logo.svg";
 import Link from "next/link";
 import { FaInstagram, FaTwitter } from "react-icons/fa6";
 import FooterVideoGallery from "./components/footerVideoGallery";

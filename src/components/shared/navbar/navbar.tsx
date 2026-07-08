@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@/assets/logo/logo.png";
+import logo from "@/assets/logo/logo.svg";
 
 const Navber = () => {
   // ডেক্সটপ মেনুর জন্য আলাদা স্ট্রাকচার (যেখানে details ট্যাগ সঠিকভাবে কাজ করে)
@@ -105,7 +105,7 @@ const Navber = () => {
   );
 
   return (
-    <div className="navbar px-4 z-50">
+    <div className="navbar  px-4 z-50">
       <div className="navbar-start">
         <Link href="/" className="flex items-center gap-2">
           <Image

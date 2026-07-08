@@ -7,6 +7,7 @@ import { CiCalendar } from "react-icons/ci";
 import basket from "@/assets/home/basket.jpg";
 import football from "@/assets/home/football.jpg";
 import boxing from "@/assets/home/boxing.jpg";
+import PoliticsSideCard from "./politicsSideCard";
 
 const Politics = () => {
   return (
@@ -43,7 +44,7 @@ const Politics = () => {
           />
           <div className="mt-4">
             <h2 className="text-[#6D757F] text-xs font-semibold">Swimming</h2>
-            <p className="text-[#183354] text-2xl font-bold mt-1.5">
+            <p className="text-[#183354] text-xl font-bold mt-1.5">
               How To Protect Your App With Threat Model Based On w To Protect
               Your App With Based
             </p>
@@ -54,88 +55,10 @@ const Politics = () => {
         </div>
 
         <div className="md:col-span-4">
-          <div className="flex gap-0.5">
-            <Link href="/">
-              <div>
-                <h5 className="text-[#6D757F] text-xs font-semibold">
-                  BASKET BALL
-                </h5>
-                <h3 className="text-[16px] text-[#183354] font-semibold">
-                  Using Instagram tawo promote your
-                </h3>
-                <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
-                  <CiCalendar /> 27 Jun, 2026
-                </p>
-              </div>
-            </Link>
-            <Image
-              src={basket}
-              alt="gen voice"
-              className="w-24 h-24 object-cover"
-            />
-          </div>
-          <hr className="my-2" />
-          <div className="flex gap-0.5 ">
-            <Link href="/">
-              <div>
-                <h5 className="text-[#6D757F] text-xs font-semibold">
-                  BASKET BALL
-                </h5>
-                <h3 className="text-[16px] text-[#183354] font-semibold">
-                  Using Instagram tawo promote your
-                </h3>
-                <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
-                  <CiCalendar /> 27 Jun, 2026
-                </p>
-              </div>
-            </Link>
-            <Image
-              src={boxing}
-              alt="gen voice"
-              className="w-24 h-24 object-cover"
-            />
-          </div>
-          <hr className="my-2" />
-          <div className="flex gap-0.5 ">
-            <Link href="/">
-              <div>
-                <h5 className="text-[#6D757F] text-xs font-semibold">
-                  BASKET BALL
-                </h5>
-                <h3 className="text-[16px] text-[#183354] font-semibold">
-                  Using Instagram tawo promote your
-                </h3>
-                <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
-                  <CiCalendar /> 27 Jun, 2026
-                </p>
-              </div>
-            </Link>
-            <Image
-              src={football}
-              alt="gen voice"
-              className="w-24 h-24 object-cover"
-            />
-          </div>
-          <hr className="my-2" />
-          <div className="flex gap-0.5">
-            <Link href="/">
-              <div>
-                <h5 className="text-[#6D757F] text-xs font-semibold">
-                  BASKET BALL
-                </h5>
-                <h3 className="text-[16px] text-[#183354] font-semibold">
-                  Using Instagram tawo promote your
-                </h3>
-                <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
-                  <CiCalendar /> 27 Jun, 2026
-                </p>
-              </div>
-            </Link>
-            <Image
-              src={basket}
-              alt="gen voice"
-              className="w-24 h-24 object-cover"
-            />
+          <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
+            {[1, 2, 3, 4].map((item) => (
+              <PoliticsSideCard />
+            ))}
           </div>
         </div>
       </div>

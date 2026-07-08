@@ -28,17 +28,10 @@ const Sports = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 my-4">
-        <NewsCard />
-        <NewsCard />
-      </div>
-      <div className="flex flex-col md:flex-row gap-4 mb-4">
-        <NewsCard />
-        <NewsCard />
-      </div>
-      <div className="flex flex-col md:flex-row gap-4">
-        <NewsCard />
-        <NewsCard />
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 my-4">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+          <NewsCard />
+        ))}
       </div>
 
       <Advertisement />

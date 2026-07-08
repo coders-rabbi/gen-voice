@@ -1,8 +1,12 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
+import { getAllBlog } from "@/services/postService";
+import { IPost } from "@/types/blogs";
 
-const RecentNews4 = () => {
+const RecentNews4 = async () => {
+  const blogs = await getAllBlog();
+  console.log(blogs);
   return (
     <div className="min-h-screen">
       <Image
@@ -26,15 +30,10 @@ const RecentNews4 = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-2">
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
+          {blogs?.map((item: IPost) => (
+            <NewsCard key={item._id} post={item} />
+          ))}
         </div>
       </div>
     </div>
