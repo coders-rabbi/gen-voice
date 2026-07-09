@@ -1,9 +1,11 @@
 import NewsCard from "@/components/newsCardHorizontal";
+import { getAllBlog } from "@/services/postService";
 import Link from "next/link";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 
-const EntertainmentNews = () => {
+const EntertainmentNews = async () => {
+  const data = await getAllBlog();
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -32,9 +34,8 @@ const EntertainmentNews = () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 mt-4">
-        <NewsCard />
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-          <NewsCard />
+        {data.map((item) => (
+          <NewsCard key={item._id} post={item} />
         ))}
       </div>
     </div>

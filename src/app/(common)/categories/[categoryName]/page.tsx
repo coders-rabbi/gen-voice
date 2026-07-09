@@ -11,12 +11,13 @@ interface CategoryPageProps {
 }
 
 const page = async ({ params }: CategoryPageProps) => {
-  const posts = await getAllBlog();
   const { categoryName } = await params;
 
   const formattedCategory =
     categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
 
+  const data = await getAllBlog();
+  const posts = data.filter((item) => item.category === formattedCategory);
   return (
     <div className="min-h-screen">
       <Image
