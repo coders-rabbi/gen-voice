@@ -12,7 +12,7 @@ const PoliticsSideCard = () => {
       <Link href="/">
         <div>
           <h5 className="text-[#6D757F] text-xs font-semibold">BASKET BALL</h5>
-          <h3 className="text-sm text-[#183354] font-semibold">
+          <h3 className="text-[10px] text-[#183354] font-semibold">
             Using Instagram tawo promote your
           </h3>
           <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold text-xs mt-2.5">
