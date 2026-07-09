@@ -29,38 +29,33 @@ const Navber = () => {
           </summary>
           <ul className="p-2 bg-white text-black w-40 z-50 shadow-md">
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/recent_news" className="block px-4 py-2">
+              <Link href="/categories/food" className="block px-4 py-2">
                 Food
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/popular_news" className="block px-4 py-2">
+              <Link href="/categories/animal" className="block px-4 py-2">
                 Animal
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/popular_news" className="block px-4 py-2">
+              <Link href="/categories/car" className="block px-4 py-2">
                 Car
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/popular_news" className="block px-4 py-2">
+              <Link href="/categories/sport" className="block px-4 py-2">
                 Sport
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/popular_news" className="block px-4 py-2">
+              <Link href="/categories/music" className="block px-4 py-2">
                 Music
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/popular_news" className="block px-4 py-2">
+              <Link href="/categories/technology" className="block px-4 py-2">
                 Techonolgy
-              </Link>
-            </li>
-            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/popular_news" className="block px-4 py-2">
-                Abstract
               </Link>
             </li>
           </ul>
@@ -88,15 +83,35 @@ const Navber = () => {
       </li>
       <li className="text-black">
         <span className="font-semibold px-4 py-2">Categories</span>
-        <ul className="pl-4 space-y-1">
+        <ul className="p-2 bg-white text-black w-40 z-50 shadow-md">
           <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/recent-news" className="block px-4 py-2">
-              Submenu 1
+            <Link href="/categories/food" className="block px-4 py-2">
+              Food
             </Link>
           </li>
           <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/popular-news" className="block px-4 py-2">
-              Submenu 2
+            <Link href="/categories/animal" className="block px-4 py-2">
+              Animal
+            </Link>
+          </li>
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/car" className="block px-4 py-2">
+              Car
+            </Link>
+          </li>
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/sport" className="block px-4 py-2">
+              Sport
+            </Link>
+          </li>
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/music" className="block px-4 py-2">
+              Music
+            </Link>
+          </li>
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/technology" className="block px-4 py-2">
+              Techonolgy
             </Link>
           </li>
         </ul>

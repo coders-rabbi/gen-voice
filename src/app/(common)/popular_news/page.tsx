@@ -1,7 +1,9 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
-const PopularNews = () => {
+import { getAllBlog } from "@/services/postService";
+const PopularNews = async () => {
+  const posts = await getAllBlog();
   return (
     <div className="min-h-screen">
       <Image
@@ -26,9 +28,9 @@ const PopularNews = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-          <NewsCard />
-        ))}
+          {posts.map((item) => (
+            <NewsCard key={item._id} post={item} />
+          ))}
         </div>
       </div>
     </div>

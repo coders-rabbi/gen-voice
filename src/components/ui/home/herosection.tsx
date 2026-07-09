@@ -8,8 +8,10 @@ import manimg from "@/assets/home/man.jpg";
 import { GoBookmark } from "react-icons/go";
 import TechnologyCard from "./components/technology";
 import NewsCard from "@/components/newsCardHorizontal";
+import { getAllBlog } from "@/services/postService";
 
-const Herosection = () => {
+const Herosection = async () => {
+  const posts = await getAllBlog();
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 mt-7">
       <div className="md:col-span-8">
@@ -95,10 +97,9 @@ const Herosection = () => {
           </div>
         </div> */}
         <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-4">
-          
-          {
-            [1,2,3].map((item)=>(<NewsCard />))
-          }
+          {posts.slice(0, 3).map((item) => (
+            <NewsCard key={item._id} post={item} />
+          ))}
         </div>
       </div>
     </div>
