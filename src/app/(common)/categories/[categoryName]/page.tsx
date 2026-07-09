@@ -2,20 +2,20 @@ import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
 import { IoIosArrowForward } from "react-icons/io";
+import { getAllBlog } from "@/services/postService";
 
 interface CategoryPageProps {
   params: Promise<{
-    categoryName?: string;
+    categoryName: string;
   }>;
 }
 
 const page = async ({ params }: CategoryPageProps) => {
-  const resolvedParams = await params;
-  const categoryName = resolvedParams?.categoryName || "Category";
+  const posts = await getAllBlog();
+  const { categoryName } = await params;
 
-  const formattedCategory = categoryName
-    ? categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
-    : "";
+  const formattedCategory =
+    categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
 
   return (
     <div className="min-h-screen">
@@ -44,14 +44,9 @@ const page = async ({ params }: CategoryPageProps) => {
         </div>
 
         <div className="grid md:grid-cols-4 gap-2">
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
+          {posts.map((post) => (
+            <NewsCard key={post._id} post={post} />
+          ))}
         </div>
       </div>
     </div>
