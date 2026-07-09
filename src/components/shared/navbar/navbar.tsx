@@ -120,9 +120,9 @@ const Navber = () => {
   );
 
   return (
-    <div className="navbar  px-4 z-50">
-      <div className="navbar-start">
-        <Link href="/" className="flex items-center gap-2">
+    <div className="navbar fixed bg-white mx-auto justify-center items-center px-4 z-50 xl:w-fit rounded-xl gap-20 top-5 left-1/2 -translate-x-1/2">
+      <div className="-mt-2">
+        <Link href="/">
           <Image
             src={logo}
             alt="Gennoice Logo"

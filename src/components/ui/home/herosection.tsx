@@ -13,7 +13,7 @@ import { getAllBlog } from "@/services/postService";
 const Herosection = async () => {
   const posts = await getAllBlog();
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 mt-7">
+    <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 ">
       <div className="md:col-span-8">
         <div className="flex gap-3 items-center">
           <Image src={breakingImage} alt="gen voice" className="h-auto" />
