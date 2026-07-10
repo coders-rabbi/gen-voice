@@ -8,8 +8,10 @@ import basket from "@/assets/home/basket.jpg";
 import football from "@/assets/home/football.jpg";
 import boxing from "@/assets/home/boxing.jpg";
 import PoliticsSideCard from "./politicsSideCard";
+import { getAllBlog } from "@/services/postService";
 
-const Politics = () => {
+const Politics = async () => {
+  const posts = await getAllBlog();
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -56,8 +58,8 @@ const Politics = () => {
 
         <div className="md:col-span-4">
           <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
-            {[1, 2, 3, 4].map((item) => (
-              <PoliticsSideCard />
+            {posts.slice(0, 4).map((item) => (
+              <PoliticsSideCard key={item._id} />
             ))}
           </div>
         </div>

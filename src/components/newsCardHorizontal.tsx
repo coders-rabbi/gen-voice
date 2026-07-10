@@ -15,8 +15,10 @@ const NewsCard = ({ post }: NewsCardProps) => {
         <div className="flex gap-2 bg-white rounded-xl shadow-sm p-2 border border-gray-100 items-center">
           <div className="w-[35%] relative flex-shrink-0">
             <Image
-              src={img04}
+              src={post?.mainImage || img04}
               alt="Gen voice"
+              width={200}
+              height={200}
               className="rounded-xl object-cover w-full h-[150px]"
             />
           </div>

@@ -6,8 +6,10 @@ import Image from "next/image";
 import { CiCalendar } from "react-icons/ci";
 import sideBarImage from "@/assets/home/sidebarimage.jpg";
 import BusinessSideCart from "./businessSideCart";
+import { getAllBlog } from "@/services/postService";
 
-const BusinessSideBar = () => {
+const BusinessSideBar = async () => {
+  const posts = await getAllBlog();
   return (
     <div className="mt-6">
       <div className="flex justify-between items-center">
@@ -39,8 +41,8 @@ const BusinessSideBar = () => {
         <Image src={businessMan} alt="gen voice" className="h-[210px] w-full" />
 
         <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
-          {[1, 2, 3, 4, 5].map((item) => (
-            <BusinessSideCart />
+          {posts.slice(0, 5).map((item) => (
+            <BusinessSideCart key={item._id}/>
           ))}
         </div>
 

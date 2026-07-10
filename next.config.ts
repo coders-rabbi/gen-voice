@@ -7,11 +7,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "asset.kalerkantho.com",
+        hostname: "**", // এটি যেকোনো ডোমেইনের (https) ছবি ব্যবহারের অনুমতি দেবে
       },
       {
-        protocol: "https",
-        hostname: "media.prothomalo.com",
+        protocol: "http",
+        hostname: "**", // কিছু সাইট যদি http ব্যবহার করে, সেগুলোর জন্যও অনুমতি দেওয়া হলো
       },
     ],
   },

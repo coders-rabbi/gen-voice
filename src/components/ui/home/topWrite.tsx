@@ -3,8 +3,10 @@ import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import WritesCard from "./components/writesCard";
 import Advertisement from "@/components/advertisement";
+import { getAllWriers } from "@/services/writerService";
 
-const TopWrite = () => {
+const TopWrite = async () => {
+  const writers = await getAllWriers();
   return (
     <div className="mt-12">
       <div className="flex justify-between items-center">
@@ -33,8 +35,8 @@ const TopWrite = () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-          <WritesCard />
+        {writers.slice(0, 9).map((item) => (
+          <WritesCard key={item._id} />
         ))}
       </div>
 

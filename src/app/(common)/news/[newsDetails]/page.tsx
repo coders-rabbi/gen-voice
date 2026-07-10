@@ -270,24 +270,6 @@ const page = async ({ params }: PageProps) => {
               {item}
             </Link>
           ))}
-          {/* <Link
-            href=""
-            className="px-4 py-2.5 rounded-xl text-[#3E3232BF] bg-[#F5F5F5]"
-          >
-            Travel
-          </Link>
-          <Link
-            href=""
-            className="px-4 py-2.5 rounded-xl text-[#3E3232BF] bg-[#F5F5F5]"
-          >
-            Travel
-          </Link>
-          <Link
-            href=""
-            className="px-4 py-2.5 rounded-xl text-[#3E3232BF] bg-[#F5F5F5]"
-          >
-            Travel
-          </Link> */}
         </div>
       </div>
     </div>
