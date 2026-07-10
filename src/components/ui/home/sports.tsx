@@ -5,7 +5,9 @@ import Link from "next/link";
 import React from "react";
 
 const Sports = async () => {
-  const posts = await getAllBlog();
+  const data = await getAllBlog();
+  const posts = data.filter((item) => item.category === "Sport");
+  console.log("rabbi", posts);
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -15,7 +17,7 @@ const Sports = async () => {
         </div>
 
         <Link
-          href="/"
+          href="categories/Sport"
           className="border border-[#D1E2FD] px-3 py-1.5 rounded-2xl "
         >
           View All

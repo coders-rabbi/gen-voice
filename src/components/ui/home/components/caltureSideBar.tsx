@@ -11,12 +11,13 @@ import PoliticsSideCard from "./politicsSideCard";
 import { getAllBlog } from "@/services/postService";
 
 const CaltureSideBar = async () => {
-  const posts = await getAllBlog();
+  const data = await getAllBlog();
+  const posts = data.filter((item)=> item?.category === "Politics")
   return (
     <div className="mt-4">
       <div className="grid grid-cols-2 md:grid-cols-1 gap-3 mt-4">
         {posts.slice(0, 4).map((item) => (
-          <PoliticsSideCard key={item._id} />
+          <PoliticsSideCard key={item._id} post={item}/>
         ))}
       </div>
     </div>

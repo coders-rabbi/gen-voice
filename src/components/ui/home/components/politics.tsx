@@ -11,7 +11,8 @@ import PoliticsSideCard from "./politicsSideCard";
 import { getAllBlog } from "@/services/postService";
 
 const Politics = async () => {
-  const posts = await getAllBlog();
+  const data = await getAllBlog();
+  const posts = data.filter((item) => item.category === "Politics");
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -38,28 +39,35 @@ const Politics = async () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3 mt-4">
-        <div className="md:col-span-8">
-          <Image
-            src={cycleMan}
-            alt="gen voice"
-            className="w-full h-auto object-cover"
-          />
-          <div className="mt-4">
-            <h2 className="text-[#6D757F] text-xs font-semibold">Swimming</h2>
-            <p className="text-[#183354] text-xl font-bold mt-1.5">
-              How To Protect Your App With Threat Model Based On w To Protect
-              Your App With Based
-            </p>
-            <p className="flex items-center gap-1 text-[16px] text-[#6D757F] mt-2.5 font-semibold">
-              <CiCalendar /> 27 Jun, 2026
-            </p>
+        {posts && posts.length > 0 && (
+          <div className="md:col-span-8">
+            <Link href={`news/${posts[0]?.postId}`}>
+              <Image
+                src={posts?.[0]?.mainImage}
+                width={500}
+                height={500}
+                alt="gen voice"
+                className="w-full h-auto object-cover"
+              />
+              <div className="mt-4">
+                <h2 className="text-[#6D757F] text-xs font-semibold">
+                  {posts[0]?.category}
+                </h2>
+                <p className="text-[#183354] text-xl font-bold mt-1.5">
+                  {posts[0]?.title}
+                </p>
+                <p className="flex items-center gap-1 text-[16px] text-[#6D757F] mt-2.5 font-semibold">
+                  <CiCalendar /> {posts[0]?.postDate}
+                </p>
+              </div>
+            </Link>
           </div>
-        </div>
+        )}
 
         <div className="md:col-span-4">
           <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
             {posts.slice(0, 4).map((item) => (
-              <PoliticsSideCard key={item._id} />
+              <PoliticsSideCard key={item._id} post={item} />
             ))}
           </div>
         </div>
