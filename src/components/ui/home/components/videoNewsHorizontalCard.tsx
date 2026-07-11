@@ -7,7 +7,7 @@ const VideoNewsHorizontalCard = () => {
       <Link href="/">
         <div>
           <h5 className="text-[#6D757F] text-xs font-semibold">POLITICS</h5>
-          <h3 className="text-[#183354] text-[16px] font-semibold mt-1.5">
+          <h3 className="text-[#183354] text-sm font-semibold mt-1.5">
             Using Instagram tawo promote your
           </h3>
           <p className="flex items-center gap-1 text-xs text-[#6D757F] mt-2.5">
