@@ -4,8 +4,11 @@ import NewsCardVertical from "@/components/newsCardVertical";
 import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import PostSatisfactionReaction from "@/components/dashboard/postSatisfactionReaction";
 import ProfileInfo from "@/components/dashboard/profileInfo";
+import { getAllBlog } from "@/services/postService";
 
-const page = () => {
+const page = async () => {
+  const data = await getAllBlog();
+  const myPosts = data.filter((item) => item.writers_id === "WR-202601");
   return (
     <div className="">
       <Image
@@ -65,14 +68,9 @@ const page = () => {
         </div>
 
         <div className="grid md:grid-cols-4 gap-2">
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
+          {myPosts.map((item) => (
+            <NewsCardVertical key={item._id} posts={item} />
+          ))}
         </div>
 
         <div className="flex justify-between items-center mt-10">
@@ -91,14 +89,9 @@ const page = () => {
         </div>
 
         <div className="grid md:grid-cols-4 gap-2">
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
-          <NewsCardVertical />
+          {myPosts.map((item) => (
+            <NewsCardVertical key={item._id} posts={item} />
+          ))}
         </div>
       </div>
     </div>

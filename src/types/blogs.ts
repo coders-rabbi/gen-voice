@@ -7,6 +7,7 @@ export interface IComment {
 
 export interface IPost {
   _id: string;
+  writers_id?: string;
   postId: number;
   title: string;
   mainImage: string;
