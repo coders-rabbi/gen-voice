@@ -16,7 +16,7 @@ const VideoNewsHorizontalCard = () => {
         </div>
       </Link>
       <iframe
-        src="https://www.youtube.com/embed/LijdyVaaDnY?si=UddbM73azEwKYvNS"
+        src="https://www.youtube.com/embed/bmrN8Cw1zX4?si=1BcxPULozXKg230s"
         title="YouTube video player"
         style={{
           border: "none",

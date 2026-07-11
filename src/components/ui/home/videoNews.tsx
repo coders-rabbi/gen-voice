@@ -48,7 +48,7 @@ const VideoNews = async () => {
           <div className="my-4 md:flex flex-col md:flex-row gap-4">
             <div className="min-w-[350px]  overflow-hidden">
               <iframe
-                src="https://www.youtube.com/embed/LijdyVaaDnY?si=UddbM73azEwKYvNS"
+                src="https://www.youtube.com/embed/bmrN8Cw1zX4?si=1BcxPULozXKg230s`"
                 title="YouTube video player"
                 style={{
                   border: "none",
@@ -97,10 +97,11 @@ const VideoNews = async () => {
             </div>
           </div>
         )}
+
         <div className="flex gap-4 mt-8">
-          <VideoNewsHorizontalCard />
-          <VideoNewsHorizontalCard />
-          <VideoNewsHorizontalCard />
+          {VideoNews.map((item) => (
+            <VideoNewsHorizontalCard key={item._id} />
+          ))}
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 mt-8">
