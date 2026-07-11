@@ -19,7 +19,7 @@ const TechNews = async () => {
         </div>
 
         <Link
-          href="/"
+          href="/categories/technology"
           className="border border-[#D1E2FD] text-[#3385FF] px-3 py-1.5 rounded-2xl flex items-center gap-1.5"
         >
           View All

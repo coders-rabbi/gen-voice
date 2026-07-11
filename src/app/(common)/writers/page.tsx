@@ -1,8 +1,10 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import WritesCard from "@/components/ui/home/components/writesCard";
+import { getAllWriters } from "@/services/writerService";
 
-const Writers = () => {
+const Writers = async () => {
+  const writers = await getAllWriters();
   return (
     <div className="min-h-screen">
       <Image
@@ -27,10 +29,9 @@ const Writers = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
-         {
-           [1,2,3,4,5,6,7,6,6,6].map((item)=> (<WritesCard />))
-         }
-         
+          {writers.map((item) => (
+            <WritesCard key={item._id} writers={item} />
+          ))}
         </div>
       </div>
     </div>

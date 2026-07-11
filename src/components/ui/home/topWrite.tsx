@@ -3,10 +3,10 @@ import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import WritesCard from "./components/writesCard";
 import Advertisement from "@/components/advertisement";
-import { getAllWriers } from "@/services/writerService";
+import { getAllWriters } from "@/services/writerService";
 
 const TopWrite = async () => {
-  const writers = await getAllWriers();
+  const writers = await getAllWriters();
   return (
     <div className="mt-12">
       <div className="flex justify-between items-center">
@@ -18,7 +18,7 @@ const TopWrite = async () => {
         </div>
 
         <Link
-          href="/"
+          href="/writers"
           className="border border-[#D1E2FD] text-[#3385FF] px-3 py-1.5 rounded-2xl flex items-center gap-1.5"
         >
           View All
@@ -36,7 +36,7 @@ const TopWrite = async () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
         {writers.slice(0, 9).map((item) => (
-          <WritesCard key={item._id} />
+          <WritesCard key={item._id} writers={item}/>
         ))}
       </div>
 

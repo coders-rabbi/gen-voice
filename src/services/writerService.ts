@@ -1,7 +1,7 @@
 import { IWriter } from "@/types/wrtiers";
 import { apiClient } from "./apiClient";
 
-export const getAllWriers = async (): Promise<IWriter[]> => {
+export const getAllWriters = async (): Promise<IWriter[]> => {
   return apiClient<IWriter[]>("/writers", {
     next: {
       revalidate: 30,

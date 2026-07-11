@@ -6,9 +6,12 @@ import TechnologyCard from "./components/technology";
 import NewsCard from "@/components/newsCardHorizontal";
 import { getAllBlog } from "@/services/postService";
 import Link from "next/link";
+import { HeroSectionCarousel } from "./components/heroSectionCarousel";
+import { IPost } from "@/types/blogs";
 
 const Herosection = async () => {
-  const posts = await getAllBlog();
+  const posts: IPost[] = await getAllBlog();
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 ">
       <div className="md:col-span-8">
@@ -17,13 +20,14 @@ const Herosection = async () => {
           <Topnotice />
         </div>
 
-        <div className="mt-3 w-full overflow-hidden rounded-lg -z-10">
+        {/* <div className="mt-3 w-full overflow-hidden rounded-lg -z-10">
           <Image
             src={img01}
             alt="Dynamic Hero Image" // ব্রাউজারকে অপ্টিমাইজেশনের জন্য সাইজ বলে দেওয়া
             className="w-full h-auto object-cover"
           />
-        </div>
+        </div> */}
+        <HeroSectionCarousel posts={posts} />
 
         <TechnologyCard />
       </div>

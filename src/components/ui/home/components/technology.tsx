@@ -14,7 +14,7 @@ const TechnologyCard = () => {
         <GoBookmark className="text-3xl text-[#3385FF]" />
       </div>
       <h1 className="text-sm md:text-[20px] mb-2 md:mb-4 font-semibold text-black">
-        The Impact of Technology on the Workplace: How Technology is Changing
+        সাইবার হামলার শিকার আর্জেন্টিনা ফুটবল অ্যাসোসিয়েশন
       </h1>
       <div className="flex items-center gap-2">
         <Image
@@ -22,8 +22,12 @@ const TechnologyCard = () => {
           alt="gen voice"
           className="w-10 md:w-12 h-10 md:h-12 rounded-full "
         />
-        <h1 className="text-[#97989F] text-[10px] md:text-[16px]">Json Francisco</h1>
-        <h1 className="text-[#97989F] text-[10px] md:text-[16px]">August 20, 2025</h1>
+        <h1 className="text-[#97989F] text-[10px] md:text-[16px]">
+          Json Francisco
+        </h1>
+        <h1 className="text-[#97989F] text-[10px] md:text-[16px]">
+          August 20, 2025
+        </h1>
       </div>
     </div>
   );

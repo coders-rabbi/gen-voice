@@ -37,7 +37,7 @@ const ProfileInfo = () => {
       </div>
       <div className="flex gap-4">
         <Link
-          href=""
+          href="/dashboard/edit_profile"
           className="flex items-center gap-2.5 text-[#3385FF] py-2.5 pl-4 pr-6 border rounded-[12px]"
         >
           <FaUserEdit />
