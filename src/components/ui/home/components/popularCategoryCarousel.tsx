@@ -25,6 +25,7 @@ const categories = [
     slug: "technology",
   },
   { id: 5, name: "Music", tag: "#Music", image: food, slug: "music" },
+  { id: 6, name: "Business", tag: "#Business", image: food, slug: "business" },
 ];
 
 export function PopularCategoryCarousel() {
