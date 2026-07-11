@@ -1,3 +1,4 @@
+"use client"
 import img01 from "@/assets/home/Image1.png";
 import {
   Carousel,
@@ -9,6 +10,7 @@ import {
 import { IPost } from "@/types/blogs";
 import Image from "next/image";
 import Link from "next/link";
+import Autoplay from "embla-carousel-autoplay";
 
 interface PostProps {
   posts: IPost[];
@@ -16,7 +18,14 @@ interface PostProps {
 
 export function HeroSectionCarousel({ posts }: PostProps) {
   return (
-    <Carousel className="w-full relative">
+    <Carousel
+      className="w-full relative"
+      plugins={[
+        Autoplay({
+          delay: 2000,
+        }),
+      ]}
+    >
       <CarouselContent>
         {posts?.slice(0, 5).map((post, index) => (
           <CarouselItem key={post._id || index}>
