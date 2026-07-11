@@ -120,7 +120,7 @@ const Navber = () => {
 
   return (
     <div className="container flex justify-center">
-      <div className="navbar lg:w-fit bg-white px-4 z-50 rounded-xl gap-20 top-5 fixed">
+      <div className="navbar lg:w-fit bg-white px-4 z-50 rounded-xl gap-20 fixed">
         <div className="-mt-2">
           <Link href="/">
             <Image

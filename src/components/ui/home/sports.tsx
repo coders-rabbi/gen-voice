@@ -12,7 +12,7 @@ const Sports = async () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2 mb-2.5  ">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-          <h2 className="text-2xl text-[#3E3232] ">Sport</h2>
+          <h2 className="text-2xl text-[#3E3232] ">Sports</h2>
         </div>
 
         <Link

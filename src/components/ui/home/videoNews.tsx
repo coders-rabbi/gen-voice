@@ -97,11 +97,11 @@ const VideoNews = async () => {
             </div>
           </div>
         )}
-
+        
         <div className="flex gap-4 mt-8">
-          {VideoNews.map((item) => (
-            <VideoNewsHorizontalCard key={item._id} />
-          ))}
+          <VideoNewsHorizontalCard />
+          <VideoNewsHorizontalCard />
+          <VideoNewsHorizontalCard />
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 mt-8">
