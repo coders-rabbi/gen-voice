@@ -13,10 +13,13 @@ import VoteOpinion from "./components/voteOpinion";
 import CaltureSideBar from "./components/caltureSideBar";
 import BusinessSideBar from "./components/businessSideBar";
 import { getAllBlog } from "@/services/postService";
+import { IPost } from "@/types/blogs";
 
 const VideoNews = async () => {
   const data = await getAllBlog();
-  const VideoNews = data.filter((item) => item.category === "Video News");
+  const VideoNews: IPost[] = data.filter(
+    (item) => item.category === "Video News",
+  );
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-screen">
       <div className="md:col-span-7">
@@ -93,13 +96,15 @@ const VideoNews = async () => {
         )}
 
         <div className="flex gap-4 mt-8">
-          {/* <VideoNewsHorizontalCard /> */}
+          {VideoNews.slice(0, 3).map((item) => (
+            <VideoNewsHorizontalCard key={item._id} videoNews={item} />
+          ))}
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 mt-8">
-          <VideoNewsVerticalCard />
-          <VideoNewsVerticalCard />
-          <VideoNewsVerticalCard />
+          {VideoNews.slice(0, 3).map((item) => (
+            <VideoNewsVerticalCard key={item._id} videoNews={item} />
+          ))}
         </div>
         <Advertisement />
 
