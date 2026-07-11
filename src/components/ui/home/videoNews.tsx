@@ -80,12 +80,7 @@ const VideoNews = async () => {
                   </p>
                 </div>
                 <p className="text-[#6D757F] text-xs line-clamp-4 leading-relaxed">
-                  Browned butter and brown sugar caramelly oodness crispy
-                  edgesthick and soft centers and melty little puddles of
-                  chocolate y first favorite.Browned butter brown sugar
-                  caramelly oodness. Lorem ipsum dolor sit amet consectetur
-                  adipisicing elit. Nobis consequuntur vero tempora fugiat
-                  voluptate esse reiciendis impedit iusto dignissimos est.
+                  {VideoNews?.[0].postDetails}
                 </p>
                 <Link
                   href="/"
@@ -97,7 +92,7 @@ const VideoNews = async () => {
             </div>
           </div>
         )}
-        
+
         <div className="flex gap-4 mt-8">
           <VideoNewsHorizontalCard />
           <VideoNewsHorizontalCard />
