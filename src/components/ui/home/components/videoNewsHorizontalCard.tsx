@@ -1,7 +1,11 @@
+import { IPost } from "@/types/blogs";
 import Link from "next/link";
 import { CiCalendar } from "react-icons/ci";
+interface VideoNewsProps {
+  VideoNews: IPost[];
+}
 
-const VideoNewsHorizontalCard = () => {
+const VideoNewsHorizontalCard = ({ VideoNews }: VideoNewsProps) => {
   return (
     <div className="md:flex gap-0.5">
       <Link href="/">

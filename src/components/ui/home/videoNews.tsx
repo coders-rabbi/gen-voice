@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 import { CiCalendar } from "react-icons/ci";
 import { IoIosTime } from "react-icons/io";
 import { MdArrowForwardIos, MdArrowOutward } from "react-icons/md";
@@ -94,9 +93,7 @@ const VideoNews = async () => {
         )}
 
         <div className="flex gap-4 mt-8">
-          <VideoNewsHorizontalCard />
-          <VideoNewsHorizontalCard />
-          <VideoNewsHorizontalCard />
+          {/* <VideoNewsHorizontalCard /> */}
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 mt-8">

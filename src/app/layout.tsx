@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Gen Voice",
-  description: "The most famous news paper in Bangladesh",
+  description:
+    "Genvoice is the first Generation Z based news portal in Bangladesh.",
 };
 
 export default function RootLayout({
