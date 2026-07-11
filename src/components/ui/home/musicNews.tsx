@@ -1,12 +1,13 @@
 import Advertisement from "@/components/advertisement";
 import NewsCardVertical from "@/components/newsCardVertical";
 import { getAllBlog } from "@/services/postService";
+import { IPost } from "@/types/blogs";
 import Link from "next/link";
-import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 
 const MusicNews = async () => {
   const data = await getAllBlog();
+  const posts: IPost[] = data.filter((item) => item?.category === "Music");
   return (
     <div className="mt-12">
       <div className="flex justify-between items-center">
@@ -16,7 +17,7 @@ const MusicNews = async () => {
         </div>
 
         <Link
-          href="/"
+          href="/categories/music"
           className="border border-[#D1E2FD] text-[#3385FF] px-3 py-1.5 rounded-2xl flex items-center gap-1.5"
         >
           View All
@@ -33,8 +34,8 @@ const MusicNews = async () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 mt-4">
-        {data.slice(0, 9).map((item) => (
-          <NewsCardVertical key={item._id} />
+        {posts.slice(0, 9).map((item) => (
+          <NewsCardVertical key={item._id} posts={item} />
         ))}
       </div>
 

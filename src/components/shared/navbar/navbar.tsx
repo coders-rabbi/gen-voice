@@ -3,7 +3,6 @@ import Image from "next/image";
 import logo from "@/assets/logo/logo.svg";
 
 const Navber = () => {
-  // ডেক্সটপ মেনুর জন্য আলাদা স্ট্রাকচার (যেখানে details ট্যাগ সঠিকভাবে কাজ করে)
   const DesktopNavItems = (
     <>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
@@ -39,8 +38,8 @@ const Navber = () => {
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/categories/car" className="block px-4 py-2">
-                Car
+              <Link href="/categories/business" className="block px-4 py-2">
+                Business
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
@@ -95,8 +94,8 @@ const Navber = () => {
             </Link>
           </li>
           <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/car" className="block px-4 py-2">
-              Car
+            <Link href="/categories/business" className="block px-4 py-2">
+              Business
             </Link>
           </li>
           <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">

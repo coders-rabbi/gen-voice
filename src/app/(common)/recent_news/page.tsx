@@ -6,7 +6,6 @@ import { IPost } from "@/types/blogs";
 
 const RecentNews4 = async () => {
   const blogs = await getAllBlog();
-  console.log(blogs);
   return (
     <div className="min-h-screen">
       <Image

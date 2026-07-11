@@ -6,6 +6,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 
 const EntertainmentNews = async () => {
   const data = await getAllBlog();
+  const posts = data.filter((item) => item.category === "Entertainment");
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -34,7 +35,7 @@ const EntertainmentNews = async () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 mt-4">
-        {data.slice(0, 9).map((item) => (
+        {posts.slice(0, 9).map((item) => (
           <NewsCard key={item._id} post={item} />
         ))}
       </div>

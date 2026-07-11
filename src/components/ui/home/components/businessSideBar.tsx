@@ -7,9 +7,11 @@ import { CiCalendar } from "react-icons/ci";
 import sideBarImage from "@/assets/home/sidebarimage.jpg";
 import BusinessSideCart from "./businessSideCart";
 import { getAllBlog } from "@/services/postService";
+import { IPost } from "@/types/blogs";
 
 const BusinessSideBar = async () => {
-  const posts = await getAllBlog();
+  const data = await getAllBlog();
+  const posts: IPost[] = data.filter((item)=> item.category === "Business")
   return (
     <div className="mt-6">
       <div className="flex justify-between items-center">
@@ -42,7 +44,7 @@ const BusinessSideBar = async () => {
 
         <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
           {posts.slice(0, 5).map((item) => (
-            <BusinessSideCart key={item._id}/>
+            <BusinessSideCart key={item._id} posts={item}/>
           ))}
         </div>
 

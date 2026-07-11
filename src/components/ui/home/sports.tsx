@@ -7,7 +7,6 @@ import React from "react";
 const Sports = async () => {
   const data = await getAllBlog();
   const posts = data.filter((item) => item.category === "Sport");
-  console.log("rabbi", posts);
   return (
     <div>
       <div className="flex justify-between items-center">

@@ -14,6 +14,8 @@ import Advertisement from "@/components/advertisement";
 import WritesCard from "@/components/ui/home/components/writesCard";
 import manImg from "@/assets/home/man.jpg";
 import { getAllBlog } from "@/services/postService";
+import { getAllWriters } from "@/services/writerService";
+import { IWriter } from "@/types/wrtiers";
 
 interface PageProps {
   params: Promise<{
@@ -27,7 +29,10 @@ const page = async ({ params }: PageProps) => {
 
   const data = await getAllBlog();
   const post = data.filter((post) => post.postId === postId);
-  console.log(post);
+
+  const writers: IWriter[] = await getAllWriters();
+  const featuredWriter = writers[0];
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 px-4 gap-4">
       <div className="md:col-span-8">
@@ -252,7 +257,7 @@ const page = async ({ params }: PageProps) => {
             <hr className="w-full border-t border-[#3384FE33]" />
           </div>
         </div>
-        <WritesCard />
+        {featuredWriter ? <WritesCard writers={featuredWriter} /> : null}
         <div className="flex items-center gap-2 mb-2 mt-10">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
           <h2 className="text-xl text-[#3E3232] ">Tags</h2>
