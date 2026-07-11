@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { IPost } from "@/types/blogs";
 import Image from "next/image";
+import Link from "next/link";
 
 interface PostProps {
   posts: IPost[];
@@ -17,17 +18,19 @@ export function HeroSectionCarousel({ posts }: PostProps) {
   return (
     <Carousel className="w-full relative">
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index}>
+        {posts?.slice(0, 5).map((post, index) => (
+          <CarouselItem key={post._id || index}>
             <div className="w-full overflow-hidden rounded-xl">
-              <Image
-                src={posts?.[0]?.mainImage}
-                width={1200}
-                height={600}
-                alt="Dynamic Hero Image"
-                className="w-full h-auto object-cover block"
-                priority={index === 0}
-              />
+              <Link href={`news/${post?.postId}`}>
+                <Image
+                  src={post?.mainImage || img01}
+                  width={1200}
+                  height={600}
+                  alt={post?.title || "Dynamic Hero Image"}
+                  className="w-full h-auto object-cover block"
+                  priority={index === 0}
+                />
+              </Link>
             </div>
           </CarouselItem>
         ))}
