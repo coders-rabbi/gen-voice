@@ -11,7 +11,7 @@ const VideoNewsHorizontalCard = ({ videoNews }: VideoNewsProps) => {
       <Link href="/">
         <div>
           <h5 className="text-[#6D757F] text-xs font-semibold">{videoNews?.category || "POLITICS"}</h5>
-          <h3 className="text-[#183354] text-sm font-semibold mt-1.5">
+          <h3 className="text-[#183354] text-[10px] font-semibold mt-1.5">
             {videoNews?.title || "Using Instagram tawo promote your"}
           </h3>
           <p className="flex items-center gap-1 text-xs text-[#6D757F] mt-2.5">
@@ -20,7 +20,7 @@ const VideoNewsHorizontalCard = ({ videoNews }: VideoNewsProps) => {
         </div>
       </Link>
       <iframe
-        src="https://www.youtube.com/embed/bmrN8Cw1zX4?si=1BcxPULozXKg230s"
+        src={videoNews?.mainImage}
         title="YouTube video player"
         style={{
           border: "none",

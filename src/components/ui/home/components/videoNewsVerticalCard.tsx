@@ -11,6 +11,7 @@ interface VideoNewsVerticalCardProps {
 const VideoNewsVerticalCard = ({ videoNews }: VideoNewsVerticalCardProps) => {
   return (
     <div className="card bg-white shadow-sm">
+      <Link href={`news/${videoNews?.postId}`}>
       <iframe
         src={videoNews?.mainImage}
         title="YouTube video player"
@@ -40,6 +41,7 @@ const VideoNewsVerticalCard = ({ videoNews }: VideoNewsVerticalCardProps) => {
           </div>
         </div>
       </div>
+      </Link>
     </div>
   );
 };
