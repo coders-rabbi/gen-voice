@@ -33,7 +33,7 @@ const MusicNews = async () => {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 mt-4">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 mt-4">
         {posts.slice(0, 9).map((item) => (
           <NewsCardVertical key={item._id} posts={item} />
         ))}

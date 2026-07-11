@@ -8,7 +8,7 @@ interface postsProps {
 }
 const NewsCardVertical = ({ posts }: postsProps) => {
   return (
-    <div className="flex flex-col gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 items-center w-full max-w-[350px] h-[400px] justify-between">
+    <div className="flex flex-col gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 items-center w-full h-[400px] justify-between">
       <div className="relative w-full h-[200px] flex-shrink-0">
         <Image
           src={posts?.mainImage}
