@@ -34,8 +34,8 @@ const Navber = () => {
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/categories/animal" className="block px-4 py-2">
-                Animal
+              <Link href="/categories/politics" className="block px-4 py-2">
+                Politics
               </Link>
             </li>
             <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
@@ -90,8 +90,8 @@ const Navber = () => {
             </Link>
           </li>
           <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/animal" className="block px-4 py-2">
-              Animal
+            <Link href="/categories/politics" className="block px-4 py-2">
+              Politics
             </Link>
           </li>
           <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
