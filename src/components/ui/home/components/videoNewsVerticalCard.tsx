@@ -12,7 +12,7 @@ const VideoNewsVerticalCard = ({ videoNews }: VideoNewsVerticalCardProps) => {
   return (
     <div className="card bg-white shadow-sm">
       <iframe
-        src="https://www.youtube.com/embed/LijdyVaaDnY?si=UddbM73azEwKYvNS"
+        src={videoNews?.mainImage}
         title="YouTube video player"
         style={{
           border: "none",
