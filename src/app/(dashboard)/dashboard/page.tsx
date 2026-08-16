@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Loading = () => {
+const page = () => {
     return (
         <div>
-            
+            hello dashboard
         </div>
     );
 };
 
-export default Loading;
+export default page;
