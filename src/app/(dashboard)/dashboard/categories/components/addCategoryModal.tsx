@@ -34,7 +34,7 @@ const AddCategoryModal = ({ isOpen, onClose }: Props) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-2xl w-[420px] p-6 shadow-lg">
+      <div className="bg-white rounded-2xl w-105 p-6 shadow-lg">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold">Add Category</h2>
           <button

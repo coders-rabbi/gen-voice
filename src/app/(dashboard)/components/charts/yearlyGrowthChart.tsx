@@ -127,7 +127,7 @@ export function YearlyPostsChart() {
         </div>
       </CardHeader>
       <CardContent className="pt-6">
-        <ChartContainer config={chartConfig} className="h-[300px] w-full">
+        <ChartContainer config={chartConfig} className="h-75 w-full">
           <BarChart data={chartData} barCategoryGap="30%">
             <CartesianGrid vertical={false} strokeDasharray="3 3" />
             <XAxis

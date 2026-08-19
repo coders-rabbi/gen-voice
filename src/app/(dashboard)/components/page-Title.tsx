@@ -33,7 +33,7 @@ export default function PageTitle({ TitleDetails }: PageTitle) {
           );
         })}
       </p>
-      <h1 className=" uppercase text-3xl text-black font-semibold">
+      <h1 className=" uppercase text-2xl text-black font-semibold">
         {TitleDetails.title}
       </h1>
       {TitleDetails.subtitle && (
