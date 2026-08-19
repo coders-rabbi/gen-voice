@@ -14,7 +14,7 @@ interface DashboardSidebarProps {
 const DRAWER_WIDTH = 260; // px
 
 const navItems = [
-  { label: "Overview", path: "/overview" },
+  { label: "Overview", path: "/dashboard" },
   { label: "Categories", path: "/dashboard/categories" },
   { label: "Register Users", path: "/dashboard/register-user" },
   { label: "All posts", path: "/dashboard/custom-order" },
@@ -51,17 +51,17 @@ const DashboardSidebar = ({
                     // মোবাইলে মেনু আইটেম ক্লিক করলে ড্রয়ার বন্ধ হয়ে যাবে
                     if (mobileOpen) onDrawerToggle();
                   }}
-                  className={`block rounded-lg px-4 py-2.5 no-underline transition-colors ${
+                  className={`block px-4 py-2.5 no-underline transition-colors ${
                     isActive
-                      ? "bg-[#E63946] hover:bg-[#E63946]"
-                      : "bg-transparent hover:bg-[#FFF5F4]"
+                      ? "bg-[#F0F6FF] hover:bg-[#bdd8ff] border-l-4 border-l-[#0E5FD9]"
+                      : "bg-transparent hover:bg-[#5ca0fe]"
                   }`}
                 >
                   <span
                     className={`${
                       isActive
-                        ? "text-white font-semibold"
-                        : "text-gray-800 font-normal"
+                        ? "text-[#0E5FD9] font-semibold"
+                        : "text-[#626C70] font-normal"
                     }`}
                   >
                     {item.label}

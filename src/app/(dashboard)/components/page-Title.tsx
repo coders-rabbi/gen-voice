@@ -1,6 +1,6 @@
 // components/PageBanner.tsx
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa6";
 
 type BreadcrumbItem = {
   label: string;
@@ -18,17 +18,17 @@ type PageTitle = {
 export default function PageTitle({ TitleDetails }: PageTitle) {
   return (
     <div className="flex flex-col gap-1">
-      <p className="text-xl text-black flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4 font-almarai">
+      <p className="text-xl text-black flex flex-wrap font-almarai">
         {TitleDetails.breadcrumbs.map((item, index) => {
           const isLast = index === TitleDetails.breadcrumbs.length - 1;
           return (
-            <span key={index} className="flex items-center gap-2 sm:gap-3">
+            <span key={index} className="flex items-center">
               {item.href && !isLast ? (
                 <Link href={item.href}>{item.label}</Link>
               ) : (
                 <span className={isLast ? "text-black" : ""}>{item.label}</span>
               )}
-              {!isLast && <FaArrowRight />}
+              {!isLast && <FaAngleRight />}
             </span>
           );
         })}
