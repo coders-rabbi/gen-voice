@@ -1,24 +1,18 @@
 "use client";
 import PageTitle from "../../components/page-Title";
-import { UsersTable } from "./components/userTable";
-
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PostTable } from "./components/postTable";
 
 const TitleDetails = {
-  title: "Registered Users",
-  subtitle:
-    "Manage all registered writers, review pending signups, and enforce moderation",
-  breadcrumbs: [
-    { label: "Home", href: "/dashboard" },
-    { label: "Registered Users" },
-  ],
+  title: "All Posts",
+  subtitle: "Review, approve, and manage news articles across the platform.",
+  breadcrumbs: [{ label: "Home", href: "/dashboard" }, { label: "Posts" }],
 };
 
 const page = () => {
   const handleTab = (value: string) => {
     console.log(value);
   };
-
   return (
     <div>
       <PageTitle TitleDetails={TitleDetails} />
@@ -36,8 +30,7 @@ const page = () => {
             <TabsTrigger value="suspended">Suspended</TabsTrigger>
           </TabsList>
         </Tabs>
-
-        <UsersTable />
+        <PostTable />
       </div>
     </div>
   );
