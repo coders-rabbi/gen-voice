@@ -1,24 +1,33 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-if (!BASE_URL) {
-  throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined");
-}
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
 
 export const apiClient = async <T>(
   endpoint: string,
   options?: RequestInit,
 ): Promise<T> => {
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-    ...options,
-  });
+  const url = BASE_URL ? `${BASE_URL}${endpoint}` : endpoint;
 
-  if (!response.ok) {
-    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+  try {
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+      },
+      ...options,
+    });
+
+    if (!response.ok) {
+      if (process.env.NEXT_PHASE === "phase-production-build") {
+        return [] as T;
+      }
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    }
+
+    return (await response.json()) as T;
+  } catch (error) {
+    if (process.env.NEXT_PHASE === "phase-production-build") {
+      return [] as T;
+    }
+
+    throw error;
   }
-
-  return response.json() as Promise<T>;
 };

@@ -3,7 +3,7 @@ import { IconType } from "react-icons";
 type PropsCard = {
   item: {
     name: string;
-    value: number | string; // loading অবস্থায় "--" আসতে পারে
+    value: number | string; 
     icon: IconType;
     iconColor: string;
     iconBg: string;

@@ -26,7 +26,9 @@ export default function PageTitle({ TitleDetails }: PageTitle) {
               {item.href && !isLast ? (
                 <Link href={item.href}>{item.label}</Link>
               ) : (
-                <span className={isLast ? "text-black" : ""}>{item.label}</span>
+                <span className={isLast ? "text-[#0E5FD9]" : ""}>
+                  {item.label}
+                </span>
               )}
               {!isLast && <FaAngleRight />}
             </span>

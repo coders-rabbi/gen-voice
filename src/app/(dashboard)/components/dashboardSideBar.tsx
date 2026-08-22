@@ -19,9 +19,9 @@ const navItems = [
   { label: "Register Users", path: "/dashboard/register-user" },
   { label: "All posts", path: "/dashboard/all-post" },
   { label: "All Polls", path: "/dashboard/all-poll" },
-  { label: "User & Rolls", path: "/dashboard/orderHistory" },
-  { label: "Website Configuration", path: "/dashboard/orderHistory" },
-  { label: "Setting", path: "/dashboard/orderHistory" },
+  { label: "User & Rolls", path: "/dashboard/user-roll" },
+  { label: "Website Configuration", path: "/dashboard/web-config" },
+  { label: "Setting", path: "/dashboard/setting" },
 ];
 
 const DashboardSidebar = ({
