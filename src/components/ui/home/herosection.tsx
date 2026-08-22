@@ -4,13 +4,13 @@ import breakingImage from "@/assets/home/Frame.png";
 import img01 from "@/assets/home/Image1.png";
 import TechnologyCard from "./components/technology";
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllBlog } from "@/services/postService";
 import Link from "next/link";
 import { HeroSectionCarousel } from "./components/heroSectionCarousel";
 import { IPost } from "@/types/blogs";
+import { getAllNews } from "@/services/news";
 
 const Herosection = async () => {
-  const posts: IPost[] = await getAllBlog();
+  const posts: IPost[] = await getAllNews();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 ">

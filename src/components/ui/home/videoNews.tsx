@@ -12,11 +12,11 @@ import SideCategory from "./components/sideCategory";
 import VoteOpinion from "./components/voteOpinion";
 import CaltureSideBar from "./components/caltureSideBar";
 import BusinessSideBar from "./components/businessSideBar";
-import { getAllBlog } from "@/services/postService";
 import { IPost } from "@/types/blogs";
+import { getAllNews } from "@/services/news";
 
 const VideoNews = async () => {
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const VideoNews: IPost[] = data.filter(
     (item) => item.category === "Video News",
   );

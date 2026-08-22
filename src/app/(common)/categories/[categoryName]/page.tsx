@@ -2,7 +2,7 @@ import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
 import { IoIosArrowForward } from "react-icons/io";
-import { getAllBlog } from "@/services/postService";
+import { getAllNews } from "@/services/news";
 
 interface CategoryPageProps {
   params: Promise<{
@@ -16,7 +16,7 @@ const page = async ({ params }: CategoryPageProps) => {
   const formattedCategory =
     categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
 
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const posts = data.filter((item) => item.category === formattedCategory);
   return (
     <div className="min-h-screen">

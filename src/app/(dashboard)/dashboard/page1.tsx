@@ -4,10 +4,10 @@ import NewsCardVertical from "@/components/newsCardVertical";
 import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import PostSatisfactionReaction from "@/components/dashboard/postSatisfactionReaction";
 import ProfileInfo from "@/components/dashboard/profileInfo";
-import { getAllBlog } from "@/services/postService";
+import { getAllNews } from "@/services/news";
 
 const page = async () => {
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const myPosts = data.filter((item) => item.writers_id === "WR-202601");
   return (
     <div className="">

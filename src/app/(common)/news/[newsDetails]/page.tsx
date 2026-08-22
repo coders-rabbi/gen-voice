@@ -13,9 +13,9 @@ import img from "@/assets/news/img2.jpg";
 import Advertisement from "@/components/advertisement";
 import WritesCard from "@/components/ui/home/components/writesCard";
 import manImg from "@/assets/home/man.jpg";
-import { getAllBlog } from "@/services/postService";
 import { getAllWriters } from "@/services/writerService";
 import { IWriter } from "@/types/wrtiers";
+import { getAllNews } from "@/services/news";
 
 interface PageProps {
   params: Promise<{
@@ -27,7 +27,7 @@ const page = async ({ params }: PageProps) => {
 
   const postId = Number(newsDetails);
 
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const post = data.filter((post) => post.postId === postId);
 
   const writers: IWriter[] = await getAllWriters();

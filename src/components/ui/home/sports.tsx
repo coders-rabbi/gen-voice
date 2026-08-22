@@ -1,11 +1,11 @@
 import Advertisement from "@/components/advertisement";
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllBlog } from "@/services/postService";
+import { getAllNews } from "@/services/news";
 import Link from "next/link";
 import React from "react";
 
 const Sports = async () => {
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const posts = data.filter((item) => item.category === "Sport");
   return (
     <div>

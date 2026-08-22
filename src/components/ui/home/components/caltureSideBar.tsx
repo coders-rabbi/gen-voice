@@ -8,10 +8,10 @@ import basket from "@/assets/home/basket.jpg";
 import football from "@/assets/home/football.jpg";
 import boxing from "@/assets/home/boxing.jpg";
 import PoliticsSideCard from "./politicsSideCard";
-import { getAllBlog } from "@/services/postService";
+import { getAllNews } from "@/services/news";
 
 const CaltureSideBar = async () => {
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const posts = data.filter((item)=> item?.category === "Politics")
   return (
     <div className="mt-4">

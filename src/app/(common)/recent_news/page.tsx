@@ -1,11 +1,11 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllBlog } from "@/services/postService";
 import { IPost } from "@/types/blogs";
+import { getAllNews } from "@/services/news";
 
 const RecentNews4 = async () => {
-  const blogs = await getAllBlog();
+  const blogs = await getAllNews();
   return (
     <div className="min-h-screen">
       <Image

@@ -1,14 +1,16 @@
 import PageTitle from "../../components/page-Title";
 import Link from "next/link";
-import { FaArrowLeft, FaUserShield } from "react-icons/fa6";
-import { RiUserSettingsLine } from "react-icons/ri";
+import { FaArrowLeft } from "react-icons/fa6";
+import { TiContacts } from "react-icons/ti";
+
+import { MdContactMail } from "react-icons/md";
 
 const TitleDetails = {
-  title: "User Management",
+  title: "Website Configuration",
   subtitle: "Manage user roles and configure granular permissions for each.",
   breadcrumbs: [
     { label: "Home", href: "/dashboard" },
-    { label: "User & Management" },
+    { label: "Website Configuration" },
   ],
 };
 
@@ -29,18 +31,18 @@ const page = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
         <Link
-          href="user-roll/role-management"
+          href=""
           className="flex flex-col items-center gap-7 border border-[#CFDFF7] rounded-md p-5"
         >
-          <FaUserShield className="text-4xl text-[#005CE8]" />
-          <h3>Roll Management</h3>
+          <TiContacts className="text-4xl text-[#005CE8]" />
+          <h3>About Us</h3>
         </Link>
         <Link
-          href="user-roll/user-management"
+          href=""
           className="flex flex-col items-center gap-7 border border-[#CFDFF7] rounded-md p-5"
         >
-          <RiUserSettingsLine className="text-4xl text-[#005CE8]" />
-          <h3>User Management</h3>
+          <MdContactMail className="text-4xl text-[#005CE8]" />
+          <h3>Contact Information</h3>
         </Link>
       </div>
     </div>

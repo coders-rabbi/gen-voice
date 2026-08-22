@@ -10,6 +10,8 @@ type Props = {
 
 const AddCategoryModal = ({ isOpen, onClose }: Props) => {
   const [categoryName, setCategoryName] = useState("");
+  const [categoryNameBn, setCategoryNameBn] = useState(""); // দ্বিতীয় ফিল্ডের জন্য (যেমন বাংলা নাম বা আলাদা field)
+  const [categoryDescription, setCategoryDescription] = useState("");
 
   if (!isOpen) return null;
 
@@ -18,23 +20,29 @@ const AddCategoryModal = ({ isOpen, onClose }: Props) => {
 
     const formData = {
       categoryName,
+      categoryNameBn,
+      categoryDescription,
     };
 
     console.log(formData);
 
     // reset & close
     setCategoryName("");
+    setCategoryNameBn("");
+    setCategoryDescription("");
     onClose();
   };
 
   const handleCancel = () => {
     setCategoryName("");
+    setCategoryNameBn("");
+    setCategoryDescription("");
     onClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-2xl w-105 p-6 shadow-lg">
+      <div className="bg-white rounded-2xl w-4xl p-6 shadow-lg">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold">Add Category</h2>
           <button
@@ -46,16 +54,46 @@ const AddCategoryModal = ({ isOpen, onClose }: Props) => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
+            <div>
+              <label className="block text-sm text-gray-700 mb-2">
+                Category Name
+              </label>
+              <input
+                type="text"
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
+                placeholder="Write here...."
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-700 mb-2">
+                Category Name (Bangla)
+              </label>
+              <input
+                type="text"
+                value={categoryNameBn}
+                onChange={(e) => setCategoryNameBn(e.target.value)}
+                placeholder="Write here...."
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="mb-5">
             <label className="block text-sm text-gray-700 mb-2">
-              Category Name
+              Category Description
             </label>
-            <input
-              type="text"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+            <textarea
+              value={categoryDescription}
+              onChange={(e) => setCategoryDescription(e.target.value)}
               placeholder="Write here...."
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
+              rows={4}
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 resize-none"
               required
             />
           </div>

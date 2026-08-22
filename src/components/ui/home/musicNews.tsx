@@ -1,12 +1,12 @@
 import Advertisement from "@/components/advertisement";
 import NewsCardVertical from "@/components/newsCardVertical";
-import { getAllBlog } from "@/services/postService";
+import { getAllNews } from "@/services/news";
 import { IPost } from "@/types/blogs";
 import Link from "next/link";
 import { MdArrowForwardIos } from "react-icons/md";
 
 const MusicNews = async () => {
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const posts: IPost[] = data.filter((item) => item?.category === "Music");
   return (
     <div className="mt-12">

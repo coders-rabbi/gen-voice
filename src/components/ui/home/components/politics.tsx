@@ -1,17 +1,12 @@
 import Link from "next/link";
-import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
-import cycleMan from "@/assets/home/cycle.jpg";
 import Image from "next/image";
 import { CiCalendar } from "react-icons/ci";
-import basket from "@/assets/home/basket.jpg";
-import football from "@/assets/home/football.jpg";
-import boxing from "@/assets/home/boxing.jpg";
 import PoliticsSideCard from "./politicsSideCard";
-import { getAllBlog } from "@/services/postService";
+import { getAllNews } from "@/services/news";
 
 const Politics = async () => {
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const posts = data.filter((item) => item.category === "Politics");
   return (
     <div>

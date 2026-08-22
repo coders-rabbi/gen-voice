@@ -6,11 +6,11 @@ import Image from "next/image";
 import { CiCalendar } from "react-icons/ci";
 import sideBarImage from "@/assets/home/sidebarimage.jpg";
 import BusinessSideCart from "./businessSideCart";
-import { getAllBlog } from "@/services/postService";
 import { IPost } from "@/types/blogs";
+import { getAllNews } from "@/services/news";
 
 const BusinessSideBar = async () => {
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const posts: IPost[] = data.filter((item) => item.category === "Business");
   return (
     <div className="mt-6">

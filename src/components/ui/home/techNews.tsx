@@ -1,12 +1,12 @@
 import Advertisement from "@/components/advertisement";
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllBlog } from "@/services/postService";
+import { getAllNews } from "@/services/news";
 import Link from "next/link";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 
 const TechNews = async () => {
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const posts = data.filter((post) => post.category === "Technology");
   return (
     <div className="mt-12">

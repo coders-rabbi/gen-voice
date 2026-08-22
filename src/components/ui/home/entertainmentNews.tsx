@@ -1,11 +1,11 @@
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllBlog } from "@/services/postService";
+import { getAllNews } from "@/services/news";
 import Link from "next/link";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 
 const EntertainmentNews = async () => {
-  const data = await getAllBlog();
+  const data = await getAllNews();
   const posts = data.filter((item) => item.category === "Entertainment");
   return (
     <div>
