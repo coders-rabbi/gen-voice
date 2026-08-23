@@ -1,4 +1,4 @@
-import { ChevronDown, MoreHorizontalIcon } from "lucide-react";
+import { MoreHorizontalIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,8 @@ import { CiStar } from "react-icons/ci";
 import { FaTrash } from "react-icons/fa6";
 import user from "@/assets/dashboard/user.jpg";
 import Image from "next/image";
+import { getAllNewsCategories } from "@/services/category";
+import NewsFilter from "./newsFillter";
 
 const postsData = [
   {
@@ -165,63 +167,13 @@ const postsData = [
     createdDate: "12-07-26",
   },
 ];
+const PostTable = async () => {
+  const categories = await getAllNewsCategories();
 
-export function PostTable() {
   return (
     <div className="border mt-5">
-      <div className="flex justify-between items-center p-2.5">
-        <div className="flex items-center gap-2 w-full max-w-sm px-3 py-2  border rounded-lg">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-4 h-4 text-gray-500 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
-            />
-          </svg>
-          <input
-            type="text"
-            placeholder="Search users, posts, polls....."
-            className="w-full bg-transparent text-sm text-gray-600 placeholder-gray-400 outline-none"
-          />
-        </div>
+      <NewsFilter categories={categories} />
 
-        <div className="relative w-fit">
-          <select
-            defaultValue="all"
-            className="appearance-none px-4 py-2 pr-9 border border-gray-300 rounded-lg text-sm text-gray-800 bg-white cursor-pointer outline-none"
-          >
-            <option value="all">All Category</option>
-            <option value="food">Food</option>
-            <option value="technology">Technology</option>
-            <option value="travel">Travel</option>
-          </select>
-
-          {/* dropdown arrow */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-4 h-4 text-gray-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-            fill="none"
-            viewBox="0 0 20 20"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </div>
-      </div>
-
-      {/* overflow-x-auto: টেবিল ছোট স্ক্রিনে ভাংবে না, বরং scroll হবে */}
       <div className="overflow-x-auto">
         <Table className="border">
           <TableHeader>
@@ -239,7 +191,6 @@ export function PostTable() {
           <TableBody className="text-xs">
             {postsData.map((item) => (
               <TableRow key={item.id}>
-                {/* Post: image + truncated title */}
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-2 max-w-[160px]">
                     <Image
@@ -253,7 +204,6 @@ export function PostTable() {
                   </div>
                 </TableCell>
 
-                {/* Author: image + truncated name */}
                 <TableCell className="text-[#525252]">
                   <div className="flex items-center gap-2 max-w-[140px]">
                     <Image
@@ -268,7 +218,7 @@ export function PostTable() {
                 </TableCell>
 
                 <TableCell className="font-medium text-[#525252]">
-                  <p className="text-[#0088FF]  bg-[#DFECFF] border border-[#0088FF] w-fit py-1 px-3 rounded-2xl">
+                  <p className="text-[#0088FF] bg-[#DFECFF] border border-[#0088FF] w-fit py-1 px-3 rounded-2xl">
                     {item?.category}
                   </p>
                 </TableCell>
@@ -339,4 +289,6 @@ export function PostTable() {
       </div>
     </div>
   );
-}
+};
+
+export default PostTable;

@@ -35,7 +35,9 @@ const page = () => {
           <div className="flex gap-6 w-full">
             {/* Title Input Field */}
             <div className="w-1/2">
-              <legend className="fieldset-legend mb-2 block text-black">Title</legend>
+              <legend className="fieldset-legend mb-2 block text-black">
+                Title
+              </legend>
               <input
                 type="text"
                 className="input validator bg-[#EAF3FF] rounded-[10px] w-full text-black"
@@ -45,7 +47,9 @@ const page = () => {
 
             {/* Add Tag Input Field */}
             <div className="w-1/2">
-              <legend className="fieldset-legend mb-2 block text-black">Add Tag</legend>
+              <legend className="fieldset-legend mb-2 block text-black">
+                Add Tag
+              </legend>
               <label className="input validator bg-[#EAF3FF] rounded-[10px] w-full flex items-center justify-between px-3">
                 <input
                   type="text"

@@ -1,7 +1,7 @@
 "use client";
 import PageTitle from "../../components/page-Title";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PostTable } from "./components/postTable";
+import PostTable from "./components/postTable";
 
 const TitleDetails = {
   title: "All Posts",

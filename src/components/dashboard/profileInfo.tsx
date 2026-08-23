@@ -9,49 +9,52 @@ import { FaUserEdit } from "react-icons/fa";
 
 const ProfileInfo = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 mt-2.5 px-4">
-      {/* <div className="flex gap-2.5 items-center">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-2.5 px-4">
+      {/* Image + Name */}
+      <div className="flex gap-2.5 items-center shrink-0">
         <Image
           src={manImage}
           alt="gen voice"
-          className="w-20 h-20 object-cover rounded-[12px]"
+          className="w-16 h-16 md:w-20 md:h-20 object-cover rounded-[12px]"
         />
-        <h2 className="text-[16px] font-medium">Louis Hoebregts</h2>
-      </div> */}
-      <div className="md:col-span-9 gap-5 md:gap-10 flex-wrap">
-        <p className="flex items-center gap-2.5 text-sm text-[#3E3232BF] text-[#3E3232BF]">
+        <h2 className="text-sm md:text-[16px] font-medium">Louis Hoebregts</h2>
+      </div>
+
+      {/* Stats */}
+      <div className="flex flex-wrap gap-x-5 gap-y-2 md:gap-x-10">
+        <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
           <FaStar className="text-[#3385FF]" /> Rate : 4.2
         </p>
-        <p className="flex items-center gap-2.5 text-sm text-[#3E3232BF] text-[#3E3232BF]">
+        <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
           <FaUser className="text-[#3385FF]" /> Rate : 4.2
         </p>
-        <p className="flex items-center gap-2.5 text-sm text-[#3E3232BF] text-[#3E3232BF]">
+        <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
           <FaUser className="text-[#3385FF]" /> Rate : 4.2
         </p>
-        <p className="flex items-center gap-2.5 text-sm text-[#3E3232BF] text-[#3E3232BF]">
+        <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
           <MdOutlinePostAdd className="text-[#3385FF]" /> Rate : 4.2
         </p>
-        <p className="flex items-center gap-2.5 text-sm text-[#3E3232BF] text-[#3E3232BF]">
+        <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
           <PiNotebookBold className="text-[#3385FF]" /> Rate : 4.2
         </p>
       </div>
-      <div className="md:col-span-3 gap-4">
-        <div className="flex gap-2">
-          <Link
-            href="/dashboard/edit_profile"
-            className="flex items-center gap-2.5 text-[#3385FF] text-xs py-2.5 pl-4 pr-6 border rounded-[12px]"
-          >
-            <FaUserEdit />
-            Edit Profile
-          </Link>
-          <Link
-            href="dashboard/create_post"
-            className="flex items-center gap-2.5 text-white bg-[#3385FF] py-2.5 pl-4 pr-6 border rounded-[12px]"
-          >
-            <FaPlus />
-            Create Post
-          </Link>
-        </div>
+
+      {/* Buttons */}
+      <div className="flex flex-wrap gap-2 shrink-0">
+        <Link
+          href="/dashboard/edit_profile"
+          className="flex items-center justify-center gap-2 text-[#3385FF] text-xs py-2.5 px-4 border rounded-[12px] whitespace-nowrap"
+        >
+          <FaUserEdit />
+          Edit Profile
+        </Link>
+        <Link
+          href="/dashboard/create_post"
+          className="flex items-center justify-center gap-2 text-white bg-[#3385FF] text-xs py-2.5 px-4 border rounded-[12px] whitespace-nowrap"
+        >
+          <FaPlus />
+          Create Post
+        </Link>
       </div>
     </div>
   );

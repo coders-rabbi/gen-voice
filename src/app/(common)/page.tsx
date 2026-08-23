@@ -7,8 +7,7 @@ import SportsWidget from "@/components/ui/home/sportsWidget";
 import TechNews from "@/components/ui/home/techNews";
 import TopWrite from "@/components/ui/home/topWrite";
 import VideoNews from "@/components/ui/home/videoNews";
-import WeatherWidget from "@/components/ui/home/weatherWidget";
-import React from "react";
+// import WeatherWidget from "@/components/ui/home/weatherWidget";
 
 const Home = () => {
   return (
