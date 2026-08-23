@@ -1,30 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Swal from "sweetalert2";
-import { createNewsCategory } from "@/services/category";
+import { TCategory } from "@/types/category";
+import { updateNewsCategory } from "@/services/category";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
+  category: TCategory | null;
 };
 
-const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
+const UpdateCategoryModal = ({
+  isOpen,
+  onClose,
+  onSuccess,
+  category,
+}: Props) => {
   const [categoryName, setCategoryName] = useState("");
-  const [slug, setSlug] = useState("");
-  const [description, setDescription] = useState("");
   const [isFeatured, setIsFeatured] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (category) {
+      setCategoryName(category.categoryName ?? "");
+      setIsFeatured(category.isFeatured ?? false);
+    }
+  }, [category]);
+
+  if (!isOpen || !category) return null;
 
   const resetForm = () => {
     setCategoryName("");
-    setSlug("");
-    setDescription("");
     setIsFeatured(false);
     setError(null);
   };
@@ -34,18 +44,19 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
     setError(null);
     setIsSubmitting(true);
 
+    const payload = {
+      categoryName,
+      isFeatured,
+    };
+
     try {
-      await createNewsCategory({
-        categoryName,
-        slug,
-        description,
-        isFeatured,
-      });
+      const result = await updateNewsCategory(category._id, payload);
+      console.log("Update success:", result);
 
       Swal.fire({
         icon: "success",
-        title: "Added",
-        text: `"${categoryName}"Category successfully created.`,
+        title: "Updated",
+        text: result.message,
         timer: 2000,
         showConfirmButton: false,
       });
@@ -54,10 +65,15 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
       resetForm();
       onClose();
     } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Category আপডেট করা যায়নি।";
+
+      setError(message);
+
       Swal.fire({
         icon: "error",
         title: "Failed",
-        text: "Category তৈরি করা যায়নি। আবার চেষ্টা করুন।",
+        text: message,
       });
     } finally {
       setIsSubmitting(false);
@@ -73,7 +89,7 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 md:px-0">
       <div className="bg-white rounded-2xl w-4xl p-6 shadow-lg">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold">Add Category</h2>
+          <h2 className="text-xl font-semibold">Update Category</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-800"
@@ -83,49 +99,20 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
-            <div>
-              <label className="block text-sm text-gray-700 mb-2">
-                Category Name
-              </label>
-              <input
-                type="text"
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-                placeholder="Write here...."
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-2">Slug</label>
-              <input
-                type="text"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-                placeholder="Write here...."
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
-                required
-              />
-            </div>
-          </div>
-
           <div className="mb-5">
             <label className="block text-sm text-gray-700 mb-2">
-              Category Description
+              Category Name
             </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+            <input
+              type="text"
+              value={categoryName}
+              onChange={(e) => setCategoryName(e.target.value)}
               placeholder="Write here...."
-              rows={4}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 resize-none"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
               required
             />
           </div>
 
-          {/* Featured Category Toggle */}
           <div className="flex items-center justify-between mb-6 border border-gray-200 rounded-xl px-4 py-3">
             <span className="text-sm text-gray-700 font-medium">
               Featured Category
@@ -161,7 +148,7 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
               disabled={isSubmitting}
               className="flex-1 bg-[#005CE8] text-white rounded-xl py-3 font-medium hover:bg-blue-700 disabled:opacity-50"
             >
-              {isSubmitting ? "Adding..." : "Add"}
+              {isSubmitting ? "Updating..." : "Update"}
             </button>
           </div>
         </form>
@@ -170,4 +157,4 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
   );
 };
 
-export default AddCategoryModal;
+export default UpdateCategoryModal;

@@ -6,7 +6,7 @@ import TechnologyCard from "./components/technology";
 import NewsCard from "@/components/newsCardHorizontal";
 import Link from "next/link";
 import { HeroSectionCarousel } from "./components/heroSectionCarousel";
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 import { getAllNews } from "@/services/news";
 
 const Herosection = async () => {

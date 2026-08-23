@@ -1,4 +1,4 @@
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 import Link from "next/link";
 import { CiCalendar } from "react-icons/ci";
 interface VideoNewsProps {

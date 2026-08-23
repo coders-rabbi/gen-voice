@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PageTitle from "../../components/page-Title";
 import CategoriesCard from "./components/categoriesCard";
 import { FaArrowLeft, FaPlus } from "react-icons/fa6";
 import AddCategoryModal from "./components/addCategoryModal";
+import { getAllNewsCategories } from "@/services/category";
+import { TCategory } from "@/types/category";
+import UpdateCategoryModal from "./components/updateCategoryModal";
 
 const TitleDetails = {
   title: "Categories",
@@ -13,34 +16,33 @@ const TitleDetails = {
   breadcrumbs: [{ label: "Home", href: "/dashboard" }, { label: "Categories" }],
 };
 
-export type TCategory = {
+export type TCategry = {
   id: number;
   title: string;
   featured: boolean;
   posts: number;
 };
 
-const Categories: TCategory[] = [
-  { id: 1, title: "Technology", featured: true, posts: 18 },
-  { id: 2, title: "Business", featured: true, posts: 18 },
-  { id: 3, title: "Politics", featured: false, posts: 18 },
-  { id: 4, title: "Music", featured: false, posts: 18 },
-  { id: 5, title: "Featured", featured: false, posts: 18 },
-  { id: 6, title: "Fashion", featured: false, posts: 18 },
-  { id: 7, title: "Food", featured: false, posts: 11 },
-  { id: 8, title: "Travel", featured: false, posts: 18 },
-  { id: 9, title: "Animal", featured: false, posts: 30 },
-  { id: 10, title: "Car", featured: false, posts: 11 },
-  { id: 11, title: "Abstract", featured: false, posts: 18 },
-  { id: 12, title: "Healthy Living", featured: false, posts: 11 },
-  { id: 13, title: "Featured", featured: false, posts: 18 },
-  { id: 14, title: "Fashion", featured: false, posts: 18 },
-  { id: 15, title: "Food", featured: false, posts: 11 },
-  { id: 16, title: "Travel", featured: false, posts: 18 },
-];
-
 const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [categories, setCategories] = useState<TCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await getAllNewsCategories();
+      setCategories(data ?? []);
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div>
@@ -63,16 +65,17 @@ const Page = () => {
           </button>
         </div>
       </div>
-
+      {/* <p>Test: {categories.length}</p> */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
-        {Categories.map((item) => (
-          <CategoriesCard key={item.id} item={item} />
+        {categories.map((item) => (
+          <CategoriesCard key={item._id} item={item} onUpdated={fetchData} />
         ))}
       </div>
 
       <AddCategoryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onSuccess={fetchData} // ✅
       />
     </div>
   );

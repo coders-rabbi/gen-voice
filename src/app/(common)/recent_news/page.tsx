@@ -1,7 +1,7 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 import { getAllNews } from "@/services/news";
 
 const RecentNews4 = async () => {

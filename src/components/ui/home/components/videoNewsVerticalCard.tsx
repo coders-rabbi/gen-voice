@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { CiCalendar } from "react-icons/ci";
 import { IoIosTime } from "react-icons/io";
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 
 interface VideoNewsVerticalCardProps {
   videoNews?: IPost;

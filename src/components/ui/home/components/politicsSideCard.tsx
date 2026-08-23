@@ -3,7 +3,7 @@ import React from "react";
 import { CiCalendar } from "react-icons/ci";
 import basket from "@/assets/home/basket.jpg";
 import Image from "next/image";
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 interface NewsCardProps {
   post: IPost;
 }

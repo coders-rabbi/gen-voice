@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo/logo.svg";
 
-const Navber = () => {
+const Navbar = () => {
   const DesktopNavItems = (
     <>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
@@ -230,4 +230,4 @@ const Navber = () => {
   );
 };
 
-export default Navber;
+export default Navbar;

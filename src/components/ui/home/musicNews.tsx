@@ -1,7 +1,7 @@
 import Advertisement from "@/components/advertisement";
 import NewsCardVertical from "@/components/newsCardVertical";
 import { getAllNews } from "@/services/news";
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 import Link from "next/link";
 import { MdArrowForwardIos } from "react-icons/md";
 

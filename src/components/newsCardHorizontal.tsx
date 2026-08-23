@@ -2,7 +2,7 @@ import Image from "next/image";
 import img04 from "@/assets/home/img4.jpg";
 import manimg from "@/assets/home/man.jpg";
 import { GoBookmark } from "react-icons/go";
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 import Link from "next/link";
 
 interface NewsCardProps {

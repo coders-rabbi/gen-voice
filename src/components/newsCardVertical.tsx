@@ -1,7 +1,7 @@
 import Image from "next/image";
 import manimg from "@/assets/home/man.jpg";
 import { GoBookmark } from "react-icons/go";
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 
 interface postsProps {
   posts: IPost;

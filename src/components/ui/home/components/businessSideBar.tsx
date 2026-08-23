@@ -6,7 +6,7 @@ import Image from "next/image";
 import { CiCalendar } from "react-icons/ci";
 import sideBarImage from "@/assets/home/sidebarimage.jpg";
 import BusinessSideCart from "./businessSideCart";
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 import { getAllNews } from "@/services/news";
 
 const BusinessSideBar = async () => {

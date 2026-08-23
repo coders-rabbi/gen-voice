@@ -12,7 +12,7 @@ import SideCategory from "./components/sideCategory";
 import VoteOpinion from "./components/voteOpinion";
 import CaltureSideBar from "./components/caltureSideBar";
 import BusinessSideBar from "./components/businessSideBar";
-import { IPost } from "@/types/blogs";
+import { IPost } from "@/types/news";
 import { getAllNews } from "@/services/news";
 
 const VideoNews = async () => {
