@@ -29,7 +29,7 @@ const OverviewCard = ({ userData, newsData }: userProps) => {
     (item) => item?.status === "published",
   ).length;
   const pendingNews = newsData.filter(
-    (item) => item?.status === "preview",
+    (item) => item?.status === "pending",
   ).length;
   const rejectNews = newsData.filter(
     (item) => item?.status === "reject",

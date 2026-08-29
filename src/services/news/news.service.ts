@@ -24,9 +24,6 @@ export const getHomePageCategoryNews = async (): Promise<THomePageNews> => {
   });
 };
 
-const HARDCODED_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNvZGVyc3JhYmJpQGdtYWlsLmNvbSIsInJvbGUiOiJyZXBvcnRlciIsImlzRGVsZXRlZCI6ZmFsc2UsImlhdCI6MTc4Nzk0MDIwMiwiZXhwIjoxNzg4MDI2NjAyfQ.kc0vxbf0XWJqck7uR7mi3ngS7h_bhdcTYJqeLIf92UU";
-
 export const createNews = async (
   payload: TNewsPayload,
   token: string,
@@ -35,7 +32,7 @@ export const createNews = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${HARDCODED_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
   });

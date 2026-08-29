@@ -1,5 +1,6 @@
+import { getAllNews } from "@/services/news/news.service";
 import PageTitle from "../../components/page-Title";
-import PostTable from "./components/postTable";
+import NewsTable from "./components/newsTable";
 import TabsClient from "./components/tabsClient";
 
 const TitleDetails = {
@@ -8,13 +9,14 @@ const TitleDetails = {
   breadcrumbs: [{ label: "Home", href: "/dashboard" }, { label: "Posts" }],
 };
 
-const page = () => {
+const page = async () => {
+  const newsData = await getAllNews();
   return (
     <div>
       <PageTitle TitleDetails={TitleDetails} />
       <div className="mt-5">
         <TabsClient />
-        <PostTable />
+        <NewsTable newsData={newsData} />
       </div>
     </div>
   );

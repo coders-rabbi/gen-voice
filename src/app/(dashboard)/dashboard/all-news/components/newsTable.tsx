@@ -24,151 +24,16 @@ import user from "@/assets/dashboard/user.jpg";
 import Image from "next/image";
 import { getAllNewsCategories } from "@/services/category";
 import NewsFilter from "./newsFillter";
+import { TNews } from "@/types/news";
 
-const postsData = [
-  {
-    id: 1,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-1.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Culture",
-    views: 5498,
-    comments: 5498,
-    status: "Published",
-    createdDate: "12-07-26",
-  },
-  {
-    id: 2,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-2.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Fashion",
-    views: null,
-    comments: null,
-    status: "Pending",
-    createdDate: "12-07-26",
-  },
-  {
-    id: 3,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-3.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Food",
-    views: 5498,
-    comments: 5498,
-    status: "Published",
-    createdDate: "12-07-26",
-  },
-  {
-    id: 4,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-4.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Travel",
-    views: null,
-    comments: null,
-    status: "Pending",
-    createdDate: "12-07-26",
-  },
-  {
-    id: 5,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-5.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Fashion",
-    views: 5498,
-    comments: 5498,
-    status: "Published",
-    createdDate: "12-07-26",
-  },
-  {
-    id: 6,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-6.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Business",
-    views: 5498,
-    comments: 5498,
-    status: "Rejected",
-    createdDate: "12-07-26",
-  },
-  {
-    id: 7,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-7.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Travel",
-    views: 5498,
-    comments: 5498,
-    status: "Published",
-    createdDate: "12-07-26",
-  },
-  {
-    id: 8,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-8.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Business",
-    views: 5498,
-    comments: 5498,
-    status: "Published",
-    createdDate: "12-07-26",
-  },
-  {
-    id: 9,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-9.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Business",
-    views: 5498,
-    comments: 5498,
-    status: "Published",
-    createdDate: "12-07-26",
-  },
-  {
-    id: 10,
-    title: "New AI Policy Announcement",
-    thumbnail: "/thumbnails/post-10.jpg",
-    author: {
-      name: "Lana Steiner",
-      avatar: "/avatars/lana-steiner.jpg",
-    },
-    category: "Business",
-    views: 5498,
-    comments: 5498,
-    status: "Published",
-    createdDate: "12-07-26",
-  },
-];
-const PostTable = async () => {
+interface newsProps {
+  newsData: TNews[];
+}
+
+const NewsTable = async ({ newsData }: newsProps) => {
   const categories = await getAllNewsCategories();
+
+  
 
   return (
     <div className="border mt-5">
@@ -178,7 +43,7 @@ const PostTable = async () => {
         <Table className="border">
           <TableHeader>
             <TableRow>
-              <TableHead>Post</TableHead>
+              <TableHead>News</TableHead>
               <TableHead>Author</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Views</TableHead>
@@ -189,8 +54,8 @@ const PostTable = async () => {
             </TableRow>
           </TableHeader>
           <TableBody className="text-xs">
-            {postsData.map((item) => (
-              <TableRow key={item.id}>
+            {newsData.map((item) => (
+              <TableRow key={item?._id}>
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-2 max-w-[160px]">
                     <Image
@@ -213,30 +78,24 @@ const PostTable = async () => {
                       height={40}
                       className="rounded-full shrink-0 size-10 object-cover"
                     />
-                    <p className="truncate min-w-0">{item?.author?.name}</p>
+                    <p className="truncate min-w-0">
+                      {item?.reporterId?.fullName}
+                    </p>
                   </div>
                 </TableCell>
 
                 <TableCell className="font-medium text-[#525252]">
                   <p className="text-[#0088FF] bg-[#DFECFF] border border-[#0088FF] w-fit py-1 px-3 rounded-2xl">
-                    {item?.category}
+                    {item?.categoryId?.categoryName}
                   </p>
                 </TableCell>
 
                 <TableCell className="font-medium text-[#525252]">
-                  {item?.views ? (
-                    <p>{item?.views}</p>
-                  ) : (
-                    <p className="text-[#FF8200]">N/A</p>
-                  )}
+                  <p className="text-[#FF8200]">N/A</p>
                 </TableCell>
 
                 <TableCell className="font-medium text-[#525252]">
-                  {item?.comments ? (
-                    <p>{item?.comments}</p>
-                  ) : (
-                    <p className="text-[#FF8200]">N/A</p>
-                  )}
+                  <p className="text-[#FF8200]">N/A</p>
                 </TableCell>
 
                 <TableCell className="font-medium">
@@ -246,7 +105,7 @@ const PostTable = async () => {
                 </TableCell>
 
                 <TableCell className="font-medium text-[#525252]">
-                  <p>{item?.createdDate}</p>
+                  <p>{item?.publishAt?.split("T")[0]}</p>
                 </TableCell>
 
                 <TableCell className="text-right">
@@ -291,4 +150,4 @@ const PostTable = async () => {
   );
 };
 
-export default PostTable;
+export default NewsTable;
