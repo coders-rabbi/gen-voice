@@ -37,3 +37,18 @@ export const createNews = async (
     body: JSON.stringify(payload),
   });
 };
+
+export const updateNewsStatus = async (
+  token: string,
+  newsId: string,
+  payload: Partial<TNews>,
+): Promise<ApiResponse<TNews>> => {
+  return apiClientRaw<TNews>(`/news/status/${newsId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+};

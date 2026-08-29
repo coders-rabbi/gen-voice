@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { MoreHorizontalIcon } from "lucide-react";
+import Swal from "sweetalert2";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,15 +29,67 @@ import Image from "next/image";
 import { getAllNewsCategories } from "@/services/category";
 import NewsFilter from "./newsFillter";
 import { TNews } from "@/types/news";
+import { updateNewsStatus } from "@/services/news/news.service";
+import { authkey } from "@/constants/authkey";
+import { TCategory } from "@/types/category";
 
 interface newsProps {
   newsData: TNews[];
 }
 
-const NewsTable = async ({ newsData }: newsProps) => {
-  const categories = await getAllNewsCategories();
+type TStatus = "draft" | "pending" | "published" | "archived" | "reject";
 
-  
+const NewsTable = ({ newsData }: newsProps) => {
+  const [categories, setCategories] = useState<TCategory[]>([]);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+  const token = localStorage.getItem(authkey);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getAllNewsCategories();
+        setCategories(data);
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const handleStatusUpdate = async (id: string, status: TStatus) => {
+    setUpdatingId(id);
+
+    try {
+      if (!token) {
+        return;
+      }
+      const result = await updateNewsStatus(token, id, { status });
+
+      Swal.fire({
+        icon: "success",
+        title: "Updated",
+        text: result?.message ?? "News status updated successfully.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      // TODO: এখানে newsData রিফ্রেশ করার লজিক বসাও
+      // (parent থেকে refetch/router.refresh() কল করা যেতে পারে)
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "News status আপডেট করা যায়নি।";
+
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: message,
+      });
+    } finally {
+      setUpdatingId(null);
+    }
+  };
 
   return (
     <div className="border mt-5">
@@ -111,7 +167,12 @@ const NewsTable = async ({ newsData }: newsProps) => {
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger>
-                      <Button variant="ghost" size="icon" className="size-8">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-8"
+                        disabled={updatingId === item?._id}
+                      >
                         <MoreHorizontalIcon />
                         <span className="sr-only">Open menu</span>
                       </Button>
@@ -121,11 +182,19 @@ const NewsTable = async ({ newsData }: newsProps) => {
                         <IoMdEye />
                         View/Edit
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#22C55E]">
+                      <DropdownMenuItem
+                        onClick={() =>
+                          handleStatusUpdate(item._id, "published")
+                        }
+                        className="flex items-center gap-1.5 text-[#22C55E]"
+                      >
                         <IoCheckmarkDoneSharp />
                         Approve
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#BA5F00]">
+                      <DropdownMenuItem
+                        onClick={() => handleStatusUpdate(item._id, "reject")}
+                        className="flex items-center gap-1.5 text-[#BA5F00]"
+                      >
                         <IoMdCloseCircleOutline />
                         Rejected
                       </DropdownMenuItem>
@@ -134,7 +203,10 @@ const NewsTable = async ({ newsData }: newsProps) => {
                         Feature
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#C944FD]">
+                      <DropdownMenuItem
+                        onClick={() => handleStatusUpdate(item._id, "archived")}
+                        className="flex items-center gap-1.5 text-[#C944FD]"
+                      >
                         <FaTrash />
                         Archived
                       </DropdownMenuItem>

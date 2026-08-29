@@ -76,7 +76,6 @@ const page = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // 🔽 তোমার আসল API endpoint দিয়ে বদলে দাও
         const res = await fetch("/api/polls/stats");
         const data = await res.json();
         setStats(data);
