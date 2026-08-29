@@ -1,6 +1,6 @@
 import Advertisement from "@/components/advertisement";
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllNews } from "@/services/news";
+import { getAllNews } from "@/services/news/news.service";
 import { TNews } from "@/types/news";
 import Link from "next/link";
 import React from "react";

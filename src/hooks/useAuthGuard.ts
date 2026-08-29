@@ -1,4 +1,3 @@
-// src/hooks/useAuthGuard.ts
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,7 +13,7 @@ export const useAuthGuard = () => {
     const userInfo = getUserInfo();
 
     if (!userInfo?._id) {
-      router.replace("/login"); // তোমার login route অনুযায়ী change করো
+      router.replace("/login");
       return;
     }
 

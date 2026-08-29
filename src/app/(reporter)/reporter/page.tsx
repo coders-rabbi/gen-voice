@@ -4,7 +4,7 @@ import NewsCardVertical from "@/components/newsCardVertical";
 import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import PostSatisfactionReaction from "@/components/dashboard/postSatisfactionReaction";
 import ProfileInfo from "@/components/dashboard/profileInfo";
-import { getAllNews } from "@/services/news";
+import { getAllNews } from "@/services/news/news.service";
 
 const page = async () => {
   const data = await getAllNews();

@@ -1,6 +1,6 @@
 import Advertisement from "@/components/advertisement";
 import NewsCardVertical from "@/components/newsCardVertical";
-import { getAllNews } from "@/services/news";
+import { getAllNews } from "@/services/news/news.service";
 import { TNews } from "@/types/news";
 import Link from "next/link";
 import { MdArrowForwardIos } from "react-icons/md";

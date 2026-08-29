@@ -15,7 +15,7 @@ import { FiPlus } from "react-icons/fi";
 import { MdNoteAdd } from "react-icons/md";
 import { BsSend } from "react-icons/bs";
 import { TCategory } from "@/types/category";
-import { createNews } from "@/services/news"; // adjust path to match your project
+import { createNews } from "@/services/news/news.service"; // adjust path to match your project
 import { TNewsPayload } from "@/types/news"; // adjust path to match your project
 import Swal from "sweetalert2"; // npm install sweetalert2
 import { authkey } from "@/constants/authkey";

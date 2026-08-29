@@ -7,7 +7,7 @@ import NewsCard from "@/components/newsCardHorizontal";
 import Link from "next/link";
 import { HeroSectionCarousel } from "./components/heroSectionCarousel";
 import { TNews } from "@/types/news";
-import { getAllNews } from "@/services/news";
+import { getAllNews } from "@/services/news/news.service";
 
 const Herosection = async () => {
   const allNews: TNews[] = await getAllNews();

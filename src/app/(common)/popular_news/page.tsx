@@ -1,7 +1,7 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllNews } from "@/services/news";
+import { getAllNews } from "@/services/news/news.service";
 const PopularNews = async () => {
   const allNews = await getAllNews();
   return (

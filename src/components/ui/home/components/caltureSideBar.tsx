@@ -8,7 +8,7 @@ import basket from "@/assets/home/basket.jpg";
 import football from "@/assets/home/football.jpg";
 import boxing from "@/assets/home/boxing.jpg";
 import PoliticsSideCard from "./politicsSideCard";
-import { getAllNews } from "@/services/news";
+import { getAllNews } from "@/services/news/news.service";
 
 const CaltureSideBar = async () => {
   const data = await getAllNews();

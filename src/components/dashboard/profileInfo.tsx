@@ -48,7 +48,7 @@ const ProfileInfo = () => {
       {/* Buttons */}
       <div className="flex flex-wrap gap-2 shrink-0">
         <Link
-          href="/dashboard/edit_profile"
+          href="/reporter/edit_profile"
           className="flex items-center justify-center gap-2 text-[#3385FF] text-xs py-2.5 px-4 border rounded-[12px] whitespace-nowrap"
         >
           <FaUserEdit />

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo/logo.svg";
@@ -13,6 +13,15 @@ import { IoMdExit } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { AuthPayload } from "../../../../utils/jwt";
 
+const categories = [
+  { label: "Food", href: "/categories/food" },
+  { label: "Politics", href: "/categories/politics" },
+  { label: "Business", href: "/categories/business" },
+  { label: "Sport", href: "/categories/sport" },
+  { label: "Music", href: "/categories/music" },
+  { label: "Technology", href: "/categories/technology" },
+];
+
 const Navbar = () => {
   const router = useRouter();
   const [userInfo, setUserInfo] = useState<AuthPayload | undefined | null>(
@@ -20,10 +29,35 @@ const Navbar = () => {
   );
   const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
 
+  // ---- Category dropdown (desktop) state ----
+  const [categoryOpen, setCategoryOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const catRef = useRef<HTMLLIElement>(null);
+
   useEffect(() => {
     setUserInfo(getUserInfo());
     setUserLoggedIn(Boolean(isLoggedIn()));
   }, []);
+
+  // close on outside click / tap (helps touch + click users too)
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (catRef.current && !catRef.current.contains(e.target as Node)) {
+        setCategoryOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const openCategory = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setCategoryOpen(true);
+  };
+  const scheduleCloseCategory = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setCategoryOpen(false), 200);
+  };
 
   const handleSingOut = () => {
     removeUser();
@@ -32,6 +66,7 @@ const Navbar = () => {
     router.refresh();
     router.push("/login");
   };
+
   const DesktopNavItems = (
     <>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
@@ -49,16 +84,25 @@ const Navbar = () => {
           Popular News
         </Link>
       </li>
-      {/* ডেক্সটপে DaisyUI এর হোভার-ভিত্তিক ড্রপডাউন সাবমেনু */}
-      <li className="dropdown dropdown-hover">
+
+      {/* Categories dropdown - controlled (no hover-gap issue) */}
+      <li
+        ref={catRef}
+        className="relative"
+        onMouseEnter={openCategory}
+        onMouseLeave={scheduleCloseCategory}
+      >
         <div
           tabIndex={0}
           role="button"
-          className="flex items-center gap-1 text-black hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded px-4 py-2"
+          onClick={() => setCategoryOpen((prev) => !prev)}
+          className="flex items-center gap-1 text-black hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded px-4 py-2 cursor-pointer select-none"
         >
           Categories
           <svg
-            className="h-3 w-3 fill-current"
+            className={`h-3 w-3 fill-current transition-transform duration-150 ${
+              categoryOpen ? "rotate-180" : ""
+            }`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
           >
@@ -69,41 +113,34 @@ const Navbar = () => {
             />
           </svg>
         </div>
-        <ul
-          tabIndex={0}
-          className="dropdown-content menu p-2 bg-white text-black w-40 z-50 shadow-md rounded-box"
-        >
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/food" className="block px-4 py-2">
-              Food
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/politics" className="block px-4 py-2">
-              Politics
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/business" className="block px-4 py-2">
-              Business
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/sport" className="block px-4 py-2">
-              Sport
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/music" className="block px-4 py-2">
-              Music
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/technology" className="block px-4 py-2">
-              Techonolgy
-            </Link>
-          </li>
-        </ul>
+
+        {/* NOTE: pt-2 (padding, not margin) keeps this element flush with
+            the trigger's bottom edge so there is NO dead hover-gap between
+            them, while the visible box is pushed down via padding. */}
+        {categoryOpen && (
+          <ul
+            onMouseEnter={openCategory}
+            onMouseLeave={scheduleCloseCategory}
+            className="absolute left-0 top-full pt-2 w-40 z-50"
+          >
+            <div className="menu p-2 bg-white text-black shadow-md rounded-box">
+              {categories.map((cat) => (
+                <li
+                  key={cat.href}
+                  className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all"
+                >
+                  <Link
+                    href={cat.href}
+                    className="block px-4 py-2"
+                    onClick={() => setCategoryOpen(false)}
+                  >
+                    {cat.label}
+                  </Link>
+                </li>
+              ))}
+            </div>
+          </ul>
+        )}
       </li>
     </>
   );
@@ -128,36 +165,16 @@ const Navbar = () => {
       <li className="text-black">
         <span className="font-semibold px-4 py-2">Categories</span>
         <ul className="p-2 bg-white text-black w-40 z-50 shadow-md">
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/food" className="block px-4 py-2">
-              Food
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/politics" className="block px-4 py-2">
-              Politics
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/business" className="block px-4 py-2">
-              Business
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/sport" className="block px-4 py-2">
-              Sport
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/music" className="block px-4 py-2">
-              Music
-            </Link>
-          </li>
-          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-            <Link href="/categories/technology" className="block px-4 py-2">
-              Techonolgy
-            </Link>
-          </li>
+          {categories.map((cat) => (
+            <li
+              key={cat.href}
+              className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all"
+            >
+              <Link href={cat.href} className="block px-4 py-2">
+                {cat.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </li>
     </>
@@ -171,10 +188,7 @@ const Navbar = () => {
             <Image
               src={logo}
               alt="Gennoice Logo"
-              style={{
-                width: "150px",
-                height: "50px",
-              }}
+              style={{ width: "150px", height: "50px" }}
             />
           </Link>
         </div>
@@ -204,8 +218,8 @@ const Navbar = () => {
             <input type="search" required placeholder="Search Anything" />
           </label>
           {userLoggedIn ? (
-            <>
-              <div className="flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md">
+            <div className="flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md">
+              <Link href="/reporter">
                 <Image
                   src={userImg}
                   alt="user logo"
@@ -213,13 +227,13 @@ const Navbar = () => {
                   width={30}
                   className="rounded-2xl"
                 />
-                <IoMdExit
-                  className="text-2xl text-white hover:text-red-400 cursor-pointer"
-                  onClick={handleSingOut}
-                  title="Logout"
-                />
-              </div>
-            </>
+              </Link>
+              <IoMdExit
+                className="text-2xl text-white hover:text-red-400 cursor-pointer"
+                onClick={handleSingOut}
+                title="Logout"
+              />
+            </div>
           ) : (
             <Link
               href="/login"
@@ -280,17 +294,15 @@ const Navbar = () => {
                   />
                 </label>
                 {userLoggedIn ? (
-                  <>
-                    <div>
-                      <Image
-                        src={userImg}
-                        alt="user logo"
-                        height={40}
-                        width={40}
-                        className="rounded-2xl"
-                      />
-                    </div>
-                  </>
+                  <div>
+                    <Image
+                      src={userImg}
+                      alt="user logo"
+                      height={40}
+                      width={40}
+                      className="rounded-2xl"
+                    />
+                  </div>
                 ) : (
                   <Link
                     href="/login"

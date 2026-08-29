@@ -1,15 +1,45 @@
-
 import { FaCheckToSlot, FaUser } from "react-icons/fa6";
 import { MdArrowOutward } from "react-icons/md";
 import { LuBoxes, LuUsers } from "react-icons/lu";
 import { FiArrowDownRight } from "react-icons/fi";
 import { GiNotebook } from "react-icons/gi";
 import { IoTrashBinSharp } from "react-icons/io5";
+import { TUser } from "@/types/user.type";
+import { TNews } from "@/types/news";
 
-const OverviewCard = () => {
+interface userProps {
+  userData: TUser[];
+  newsData: TNews[];
+}
+
+const OverviewCard = ({ userData, newsData }: userProps) => {
+  const totalUser = userData.length;
+  const activeUsers = userData.filter(
+    (item) => item?.isActive === "active",
+  ).length;
+  const pendingUsers = userData.filter(
+    (item) => item?.isActive === "pending",
+  ).length;
+  const blockedUsers = userData.filter(
+    (item) => item?.isActive === "blocked",
+  ).length;
+
+  // news filter
+  const publishedNews = newsData.filter(
+    (item) => item?.status === "published",
+  ).length;
+  const pendingNews = newsData.filter(
+    (item) => item?.status === "preview",
+  ).length;
+  const rejectNews = newsData.filter(
+    (item) => item?.status === "reject",
+  ).length;
+  const archivedNews = newsData.filter(
+    (item) => item?.status === "archived",
+  ).length;
   return (
     <div>
-     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
         <div className="border rounded-2xl p-5">
           <div className="flex justify-between items-center">
             <h3 className="text-[#4F4F4F] mb-2.5 text-sm font-semibold">
@@ -17,7 +47,7 @@ const OverviewCard = () => {
             </h3>
             <LuUsers className="bg-[#D2FFDB] text-[#00BC26] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">5.1K</p>
+          <p className="text-2xl mb-1.5 font-semibold">{activeUsers}</p>
           <p className="flex items-center text-[#00BC26]">
             <MdArrowOutward />
             +4.7K
@@ -30,7 +60,7 @@ const OverviewCard = () => {
             </h3>
             <LuUsers className="bg-[#FBF2DB] text-[#FF7300] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">40</p>
+          <p className="text-2xl mb-1.5 font-semibold">{pendingUsers}</p>
           <p className="flex items-center text-[#00BC26]">
             <MdArrowOutward />
             +10
@@ -43,7 +73,7 @@ const OverviewCard = () => {
             </h3>
             <LuUsers className="bg-[#FFCACA] text-[#FF0000] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">20</p>
+          <p className="text-2xl mb-1.5 font-semibold">{blockedUsers}</p>
           <p className="flex items-center text-[#FF0000]">
             <FiArrowDownRight />
             -8
@@ -56,7 +86,7 @@ const OverviewCard = () => {
             </h3>
             <LuUsers className="bg-[#DBE5FB] text-[#447DFD] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">5.1K</p>
+          <p className="text-2xl mb-1.5 font-semibold">{totalUser}</p>
           <p className="flex items-center text-[#00BC26]">
             <MdArrowOutward />
             +5.3K
@@ -69,7 +99,7 @@ const OverviewCard = () => {
             </h3>
             <GiNotebook className="bg-[#D2FFDB] text-[#00BC26] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">5.1K</p>
+          <p className="text-2xl mb-1.5 font-semibold">{publishedNews}</p>
           <p className="flex items-center text-[#00BC26]">
             <MdArrowOutward />
             +16.7K
@@ -82,7 +112,7 @@ const OverviewCard = () => {
             </h3>
             <GiNotebook className="bg-[#FBF2DB] text-[#FF7300] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">40</p>
+          <p className="text-2xl mb-1.5 font-semibold">{pendingNews}</p>
           <p className="flex items-center text-[#00BC26]">
             <MdArrowOutward />
             +10
@@ -95,7 +125,7 @@ const OverviewCard = () => {
             </h3>
             <GiNotebook className="bg-[#FFCACA] text-[#FF0000] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">20</p>
+          <p className="text-2xl mb-1.5 font-semibold">{rejectNews}</p>
           <p className="flex items-center text-[#FF0000]">
             <FiArrowDownRight />
             -8
@@ -106,9 +136,9 @@ const OverviewCard = () => {
             <h3 className="text-[#4F4F4F] mb-2.5 text-sm font-semibold">
               Archived News
             </h3>
-            <IoTrashBinSharp className="bg-[#D2FFDB] text-[#00BC26] text-3xl p-1 rounded-md" />
+            <IoTrashBinSharp className="bg-red-100 text-red-500 text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">160</p>
+          <p className="text-2xl mb-1.5 font-semibold">{archivedNews}</p>
           <p className="flex items-center text-[#00BC26]">
             <MdArrowOutward />
             +4

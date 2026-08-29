@@ -11,7 +11,7 @@ import {
 import Advertisement from "@/components/advertisement";
 import ReporterCard from "@/components/ui/home/components/reporterCard";
 import { TReporter } from "@/types/reporter";
-import { getAllNews } from "@/services/news";
+import { getAllNews } from "@/services/news/news.service";
 import { getAllReporter } from "@/services/reporter/reporterService";
 import manImg from "@/assets/home/man.jpg"
 

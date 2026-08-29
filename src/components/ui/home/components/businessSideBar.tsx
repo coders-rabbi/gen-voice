@@ -7,7 +7,7 @@ import { CiCalendar } from "react-icons/ci";
 import sideBarImage from "@/assets/home/sidebarimage.jpg";
 import BusinessSideCart from "./businessSideCart";
 import { IPost } from "@/types/news";
-import { getAllNews } from "@/services/news";
+import { getAllNews } from "@/services/news/news.service";
 
 const BusinessSideBar = async () => {
   const data = await getAllNews();

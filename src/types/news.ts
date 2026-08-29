@@ -19,6 +19,7 @@ export type TNewsStatus =
   | "preview"
   | "approved"
   | "published"
+  | "reject"
   | "archived";
 
 export type TConentType = "Text" | "Video" | "Mixed";

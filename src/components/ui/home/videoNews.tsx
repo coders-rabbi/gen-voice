@@ -13,7 +13,7 @@ import VoteOpinion from "./components/voteOpinion";
 import CaltureSideBar from "./components/caltureSideBar";
 import BusinessSideBar from "./components/businessSideBar";
 import { TNews } from "@/types/news";
-import { getAllVideoNews } from "@/services/news";
+import { getAllVideoNews } from "@/services/news/news.service";
 
 interface politicsNewsProps {
   news: TNews[];

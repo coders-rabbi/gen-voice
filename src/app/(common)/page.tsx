@@ -7,7 +7,7 @@ import SportsWidget from "@/components/ui/home/sportsWidget";
 import TechNews from "@/components/ui/home/techNews";
 import TopWrite from "@/components/ui/home/topWrite";
 import VideoNews from "@/components/ui/home/videoNews";
-import { getHomePageCategoryNews } from "@/services/news";
+import { getHomePageCategoryNews } from "@/services/news/news.service";
 // import WeatherWidget from "@/components/ui/home/weatherWidget";
 
 const Home = async () => {

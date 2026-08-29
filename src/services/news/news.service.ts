@@ -1,5 +1,5 @@
 import { THomePageNews, TNews, TNewsPayload } from "@/types/news";
-import { apiClient, apiClientRaw, ApiResponse } from "./apiClient";
+import { apiClient, apiClientRaw, ApiResponse } from "../apiClient";
 
 export const getAllNews = async (): Promise<TNews[]> => {
   return apiClient<TNews[]>("/news", {

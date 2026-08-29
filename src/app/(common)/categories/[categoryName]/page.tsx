@@ -2,7 +2,7 @@ import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
 import { IoIosArrowForward } from "react-icons/io";
-import { getAllNews } from "@/services/news";
+import { getAllNews } from "@/services/news/news.service";
 
 interface CategoryPageProps {
   params: Promise<{
