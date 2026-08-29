@@ -7,7 +7,6 @@ export type ApiResponse<T> = {
   data: T;
 };
 
-// শুধু data অংশ রিটার্ন করে
 export const apiClient = async <T>(
   endpoint: string,
   options?: RequestInit,
@@ -16,7 +15,6 @@ export const apiClient = async <T>(
   return json.data;
 };
 
-// পুরো response object রিটার্ন করে
 export const apiClientRaw = async <T>(
   endpoint: string,
   options?: RequestInit,
@@ -31,17 +29,12 @@ export const apiClientRaw = async <T>(
     ...options,
   });
 
-  // response ok হোক বা না হোক, আগে body parse করার চেষ্টা করুন
-  // কারণ backend error হলেও JSON body তে { message, success: false, ... } পাঠাতে পারে
   let json: ApiResponse<T> | null = null;
   try {
     json = await response.json();
-  } catch {
-    // body খালি বা JSON না হলে ignore করুন
-  }
+  } catch {}
 
   if (!response.ok) {
-    // ✅ backend এর নিজের error message থাকলে সেটা throw করুন, না থাকলে fallback
     const message =
       json?.message || `API Error: ${response.status} ${response.statusText}`;
     throw new Error(message);

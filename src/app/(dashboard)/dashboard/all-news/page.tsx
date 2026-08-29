@@ -1,7 +1,6 @@
-"use client";
 import PageTitle from "../../components/page-Title";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PostTable from "./components/postTable";
+import TabsClient from "./components/tabsClient";
 
 const TitleDetails = {
   title: "All Posts",
@@ -10,26 +9,11 @@ const TitleDetails = {
 };
 
 const page = () => {
-  const handleTab = (value: string) => {
-    console.log(value);
-  };
   return (
     <div>
       <PageTitle TitleDetails={TitleDetails} />
       <div className="mt-5">
-        <Tabs
-          defaultValue="approved"
-          className="w-[400px]"
-          onValueChange={handleTab}
-        >
-          <TabsList className="bg-[#F0F6FF] p-2">
-            <TabsTrigger value="approved">Approved</TabsTrigger>
-            <TabsTrigger value="pending">Pending</TabsTrigger>
-            <TabsTrigger value="rejected">Rejected</TabsTrigger>
-            <TabsTrigger value="blocked">Blocked</TabsTrigger>
-            <TabsTrigger value="suspended">Suspended</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <TabsClient />
         <PostTable />
       </div>
     </div>

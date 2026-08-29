@@ -1,21 +1,20 @@
 import Image from "next/image";
-import React from "react";
-import img from "@/assets/home/man2.jpg";
-import { FaBookmark, FaEye, FaPlus, FaRegBookmark } from "react-icons/fa6";
+import reporterImage from "@/assets/home/man.jpg";
+import { FaEye, FaPlus, FaRegBookmark } from "react-icons/fa6";
 import Link from "next/link";
-import { IWriter } from "@/types/wrtiers";
+import { TReporter } from "@/types/reporter";
 
-interface writersPrps {
-  writers: IWriter;
+interface reporterProps {
+  reporter: TReporter;
 }
 
-const WritesCard = ({ writers }: writersPrps) => {
+const ReporterCard = ({ reporter }: reporterProps) => {
   return (
     <div>
-      <Link href="/dashboard">
+      <Link href={`/reporters/${reporter?.id}`}>
         <div className="flex items-center gap-2 border p-1.5 w-full rounded-[12px]">
           <Image
-            src={writers?.profile_image}
+            src={reporterImage}
             alt="gen voice"
             width={100}
             height={100}
@@ -23,8 +22,8 @@ const WritesCard = ({ writers }: writersPrps) => {
           />
           <div className="w-full">
             <div className="flex justify-between mb-2">
-              <h3>{writers?.writers_name}</h3>
-              <p className="text-[#3E3232BF]">{writers?.posts} posts</p>
+              <h3>{reporter?.fullName}</h3>
+              <p className="text-[#3E3232BF]">28 news</p>
             </div>
             <div className="flex justify-between items-center">
               <Link
@@ -52,4 +51,4 @@ const WritesCard = ({ writers }: writersPrps) => {
   );
 };
 
-export default WritesCard;
+export default ReporterCard;

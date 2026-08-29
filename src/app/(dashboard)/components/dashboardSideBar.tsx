@@ -17,7 +17,7 @@ const navItems = [
   { label: "Overview", path: "/dashboard" },
   { label: "Categories", path: "/dashboard/categories" },
   { label: "Register Users", path: "/dashboard/register-user" },
-  { label: "All posts", path: "/dashboard/all-news" },
+  { label: "All News", path: "/dashboard/all-news" },
   { label: "All Polls", path: "/dashboard/all-poll" },
   { label: "User & Rolls", path: "/dashboard/user-roll" },
   { label: "Website Configuration", path: "/dashboard/web-config" },

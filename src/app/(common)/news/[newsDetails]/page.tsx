@@ -8,14 +8,12 @@ import {
   FaFile,
   FaRegCommentDots,
 } from "react-icons/fa6";
-import news from "@/assets/news/news.jpg";
-import img from "@/assets/news/img2.jpg";
 import Advertisement from "@/components/advertisement";
-import WritesCard from "@/components/ui/home/components/writesCard";
-import manImg from "@/assets/home/man.jpg";
-import { getAllWriters } from "@/services/writerService";
-import { IWriter } from "@/types/wrtiers";
+import ReporterCard from "@/components/ui/home/components/reporterCard";
+import { TReporter } from "@/types/reporter";
 import { getAllNews } from "@/services/news";
+import { getAllReporter } from "@/services/reporter/reporterService";
+import manImg from "@/assets/home/man.jpg"
 
 interface PageProps {
   params: Promise<{
@@ -25,21 +23,19 @@ interface PageProps {
 const page = async ({ params }: PageProps) => {
   const { newsDetails } = await params;
 
-  const postId = Number(newsDetails);
-
   const data = await getAllNews();
-  const post = data.filter((post) => post.postId === postId);
+  const news = data.filter((news) => news?.newsId === newsDetails);
 
-  const writers: IWriter[] = await getAllWriters();
-  const featuredWriter = writers[0];
+  const resporters: TReporter[] = await getAllReporter();
+  const featuredReporter = resporters[0];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 px-4 gap-4">
       <div className="md:col-span-8">
-        <h1 className="text-xl md:text-3xl text-black">{post?.[0]?.title}</h1>
+        <h1 className="text-xl md:text-3xl text-black">{news?.[0]?.title}</h1>
         <Image
-          src={post?.[0]?.mainImage}
-          alt={post?.[0]?.title}
+          src={news?.[0]?.featuredImageUrl}
+          alt={news?.[0]?.title}
           width={1200}
           height={800}
           className="w-full h-[60vh] object-cover rounded-[10px] my-5"
@@ -48,15 +44,18 @@ const page = async ({ params }: PageProps) => {
           <div className="flex gap-2 md:gap-5">
             <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
               <FaCalendar />
-              {post?.[0]?.postDate}
+              {news?.[0]?.publishAt
+                ? new Date(news[0].publishAt).toISOString().split("T")[0]
+                : "N/A"}
             </p>
             <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
               <FaComment />
-              comments : {post?.[0]?.totalCommentsCount}
+              {/* comments : {news?.[0]?.totalCommentsCount} */}
+              comments : 24
             </p>
             <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
               <FaFile />
-              Category : {post?.[0].category}
+              Category : {news?.[0].categoryId?.categoryName}
             </p>
           </div>
           <div className="flex gap-3">
@@ -85,21 +84,19 @@ const page = async ({ params }: PageProps) => {
         </div>
         <div className="mt-10">
           <h4 className="text-[16px] text-[#3E3232] font-semibold">
-            {post?.[0]?.subtitles?.[0]}
+            {news?.[0]?.slug?.[0]}
           </h4>
-          <p className="mt-4 text-[#3E3232] text-[16px]">
-            {post?.[0]?.subtitles}
-          </p>
-          {post?.[0]?.subtitles}
+          <p className="mt-4 text-[#3E3232] text-[16px]">{news?.[0]?.slug}</p>
+          {news?.[0]?.slug}
           <Image
-            src={post?.[0]?.mainImage}
-            alt={post?.[0]?.title}
+            src={news?.[0]?.featuredImageUrl}
+            alt={news?.[0]?.title}
             width={800}
             height={500}
             className="w-full md:w-2/3 h-[50vh] mx-auto object-cover rounded-[10px] my-12"
           />
           <h4 className="text-[16px] text-[#3E3232] font-semibold">
-            {post?.[0]?.subtitles?.[1]}
+            {news?.[0]?.slug?.[1]}
           </h4>
           <p className="mt-4 text-[#3E3232] text-[16px]">
             {/* {post?.[0]?.subtitles} */}
@@ -115,7 +112,7 @@ const page = async ({ params }: PageProps) => {
             Not how long, but how well you have lived is the main thing.
           </h4>
           <p className="mt-4 text-[#3E3232] text-[16px]">
-            {post?.[0]?.postDetails}
+            {news?.[0]?.content}
           </p>
           <div className="flex items-center">
             <div className="flex gap-3 items-center w-full mt-2.5">
@@ -248,7 +245,7 @@ const page = async ({ params }: PageProps) => {
       <div className="md:col-span-4">
         <div className="flex items-center gap-2 mb-2">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-          <h2 className="text-xl text-[#3E3232] ">Writer Profile</h2>
+          <h2 className="text-xl text-[#3E3232] ">Reporter Profile</h2>
         </div>
         <div className="flex gap-3 items-center w-full mb-2">
           <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
@@ -257,7 +254,7 @@ const page = async ({ params }: PageProps) => {
             <hr className="w-full border-t border-[#3384FE33]" />
           </div>
         </div>
-        {featuredWriter ? <WritesCard writers={featuredWriter} /> : null}
+        {featuredReporter ? <ReporterCard reporter={featuredReporter} /> : null}
         <div className="flex items-center gap-2 mb-2 mt-10">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
           <h2 className="text-xl text-[#3E3232] ">Tags</h2>
@@ -267,7 +264,7 @@ const page = async ({ params }: PageProps) => {
           <hr className="w-full border-t border-[#3384FE33]" />
         </div>
         <div className="mt-5 flex gap-4 flex-wrap">
-          {post?.[0]?.tags?.map((item) => (
+          {news?.[0]?.tags?.map((item) => (
             <Link
               href=""
               className="px-4 py-2.5 rounded-xl text-[#3E3232BF] bg-[#F5F5F5]"

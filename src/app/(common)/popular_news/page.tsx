@@ -3,7 +3,7 @@ import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
 import { getAllNews } from "@/services/news";
 const PopularNews = async () => {
-  const posts = await getAllNews();
+  const allNews = await getAllNews();
   return (
     <div className="min-h-screen">
       <Image
@@ -28,8 +28,8 @@ const PopularNews = async () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
-          {posts.map((item) => (
-            <NewsCard key={item._id} post={item} />
+          {allNews.map((news) => (
+            <NewsCard key={news._id} news={news} />
           ))}
         </div>
       </div>

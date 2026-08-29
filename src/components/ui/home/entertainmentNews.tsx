@@ -1,12 +1,13 @@
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllNews } from "@/services/news";
+import { TNews } from "@/types/news";
 import Link from "next/link";
-import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 
-const EntertainmentNews = async () => {
-  const data = await getAllNews();
-  const posts = data.filter((item) => item.category === "Entertainment");
+interface newsProps {
+  news: TNews[];
+}
+
+const EntertainmentNews = async ({ news }: newsProps) => {
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -35,8 +36,8 @@ const EntertainmentNews = async () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 mt-4">
-        {posts.slice(0, 9).map((item) => (
-          <NewsCard key={item._id} post={item} />
+        {news.slice(0, 9).map((item) => (
+          <NewsCard key={item._id} news={item} />
         ))}
       </div>
     </div>

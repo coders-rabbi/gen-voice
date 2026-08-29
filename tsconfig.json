@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/app/(common)/writers"  ],
+, "src/app/(common)/reporters", "src/app/(reporter)/reporter/edit_profile/components"  ],
   "exclude": ["node_modules"]
 }

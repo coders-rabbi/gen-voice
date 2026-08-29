@@ -1,17 +1,17 @@
 import Image from "next/image";
 import manimg from "@/assets/home/man.jpg";
 import { GoBookmark } from "react-icons/go";
-import { IPost } from "@/types/news";
+import { TNews } from "@/types/news";
 
-interface postsProps {
-  posts: IPost;
+interface newProps {
+  news: TNews;
 }
-const NewsCardVertical = ({ posts }: postsProps) => {
+const NewsCardVertical = ({ news }: newProps) => {
   return (
     <div className="flex flex-col gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 items-center w-full h-[400px] justify-between">
       <div className="relative w-full h-[200px] flex-shrink-0">
         <Image
-          src={posts?.mainImage}
+          src={news?.featuredImageUrl}
           width={500}
           height={200}
           alt="Gen voice"
@@ -21,10 +21,10 @@ const NewsCardVertical = ({ posts }: postsProps) => {
       <div className="flex flex-col flex-1 justify-between w-full min-h-0">
         <div className="overflow-hidden">
           <h1 className="font-bold text-gray-800 text-base md:text-lg line-clamp-1 leading-tight mb-1">
-            {posts?.title}
+            {news?.title}
           </h1>
           <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
-            {posts?.postDetails}
+            {news?.shortDetails}
           </p>
         </div>
         <div className="flex items-center justify-between bg-blue-50/60 p-2 rounded-xl mt-3 w-full">
@@ -38,10 +38,10 @@ const NewsCardVertical = ({ posts }: postsProps) => {
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-semibold text-gray-800 leading-tight">
-                {posts?.category}
+                {news?.categoryId?.categoryName}
               </span>
               <span className="text-xs text-gray-400 mt-0.5">
-                {posts?.postDate}
+                {news?.publishAt?.slice(0, news.publishAt.indexOf("T"))}
               </span>
             </div>
           </div>

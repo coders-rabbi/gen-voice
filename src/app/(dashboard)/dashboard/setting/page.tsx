@@ -6,6 +6,8 @@ import { FaArrowLeft, FaPlus } from "react-icons/fa6";
 import Image from "next/image";
 import userImage from "@/assets/dashboard/user.jpg";
 import { useState } from "react";
+import { getUserInfo } from "@/services/actions/auth.service";
+import { useSingleReporter } from "@/hooks/useSingleReporter";
 
 const TitleDetails = {
   title: "Website Configuration",
@@ -24,6 +26,9 @@ const initialFormState = {
 
 const Page = () => {
   const [formData, setFormData] = useState(initialFormState);
+
+  const userInfo = getUserInfo();
+  const reporterData = useSingleReporter(userInfo?._id as string);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -73,7 +78,6 @@ const Page = () => {
               id="name"
               type="text"
               name="name"
-              value={formData.name}
               onChange={handleChange}
               placeholder="Write here..."
               className="border border-gray-200 p-3 rounded-lg outline-0 focus:border-[#005CE8] placeholder:text-gray-400"
@@ -88,8 +92,8 @@ const Page = () => {
               id="role"
               type="text"
               name="role"
-              value={formData.role}
-              onChange={handleChange}
+              value={userInfo?.role}
+              readOnly
               placeholder="Write here..."
               className="border border-gray-200 p-3 rounded-lg outline-0 focus:border-[#005CE8] placeholder:text-gray-400"
             />
@@ -103,7 +107,7 @@ const Page = () => {
               id="email"
               type="email"
               name="email"
-              value={formData.email}
+              value={userInfo?.email}
               onChange={handleChange}
               placeholder="Write here..."
               className="border border-gray-200 p-3 rounded-lg outline-0 focus:border-[#005CE8] placeholder:text-gray-400"

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
-import WritesCard from "@/components/ui/home/components/writesCard";
-import { getAllWriters } from "@/services/writerService";
+import ReporterCard from "@/components/ui/home/components/reporterCard";
+import { getAllReporter } from "@/services/reporterService";
 
-const Writers = async () => {
-  const writers = await getAllWriters();
+const Reporters = async () => {
+  const reporters = await getAllReporter();
   return (
     <div className="min-h-screen">
       <Image
@@ -21,7 +21,7 @@ const Writers = async () => {
         </div>
 
         <div className="flex gap-3 items-center w-full mb-4">
-          <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
+          <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] shrink-0"></div>
           <div className="flex flex-col gap-0.5 flex-1">
             <hr className="w-full border-t border-[#3384FE33]" />
             <hr className="w-full border-t border-[#3384FE33]" />
@@ -29,8 +29,8 @@ const Writers = async () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
-          {writers.map((item) => (
-            <WritesCard key={item._id} writers={item} />
+          {reporters.map((item) => (
+            <ReporterCard key={item._id} reporter={item} />
           ))}
         </div>
       </div>
@@ -38,4 +38,4 @@ const Writers = async () => {
   );
 };
 
-export default Writers;
+export default Reporters;

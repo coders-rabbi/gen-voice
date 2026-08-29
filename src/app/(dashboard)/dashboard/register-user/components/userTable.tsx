@@ -150,7 +150,7 @@ export function UsersTable() {
         </TableHeader>
         <TableBody>
           {userData.map((item, index) => (
-            <TableRow>
+            <TableRow key={index}>
               <TableCell className="font-medium">{item.name}</TableCell>
               <TableCell className="flex flex-col text-[#525252]">
                 <p>{item?.phone}</p>

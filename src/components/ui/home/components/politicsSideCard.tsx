@@ -1,29 +1,35 @@
 import Link from "next/link";
 import React from "react";
 import { CiCalendar } from "react-icons/ci";
-import basket from "@/assets/home/basket.jpg";
 import Image from "next/image";
-import { IPost } from "@/types/news";
+import { TNews } from "@/types/news";
 interface NewsCardProps {
-  post: IPost;
+  news: TNews;
 }
-const PoliticsSideCard = ({ post }: NewsCardProps) => {
+const PoliticsSideCard = ({ news }: NewsCardProps) => {
   return (
     <div className="flex gap-0.5 border-b pb-1.5">
-      <Link href={`news/${post?.postId}`}>
+      <Link href={`/news/${news?.newsId}`}>
         <div>
           <h5 className="text-[#6D757F] text-xs font-semibold">
-            {post?.category}
+            {news?.categoryId?.categoryName}
           </h5>
           <h3 className="text-[10px] text-[#183354] font-semibold">
-            {post?.title}
+            {news?.title}
           </h3>
           <p className="flex items-center gap-1 text-xs text-[#6D757F] font-semibold mt-2.5">
-            <CiCalendar /> {post?.postDate}
+            <CiCalendar />{" "}
+            {news?.publishAt?.slice(0, news.publishAt.indexOf("T"))}
           </p>
         </div>
       </Link>
-      <Image src={post?.mainImage} alt="gen voice" width={100} height={100} className="w-24 h-24 object-cover" />
+      <Image
+        src={news?.featuredImageUrl}
+        alt="gen voice"
+        width={100}
+        height={100}
+        className="w-24 h-24 object-cover"
+      />
     </div>
   );
 };

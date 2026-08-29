@@ -6,12 +6,24 @@ import Image from "next/image";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import DemoUser from "@/assets/dashboard/user.jpg";
 import { RxExit } from "react-icons/rx";
+import { getUserInfo, removeUser } from "@/services/actions/auth.service";
+import { useRouter } from "next/navigation";
+import { useSingleReporter } from "@/hooks/useSingleReporter";
 
 interface DashboardNavbarProps {
   onMenuClick: () => void;
 }
 
 const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
+  const userInfo = getUserInfo();
+  const reporterData = useSingleReporter(userInfo?._id as string);
+  const router = useRouter();
+
+  const handleSingOut = () => {
+    removeUser();
+    router.push("/admin-login");
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
       <div className="flex items-center justify-between px-4 py-3 sm:px-6 min-h-16">
@@ -58,11 +70,14 @@ const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
               className="rounded-full"
             />
             <div className="hidden md:flex md:flex-col gap-0.5 text-xs">
-              <h4>Rabbi Mia</h4>
-              <h4>ID: Gen-2026</h4>
+              <h4>{reporterData?.data?.fullName || "Loading..."}</h4>
+              <h4>ID: {reporterData?.data?.id || "..."}</h4>
             </div>
           </div>
-          <RxExit className="text-2xl text-[#193CB8] font-bold" />
+          <RxExit
+            onClick={handleSingOut}
+            className="text-2xl text-[#193CB8] font-bold"
+          />
         </div>
       </div>
     </header>

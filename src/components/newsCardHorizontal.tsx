@@ -2,20 +2,20 @@ import Image from "next/image";
 import img04 from "@/assets/home/img4.jpg";
 import manimg from "@/assets/home/man.jpg";
 import { GoBookmark } from "react-icons/go";
-import { IPost } from "@/types/news";
+import { TNews } from "@/types/news";
 import Link from "next/link";
 
 interface NewsCardProps {
-  post: IPost;
+  news: TNews;
 }
-const NewsCard = ({ post }: NewsCardProps) => {
+const NewsCard = ({ news }: NewsCardProps) => {
   return (
     <div>
-      <Link href={`/news/${post?.postId}`}>
+      <Link href={`/news/${news?.newsId}`}>
         <div className="flex gap-2 bg-white rounded-xl shadow-sm p-2 border border-gray-100 items-center">
           <div className="w-[35%] relative flex-shrink-0">
             <Image
-              src={post?.mainImage || img04}
+              src={news?.featuredImageUrl || img04}
               alt="Gen voice"
               width={200}
               height={200}
@@ -25,11 +25,11 @@ const NewsCard = ({ post }: NewsCardProps) => {
           <div className="flex flex-col flex-1 justify-between h-full gap-2">
             <div>
               <h1 className="font-semibold text-gray-800 md:text-sm line-clamp-2 mb-1">
-                {post?.title}
+                {news?.title}
               </h1>
 
               <p className="text-xs text-gray-500 line-clamp-2">
-                {post?.postDetails}
+                {news?.content}
               </p>
             </div>
 
@@ -44,10 +44,10 @@ const NewsCard = ({ post }: NewsCardProps) => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-semibold text-gray-800 leading-tight">
-                    Jon Kantner
+                    <p>{news?.reporterId?.fullName ?? "N/A"}</p>
                   </span>
                   <span className="text-xs text-gray-400 mt-0.5">
-                    July 14, 2022
+                    {news?.publishAt?.slice(0, news.publishAt.indexOf("T"))}
                   </span>
                 </div>
               </div>

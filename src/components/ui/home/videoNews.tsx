@@ -12,14 +12,15 @@ import SideCategory from "./components/sideCategory";
 import VoteOpinion from "./components/voteOpinion";
 import CaltureSideBar from "./components/caltureSideBar";
 import BusinessSideBar from "./components/businessSideBar";
-import { IPost } from "@/types/news";
-import { getAllNews } from "@/services/news";
+import { TNews } from "@/types/news";
+import { getAllVideoNews } from "@/services/news";
 
-const VideoNews = async () => {
-  const data = await getAllNews();
-  const VideoNews: IPost[] = data.filter(
-    (item) => item.category === "Video News",
-  );
+interface politicsNewsProps {
+  news: TNews[];
+}
+
+const VideoNews = async ({ news }: politicsNewsProps) => {
+  const allVideoNews = await getAllVideoNews();
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-screen">
       <div className="md:col-span-7">
@@ -46,16 +47,16 @@ const VideoNews = async () => {
           </div>
         </div>
 
-        {VideoNews && VideoNews.length > 0 && (
-          <div className="my-4 md:flex flex-col md:flex-row gap-4">
-            <div className="min-w-[350px]  overflow-hidden">
+        {allVideoNews.map((item) => (
+          <div className="my-4 grid grid-cols-2 gap-4">
+            <div className="overflow-hidden">
               <iframe
-                src="https://www.youtube.com/embed/bmrN8Cw1zX4?si=1BcxPULozXKg230s`"
+                src={item?.featuredImageUrl}
                 title="YouTube video player"
                 style={{
                   border: "none",
                   width: "100vw",
-                  // maxWidth: "350px",
+                  maxWidth: "350px",
                   height: "250px",
                   flexShrink: 0,
                 }}
@@ -66,26 +67,27 @@ const VideoNews = async () => {
             </div>
             <div>
               <h5 className="text-[#6D757F] text-xs font-semibold mb-2.5 mt-3 md:mt-0">
-                Sports
+                {item?.categoryId?.categoryName}
               </h5>
 
               <h2 className="text-[#183354] text-[16px] font-bold mb-2.5">
-                {VideoNews?.[0]?.title}
+                {item?.title}
               </h2>
               <div>
                 <div className="flex  gap-4 mb-3">
                   <p className="flex items-center gap-1 text-xs text-[#6D757F]">
-                    <CiCalendar /> {VideoNews?.[0]?.postDate}
+                    <CiCalendar />
+                    {item?.publishAt?.slice(0, item.publishAt.indexOf("T"))}
                   </p>
                   <p className="flex items-center gap-1 text-xs text-[#6D757F]">
                     <IoIosTime /> 20 MINS
                   </p>
                 </div>
                 <p className="text-[#6D757F] text-xs line-clamp-4 leading-relaxed">
-                  {VideoNews?.[0].postDetails}
+                  {item?.shortDetails}
                 </p>
                 <Link
-                  href="/"
+                  href={`/news/${item?.newsId}`}
                   className="btn border-1 py-1.5 px-3 flex items-center gap-2 w-fit rounded-sm mt-3"
                 >
                   Read More <MdArrowOutward />
@@ -93,23 +95,23 @@ const VideoNews = async () => {
               </div>
             </div>
           </div>
-        )}
+        ))}
 
         <div className="flex gap-4 mt-8">
-          {VideoNews.slice(0, 3).map((item) => (
+          {allVideoNews.slice(0, 3).map((item) => (
             <VideoNewsHorizontalCard key={item._id} videoNews={item} />
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4 mt-8">
-          {VideoNews.slice(0, 3).map((item) => (
+        <div className="grid grid-cols-3 gap-4 mt-8">
+          {allVideoNews.slice(0, 3).map((item) => (
             <VideoNewsVerticalCard key={item._id} videoNews={item} />
           ))}
         </div>
         <Advertisement />
 
         <div>
-          <Politics />
+          <Politics news={news} />
         </div>
       </div>
 

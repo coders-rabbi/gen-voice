@@ -7,21 +7,23 @@ import SportsWidget from "@/components/ui/home/sportsWidget";
 import TechNews from "@/components/ui/home/techNews";
 import TopWrite from "@/components/ui/home/topWrite";
 import VideoNews from "@/components/ui/home/videoNews";
+import { getHomePageCategoryNews } from "@/services/news";
 // import WeatherWidget from "@/components/ui/home/weatherWidget";
 
-const Home = () => {
+const Home = async () => {
+  const homeNews = await getHomePageCategoryNews();
+
   return (
     <div className="px-4">
       <Herosection />
       <PopularCategory />
-      <Sports />
-      <VideoNews />
+      <Sports news={homeNews?.Sports ?? []} />
+      <VideoNews news={homeNews?.Politics ?? []} />
       <SportsWidget />
-      <TechNews />
-      <MusicNews />
-      {/* <WeatherWidget /> */}
+      <TechNews news={homeNews?.Technology ?? []} />
+      <MusicNews news={homeNews?.Music ?? []} />
       <TopWrite />
-      <EntertainmentNews />
+      <EntertainmentNews news={homeNews?.Entertainment ?? []} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
-import { IPost } from "@/types/news";
+import { TNews } from "@/types/news";
 import { getAllNews } from "@/services/news";
 
 const RecentNews4 = async () => {
@@ -13,7 +13,7 @@ const RecentNews4 = async () => {
         alt="gen voice"
         className="w-full h-40 rounded-xl object-center"
       />
-      <div className="mt-12 px-3 md:px-0">
+      <div className="mt-12 px-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
@@ -30,8 +30,8 @@ const RecentNews4 = async () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
-          {blogs?.map((item: IPost) => (
-            <NewsCard key={item._id} post={item} />
+          {blogs?.map((item: TNews) => (
+            <NewsCard key={item._id} news={item} />
           ))}
         </div>
       </div>

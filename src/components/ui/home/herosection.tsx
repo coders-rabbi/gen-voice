@@ -6,11 +6,11 @@ import TechnologyCard from "./components/technology";
 import NewsCard from "@/components/newsCardHorizontal";
 import Link from "next/link";
 import { HeroSectionCarousel } from "./components/heroSectionCarousel";
-import { IPost } from "@/types/news";
+import { TNews } from "@/types/news";
 import { getAllNews } from "@/services/news";
 
 const Herosection = async () => {
-  const posts: IPost[] = await getAllNews();
+  const allNews: TNews[] = await getAllNews();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 ">
@@ -27,7 +27,7 @@ const Herosection = async () => {
             className="w-full h-auto object-cover"
           />
         </div> */}
-        <HeroSectionCarousel posts={posts} />
+        <HeroSectionCarousel news={allNews} />
 
         <TechnologyCard />
       </div>
@@ -37,10 +37,10 @@ const Herosection = async () => {
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
             <Link href="/recent_news" className="text-2xl text-[#3E3232] ">
-              New Posts
+              Latest News
             </Link>
           </div>
-          <button className="btn btn-info border-1 bg-transparent rounded-2xl text-[#3385FF] font-medium ">
+          <button className="btn btn-info border bg-transparent rounded-2xl text-[#3385FF] font-medium ">
             Show All
           </button>
         </div>
@@ -54,8 +54,8 @@ const Herosection = async () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-4">
-          {posts.slice(0, 3).map((item) => (
-            <NewsCard key={item._id} post={item} />
+          {allNews.slice(0, 3).map((item) => (
+            <NewsCard key={item._id} news={item} />
           ))}
         </div>
       </div>

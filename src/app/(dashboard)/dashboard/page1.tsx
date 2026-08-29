@@ -8,7 +8,7 @@ import { getAllNews } from "@/services/news";
 
 const page = async () => {
   const data = await getAllNews();
-  const myPosts = data.filter((item) => item.writers_id === "WR-202601");
+  const myNews = data.filter((item) => item?.reporterId?.id === "REP-0005");
   return (
     <div className="">
       <Image
@@ -60,7 +60,7 @@ const page = async () => {
         </div>
 
         <div className="flex gap-3 items-center w-full mb-4">
-          <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
+          <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] shrink-0"></div>
           <div className="flex flex-col gap-0.5 flex-1">
             <hr className="w-full border-t border-[#3384FE33]" />
             <hr className="w-full border-t border-[#3384FE33]" />
@@ -68,8 +68,8 @@ const page = async () => {
         </div>
 
         <div className="grid md:grid-cols-4 gap-2">
-          {myPosts.map((item) => (
-            <NewsCardVertical key={item._id} posts={item} />
+          {myNews.map((item) => (
+            <NewsCardVertical key={item._id} news={item} />
           ))}
         </div>
 
@@ -81,7 +81,7 @@ const page = async () => {
         </div>
 
         <div className="flex gap-3 items-center w-full mb-4">
-          <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
+          <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] shrink-0"></div>
           <div className="flex flex-col gap-0.5 flex-1">
             <hr className="w-full border-t border-[#3384FE33]" />
             <hr className="w-full border-t border-[#3384FE33]" />
@@ -89,8 +89,8 @@ const page = async () => {
         </div>
 
         <div className="grid md:grid-cols-4 gap-2">
-          {myPosts.map((item) => (
-            <NewsCardVertical key={item._id} posts={item} />
+          {myNews.map((item) => (
+            <NewsCardVertical key={item._id} news={item} />
           ))}
         </div>
       </div>

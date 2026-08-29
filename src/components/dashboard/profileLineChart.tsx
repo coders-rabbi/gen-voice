@@ -41,7 +41,7 @@ export function ProfileChart() {
   return (
     <Card>
       <CardContent>
-        <ChartContainer className="h-[450px] w-full max-h-[300px]" config={chartConfig}>
+        <ChartContainer className="h-112.5 w-full max-h-75" config={chartConfig}>
           <LineChart
             accessibilityLayer
             data={chartData}

@@ -5,24 +5,91 @@ export interface IComment {
   comment: string;
 }
 
-export interface IPost {
-  _id: string;
-  writers_id?: string;
-  postId: number;
+export type THomePageNews = {
+  Sports: TNews[];
+  Politics: TNews[];
+  Business: TNews[];
+  Technology: TNews[];
+  Music: TNews[];
+  Entertainment: TNews[];
+};
+
+export type TNewsStatus =
+  | "draft"
+  | "preview"
+  | "approved"
+  | "published"
+  | "archived";
+
+export type TConentType = "Text" | "Video" | "Mixed";
+
+export type TNewsPayload = {
+  reporterId: string;
+  approvedBy: string;
+  categoryId: string;
   title: string;
-  mainImage: string;
-  image2: string;
-  postDate: string;
-  totalCommentsCount: number;
-  category: string;
-
-  subtitles: string[];
-
-  postDetails: string;
-  specialQuote: string;
-
-  comments: IComment[];
-
+  slug: string;
+  shortDetails: string;
+  content: string;
+  contentType: TConentType;
+  featuredImageUrl: string;
+  imageCaption?: string;
+  galleryImages?: string;
+  videoUrl?: string;
   tags: string[];
-  keywords: string;
-}
+  location?: string;
+  source?: string;
+  sourceUrl?: string;
+  status: TNewsStatus;
+  isAnonymous: Boolean;
+  publishAt?: Date | null;
+};
+type TCategoryId = {
+  _id: string;
+  categoryName: string;
+};
+
+type TReporterId = {
+  _id: string;
+  id: string;
+  name: {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    _id?: string;
+  };
+  fullName: string;
+};
+
+type TApprovedBy = {
+  _id: string;
+  email: string;
+  role: string;
+};
+
+export type TNews = {
+  _id: string;
+  newsId: string;
+  reporterId: TReporterId;
+  approvedBy: TApprovedBy;
+  categoryId: TCategoryId;
+  title: string;
+  slug: string;
+  shortDetails: string;
+  content: string;
+  contentType: TConentType;
+  featuredImageUrl: string;
+  imageCaption?: string;
+  galleryImages?: string[];
+  videoUrl?: string;
+  tags: string[];
+  location?: string;
+  source?: string;
+  sourceUrl?: string;
+  status: TNewsStatus;
+  isAnonymous: boolean;
+  isDeleted: boolean;
+  publishAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};

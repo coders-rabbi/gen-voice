@@ -1,12 +1,12 @@
 import Link from "next/link";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
-import WritesCard from "./components/writesCard";
+import ReporterCard from "./components/reporterCard";
 import Advertisement from "@/components/advertisement";
-import { getAllWriters } from "@/services/writerService";
+import { getAllReporter } from "@/services/reporter/reporterService";
 
 const TopWrite = async () => {
-  const writers = await getAllWriters();
+  const reporters = await getAllReporter();
   return (
     <div className="mt-12">
       <div className="flex justify-between items-center">
@@ -34,11 +34,11 @@ const TopWrite = async () => {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
+      {/* <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
         {writers.slice(0, 9).map((item) => (
           <WritesCard key={item._id} writers={item}/>
         ))}
-      </div>
+      </div> */}
 
       <Advertisement />
     </div>

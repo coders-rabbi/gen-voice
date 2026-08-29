@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import img01 from "@/assets/home/Image1.png";
 import {
   Carousel,
@@ -7,16 +7,16 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { IPost } from "@/types/news";
+import { TNews } from "@/types/news";
 import Image from "next/image";
 import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
 
-interface PostProps {
-  posts: IPost[];
+interface NewsProps {
+  news: TNews[];
 }
 
-export function HeroSectionCarousel({ posts }: PostProps) {
+export function HeroSectionCarousel({ news }: NewsProps) {
   return (
     <Carousel
       className="w-full relative"
@@ -27,16 +27,16 @@ export function HeroSectionCarousel({ posts }: PostProps) {
       ]}
     >
       <CarouselContent>
-        {posts?.slice(0, 5).map((post, index) => (
-          <CarouselItem key={post._id || index}>
+        {news?.slice(0, 5).map((item, index) => (
+          <CarouselItem key={item._id}>
             <div className="w-full overflow-hidden rounded-xl">
-              <Link href={`news/${post?.postId}`}>
+              <Link href={`news/${item?.newsId}`}>
                 <Image
-                  src={post?.mainImage || img01}
+                  src={item?.featuredImageUrl}
                   width={1200}
                   height={600}
-                  alt={post?.title || "Dynamic Hero Image"}
-                  className="w-full h-auto object-cover block"
+                  alt={item?.title || "Dynamic Hero Image"}
+                  className="w-full max-h-[80vh] object-cover block"
                   priority={index === 0}
                 />
               </Link>

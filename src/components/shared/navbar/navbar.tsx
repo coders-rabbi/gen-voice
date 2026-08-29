@@ -1,8 +1,37 @@
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo/logo.svg";
+import {
+  getUserInfo,
+  isLoggedIn,
+  removeUser,
+} from "@/services/actions/auth.service";
+import userImg from "@/assets/home/man.jpg";
+import { IoMdExit } from "react-icons/io";
+import { useRouter } from "next/navigation";
+import { AuthPayload } from "../../../../utils/jwt";
 
 const Navbar = () => {
+  const router = useRouter();
+  const [userInfo, setUserInfo] = useState<AuthPayload | undefined | null>(
+    null,
+  );
+  const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    setUserInfo(getUserInfo());
+    setUserLoggedIn(Boolean(isLoggedIn()));
+  }, []);
+
+  const handleSingOut = () => {
+    removeUser();
+    setUserInfo(null);
+    setUserLoggedIn(false);
+    router.refresh();
+    router.push("/login");
+  };
   const DesktopNavItems = (
     <>
       <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all text-black">
@@ -20,45 +49,61 @@ const Navbar = () => {
           Popular News
         </Link>
       </li>
-      {/* ডেক্সটপে DaisyUI এর অনুভূমিক ড্রপডাউন সাবমেনু */}
-      <li>
-        <details>
-          <summary className="text-black hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded">
-            Categories
-          </summary>
-          <ul className="p-2 bg-white text-black w-40 z-50 shadow-md">
-            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/categories/food" className="block px-4 py-2">
-                Food
-              </Link>
-            </li>
-            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/categories/politics" className="block px-4 py-2">
-                Politics
-              </Link>
-            </li>
-            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/categories/business" className="block px-4 py-2">
-                Business
-              </Link>
-            </li>
-            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/categories/sport" className="block px-4 py-2">
-                Sport
-              </Link>
-            </li>
-            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/categories/music" className="block px-4 py-2">
-                Music
-              </Link>
-            </li>
-            <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
-              <Link href="/categories/technology" className="block px-4 py-2">
-                Techonolgy
-              </Link>
-            </li>
-          </ul>
-        </details>
+      {/* ডেক্সটপে DaisyUI এর হোভার-ভিত্তিক ড্রপডাউন সাবমেনু */}
+      <li className="dropdown dropdown-hover">
+        <div
+          tabIndex={0}
+          role="button"
+          className="flex items-center gap-1 text-black hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded px-4 py-2"
+        >
+          Categories
+          <svg
+            className="h-3 w-3 fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.19l3.71-3.96a.75.75 0 111.1 1.02l-4.24 4.53a.75.75 0 01-1.1 0L5.21 8.27a.75.75 0 01.02-1.06z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu p-2 bg-white text-black w-40 z-50 shadow-md rounded-box"
+        >
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/food" className="block px-4 py-2">
+              Food
+            </Link>
+          </li>
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/politics" className="block px-4 py-2">
+              Politics
+            </Link>
+          </li>
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/business" className="block px-4 py-2">
+              Business
+            </Link>
+          </li>
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/sport" className="block px-4 py-2">
+              Sport
+            </Link>
+          </li>
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/music" className="block px-4 py-2">
+              Music
+            </Link>
+          </li>
+          <li className="border border-transparent hover:bg-[#3385ff7d] hover:border-[#3385FF] rounded transition-all">
+            <Link href="/categories/technology" className="block px-4 py-2">
+              Techonolgy
+            </Link>
+          </li>
+        </ul>
       </li>
     </>
   );
@@ -158,12 +203,31 @@ const Navbar = () => {
             </svg>
             <input type="search" required placeholder="Search Anything" />
           </label>
-          <Link
-            href="/"
-            className="btn bg-[#3385FF] hover:bg-[#3385FF] hidden sm:inline-flex items-center p-4 gap-2 border-0 rounded-[8px] text-white font-medium transition-all"
-          >
-            <span className="text-[16px] capitalize">Sign In</span>
-          </Link>
+          {userLoggedIn ? (
+            <>
+              <div className="flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md">
+                <Image
+                  src={userImg}
+                  alt="user logo"
+                  height={20}
+                  width={30}
+                  className="rounded-2xl"
+                />
+                <IoMdExit
+                  className="text-2xl text-white hover:text-red-400 cursor-pointer"
+                  onClick={handleSingOut}
+                  title="Logout"
+                />
+              </div>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="btn btn-sm  text-center bg-[#3385FF] hover:bg-[#3385FF] border-0 rounded-xl text-white w-fit"
+            >
+              Sign In
+            </Link>
+          )}
 
           <div className="dropdown dropdown-end lg:hidden">
             <div
@@ -215,12 +279,26 @@ const Navbar = () => {
                     className="bg-transparent outline-none w-full placeholder-gray-500 text-sm"
                   />
                 </label>
-                <Link
-                  href="/"
-                  className="btn btn-sm w-full text-center bg-[#3385FF] hover:bg-[#3385FF] border-0 rounded-xl text-white"
-                >
-                  Sign In
-                </Link>
+                {userLoggedIn ? (
+                  <>
+                    <div>
+                      <Image
+                        src={userImg}
+                        alt="user logo"
+                        height={40}
+                        width={40}
+                        className="rounded-2xl"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="btn btn-sm w-full text-center bg-[#3385FF] hover:bg-[#3385FF] border-0 rounded-xl text-white"
+                  >
+                    Sign In
+                  </Link>
+                )}
               </div>
             </ul>
           </div>

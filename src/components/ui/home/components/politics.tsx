@@ -3,11 +3,15 @@ import { MdArrowForwardIos } from "react-icons/md";
 import Image from "next/image";
 import { CiCalendar } from "react-icons/ci";
 import PoliticsSideCard from "./politicsSideCard";
-import { getAllNews } from "@/services/news";
+import { TNews } from "@/types/news";
 
-const Politics = async () => {
-  const data = await getAllNews();
-  const posts = data.filter((item) => item.category === "Politics");
+interface NewsProps {
+  news: TNews[];
+}
+
+const Politics = async ({ news }: NewsProps) => {
+  const [featuredNews, ...sideNews] = news;
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -26,7 +30,7 @@ const Politics = async () => {
       </div>
 
       <div className="flex gap-3 items-center w-full mt-2.5">
-        <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
+        <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] shrink-0"></div>
         <div className="flex flex-col gap-0.5 flex-1">
           <hr className="w-full border-t border-[#3384FE33]" />
           <hr className="w-full border-t border-[#3384FE33]" />
@@ -34,11 +38,11 @@ const Politics = async () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3 mt-4">
-        {posts && posts.length > 0 && (
+        {featuredNews && (
           <div className="md:col-span-8">
-            <Link href={`news/${posts[0]?.postId}`}>
+            <Link href={`/news/${featuredNews?.featuredImageUrl}`}>
               <Image
-                src={posts?.[0]?.mainImage}
+                src={featuredNews.featuredImageUrl}
                 width={500}
                 height={500}
                 alt="gen voice"
@@ -46,13 +50,17 @@ const Politics = async () => {
               />
               <div className="mt-4">
                 <h2 className="text-[#6D757F] text-xs font-semibold">
-                  {posts[0]?.category}
+                  {featuredNews?.categoryId?.categoryName}
                 </h2>
                 <p className="text-[#183354] text-xl font-bold mt-1.5">
-                  {posts[0]?.title}
+                  {featuredNews.title}
                 </p>
                 <p className="flex items-center gap-1 text-[16px] text-[#6D757F] mt-2.5 font-semibold">
-                  <CiCalendar /> {posts[0]?.postDate}
+                  <CiCalendar />{" "}
+                  {featuredNews?.publishAt?.slice(
+                    0,
+                    featuredNews.publishAt.indexOf("T"),
+                  )}
                 </p>
               </div>
             </Link>
@@ -61,8 +69,8 @@ const Politics = async () => {
 
         <div className="md:col-span-4">
           <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
-            {posts.slice(0, 4).map((item) => (
-              <PoliticsSideCard key={item._id} post={item} />
+            {sideNews.slice(0, 4).map((item) => (
+              <PoliticsSideCard key={item._id} news={item} />
             ))}
           </div>
         </div>

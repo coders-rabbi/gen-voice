@@ -1,23 +1,24 @@
 import Advertisement from "@/components/advertisement";
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllNews } from "@/services/news";
+import { TNews } from "@/types/news";
 import Link from "next/link";
-import React from "react";
 
-const Sports = async () => {
-  const data = await getAllNews();
-  const posts = data.filter((item) => item.category === "Sport");
+interface NewsProps {
+  news: TNews[];
+}
+
+const Sports = ({ news }: NewsProps) => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2 mb-2.5  ">
+        <div className="flex items-center gap-2 mb-2.5">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-          <h2 className="text-2xl text-[#3E3232] ">Sports</h2>
+          <h2 className="text-2xl text-[#3E3232]">Sports</h2>
         </div>
 
         <Link
           href="categories/Sport"
-          className="border border-[#D1E2FD] px-3 py-1.5 rounded-2xl "
+          className="border border-[#D1E2FD] px-3 py-1.5 rounded-2xl"
         >
           View All
         </Link>
@@ -32,8 +33,8 @@ const Sports = async () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 my-4">
-        {posts.slice(0, 3).map((item) => (
-          <NewsCard key={item._id} post={item} />
+        {news.slice(0, 3).map((item) => (
+          <NewsCard key={item._id} news={item} />
         ))}
       </div>
 

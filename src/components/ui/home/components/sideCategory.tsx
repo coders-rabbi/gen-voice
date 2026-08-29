@@ -1,7 +1,9 @@
+import { getAllNewsCategories } from "@/services/category";
 import React from "react";
 import { GoDotFill } from "react-icons/go";
 
-const SideCategory = () => {
+const SideCategory = async () => {
+  const cateogries = await getAllNewsCategories();
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -20,87 +22,17 @@ const SideCategory = () => {
       </div>
 
       <div className="flex flex-col gap-1 mt-2">
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <GoDotFill className="text-[#F65050]" />
-            <p>Life Style</p>
+        {cateogries.slice(0, 9).map((item) => (
+          <div className="flex justify-between">
+            <div className="flex gap-2 items-center">
+              <GoDotFill className="text-[#F65050]" />
+              <p>{item?.categoryName}</p>
+            </div>
+            <p className="bg-[#F65050] p-1.5 rounded-[6px] text-white w-fit">
+              50
+            </p>
           </div>
-          <p className="bg-[#F65050] p-1.5 rounded-[6px] text-white w-fit">
-            50
-          </p>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <GoDotFill className="text-[#A56CBD]" />
-            <p>World</p>
-          </div>
-          <p className="bg-[#A56CBD] p-1.5 rounded-[6px] text-white w-fit">
-            50
-          </p>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <GoDotFill className="text-[#49CFE8]" />
-            <p>Calture</p>
-          </div>
-          <p className="bg-[#49CFE8] p-1.5 rounded-[6px] text-white w-fit">
-            50
-          </p>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <GoDotFill className="text-[#C23785]" />
-            <p>Food</p>
-          </div>
-          <p className="bg-[#C23785] p-1.5 rounded-[6px] text-white w-fit">
-            50
-          </p>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <GoDotFill className="text-[#4C60F5]" />
-            <p>Technology</p>
-          </div>
-          <p className="bg-[#4C60F5] p-1.5 rounded-[6px] text-white w-fit">
-            50
-          </p>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <GoDotFill className="text-[#0088FF]" />
-            <p>Sports</p>
-          </div>
-          <p className="bg-[#0088FF] p-1.5 rounded-[6px] text-white w-fit">
-            50
-          </p>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <GoDotFill className="text-[#F7679D]" />
-            <p>Football</p>
-          </div>
-          <p className="bg-[#F7679D] p-1.5 rounded-[6px] text-white w-fit">
-            50
-          </p>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <GoDotFill className="text-[#42C0F5]" />
-            <p>Cricket</p>
-          </div>
-          <p className="bg-[#42C0F5] p-1.5 rounded-[6px] text-white w-fit">
-            50
-          </p>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <GoDotFill className="text-[#FFBE05]" />
-            <p>Business</p>
-          </div>
-          <p className="bg-[#FFBE05] p-1.5 rounded-[6px] text-white w-fit">
-            50
-          </p>
-        </div>
+        ))}
       </div>
     </div>
   );

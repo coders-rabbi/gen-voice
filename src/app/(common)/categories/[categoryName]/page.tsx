@@ -17,7 +17,9 @@ const page = async ({ params }: CategoryPageProps) => {
     categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
 
   const data = await getAllNews();
-  const posts = data.filter((item) => item.category === formattedCategory);
+  const allNews = data.filter(
+    (item) => item?.categoryId?.categoryName === formattedCategory,
+  );
   return (
     <div className="min-h-screen">
       <Image
@@ -45,8 +47,8 @@ const page = async ({ params }: CategoryPageProps) => {
         </div>
 
         <div className="grid md:grid-cols-4 gap-2">
-          {posts.map((post) => (
-            <NewsCard key={post._id} post={post} />
+          {allNews.map((news) => (
+            <NewsCard key={news._id} news={news} />
           ))}
         </div>
       </div>

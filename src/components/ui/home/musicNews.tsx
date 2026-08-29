@@ -1,13 +1,15 @@
 import Advertisement from "@/components/advertisement";
 import NewsCardVertical from "@/components/newsCardVertical";
 import { getAllNews } from "@/services/news";
-import { IPost } from "@/types/news";
+import { TNews } from "@/types/news";
 import Link from "next/link";
 import { MdArrowForwardIos } from "react-icons/md";
 
-const MusicNews = async () => {
-  const data = await getAllNews();
-  const posts: IPost[] = data.filter((item) => item?.category === "Music");
+interface newsProps {
+  news: TNews[];
+}
+
+const MusicNews = async ({ news }: newsProps) => {
   return (
     <div className="mt-12">
       <div className="flex justify-between items-center">
@@ -34,8 +36,8 @@ const MusicNews = async () => {
       </div>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 mt-4">
-        {posts.slice(0, 9).map((item) => (
-          <NewsCardVertical key={item._id} posts={item} />
+        {news.slice(0, 9).map((item) => (
+          <NewsCardVertical key={item._id} news={item} />
         ))}
       </div>
 
