@@ -14,7 +14,7 @@ const EntertainmentNews = async ({ news }: newsProps) => {
         <div className="flex items-center gap-2 mb-2.5  ">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
           <h2 className="text-[14px] font-semibold text-[#3E3232] ">
-            Entertaiment
+            Entertaiment {news?.length}
           </h2>
         </div>
 

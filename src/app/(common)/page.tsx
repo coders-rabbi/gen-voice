@@ -23,7 +23,7 @@ const Home = async () => {
       <TechNews news={homeNews?.Technology ?? []} />
       <MusicNews news={homeNews?.Music ?? []} />
       <TopWrite />
-      <EntertainmentNews news={homeNews?.Entertainment ?? []} />
+      <EntertainmentNews news={homeNews?.Entertaiment ?? []} />
     </div>
   );
 };

@@ -11,7 +11,7 @@ export type THomePageNews = {
   Business: TNews[];
   Technology: TNews[];
   Music: TNews[];
-  Entertainment: TNews[];
+  Entertaiment: TNews[];
 };
 
 export type TNewsStatus =
@@ -19,6 +19,7 @@ export type TNewsStatus =
   | "preview"
   | "approved"
   | "published"
+  | "pending"
   | "reject"
   | "archived";
 

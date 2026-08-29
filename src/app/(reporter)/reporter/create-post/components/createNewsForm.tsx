@@ -18,19 +18,18 @@ import { TCategory } from "@/types/category";
 import { createNews } from "@/services/news/news.service"; // adjust path to match your project
 import { TNewsPayload } from "@/types/news"; // adjust path to match your project
 import Swal from "sweetalert2"; // npm install sweetalert2
-import { authkey } from "@/constants/authkey";
-import { getUserInfo } from "@/services/actions/auth.service";
-import { useSingleReporter } from "@/hooks/useSingleReporter";
+import { authkey } from "@/constants/authkey";;
 
 type CategoriesProps = {
   categories: TCategory[];
   reporterId: string;
 };
 
-const statusLabels: Record<"draft" | "preview" | "published", string> = {
+const statusLabels: Record<"draft" | "preview" | "published" | "pending", string> = {
   draft: "saved as draft",
   preview: "saved as preview",
   published: "published",
+  pending: "submitted for review",
 };
 
 const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
@@ -97,7 +96,7 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
   };
 
   const buildPayload = async (
-    status: "draft" | "published",
+    status: "draft" | "published" | "pending",
   ): Promise<TNewsPayload> => {
     if (!categoryId) {
       throw new Error("Please select a news category");
@@ -158,7 +157,7 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
     });
   };
 
-  const submitWithStatus = async (status: "draft" | "published") => {
+  const submitWithStatus = async (status: "draft" | "published" | "pending") => {
     setIsSubmitting(true);
     try {
       const payload = await buildPayload(status);
@@ -198,7 +197,7 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
   };
 
   const handleDraft = () => submitWithStatus("draft");
-  const handlePublish = () => submitWithStatus("published");
+  const handlePublish = () => submitWithStatus("pending");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 mt-12 gap-6 px-4">
