@@ -8,22 +8,18 @@ interface TabsClientProps {
 
 const TabsClient = ({ onValueChange }: TabsClientProps) => {
   const handleTab = (value: string) => {
-    console.log(value);
     onValueChange?.(value);
   };
 
   return (
-    <Tabs
-      defaultValue="approved"
-      className="w-[400px]"
-      onValueChange={handleTab}
-    >
+    <Tabs defaultValue="all" className="w-[400px]" onValueChange={handleTab}>
       <TabsList className="bg-[#F0F6FF] p-2">
-        <TabsTrigger value="approved">Approved</TabsTrigger>
+        <TabsTrigger value="all">All</TabsTrigger>
+        <TabsTrigger value="published">Published</TabsTrigger>
         <TabsTrigger value="pending">Pending</TabsTrigger>
         <TabsTrigger value="rejected">Rejected</TabsTrigger>
         <TabsTrigger value="blocked">Blocked</TabsTrigger>
-        <TabsTrigger value="suspended">Suspended</TabsTrigger>
+        <TabsTrigger value="suspended">Archived</TabsTrigger>
       </TabsList>
     </Tabs>
   );

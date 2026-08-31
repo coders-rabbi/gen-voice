@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import PageTitle from "../../components/page-Title";
 import { UsersTable } from "./components/userTable";
 
@@ -15,21 +16,19 @@ const TitleDetails = {
 };
 
 const page = () => {
+  const [value, setValue] = useState("");
   const handleTab = (value: string) => {
-    console.log(value);
+    setValue(value as string);
   };
 
   return (
     <div>
       <PageTitle TitleDetails={TitleDetails} />
       <div className="mt-5">
-        <Tabs
-          defaultValue="approved"
-          className="w-[400px]"
-          onValueChange={handleTab}
-        >
+        <Tabs defaultValue="all" className="w-100" onValueChange={handleTab}>
           <TabsList className="bg-[#F0F6FF] p-2">
-            <TabsTrigger value="approved">Approved</TabsTrigger>
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="active">Active</TabsTrigger>
             <TabsTrigger value="pending">Pending</TabsTrigger>
             <TabsTrigger value="rejected">Rejected</TabsTrigger>
             <TabsTrigger value="blocked">Blocked</TabsTrigger>
@@ -37,7 +36,7 @@ const page = () => {
           </TabsList>
         </Tabs>
 
-        <UsersTable />
+        <UsersTable onChangeValue={value} />
       </div>
     </div>
   );

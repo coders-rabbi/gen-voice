@@ -1,7 +1,8 @@
-import { getAllNews } from "@/services/news/news.service";
+"use client";
 import PageTitle from "../../components/page-Title";
 import NewsTable from "./components/newsTable";
 import TabsClient from "./components/tabsClient";
+import { useState } from "react";
 
 const TitleDetails = {
   title: "All Posts",
@@ -9,14 +10,14 @@ const TitleDetails = {
   breadcrumbs: [{ label: "Home", href: "/dashboard" }, { label: "Posts" }],
 };
 
-const page = async () => {
-  const newsData = await getAllNews();
+const page = () => {
+  const [sharedValue, setSharedValue] = useState<string>("");
   return (
     <div>
       <PageTitle TitleDetails={TitleDetails} />
       <div className="mt-5">
-        <TabsClient />
-        <NewsTable newsData={newsData} />
+        <TabsClient onValueChange={setSharedValue} />
+        <NewsTable onValueChange={sharedValue} />
       </div>
     </div>
   );

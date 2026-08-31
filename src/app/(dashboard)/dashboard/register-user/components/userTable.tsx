@@ -20,6 +20,13 @@ import { IoMdCloseCircleOutline, IoMdEye } from "react-icons/io";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { MdBlock } from "react-icons/md";
 import { BiErrorAlt } from "react-icons/bi";
+import { useEffect, useState } from "react";
+import { TUser } from "@/types/user.type";
+import { getAllUser } from "@/services/users/user.service";
+import { TAB_STATUS_MAP } from "@/constants/news";
+import { getAllReporter } from "@/services/reporter/reporterService";
+import { TReporter } from "@/types/reporter";
+import { ReporterTableSkeleton } from "./userSkeleton";
 
 const userData = [
   {
@@ -114,7 +121,77 @@ const userData = [
   },
 ];
 
-export function UsersTable() {
+interface onChangeProps {
+  onChangeValue: string;
+}
+
+export function UsersTable({ onChangeValue }: onChangeProps) {
+  const [reporterData, setReporter] = useState<TReporter[]>([]);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  // pagination states
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [hasNextPage, setHasNextPage] = useState(false);
+
+  const fetchReporterData = async (targetPage: number) => {
+    setLoading(true);
+    try {
+      const mappedStatus =
+        onChangeValue === "all"
+          ? undefined
+          : (TAB_STATUS_MAP[onChangeValue as string] ?? onChangeValue);
+
+      const data = await getAllReporter({
+        isActive: mappedStatus,
+        page: targetPage,
+        limit,
+      });
+
+      setReporter(data);
+      setHasNextPage(data.length === limit);
+    } catch (err) {
+      console.error("Failed to fetch news:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // useEffect(() => {
+  //   const fetchReporterData = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const data = await getAllReporter();
+  //       setReporter(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch reporter:", err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchReporterData();
+  // }, []);
+
+  useEffect(() => {
+    setPage(1);
+  }, [onChangeValue]);
+
+  useEffect(() => {
+    fetchReporterData(page);
+  }, [page, onChangeValue]);
+
+  const handlePrevPage = () => {
+    setPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    if (hasNextPage) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
   return (
     <div className="border mt-5">
       <div className="flex items-center gap-2 w-full max-w-sm px-3 py-2  border rounded-lg m-2.5">
@@ -149,56 +226,60 @@ export function UsersTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {userData.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell className="font-medium">{item.name}</TableCell>
-              <TableCell className="flex flex-col text-[#525252]">
-                <p>{item?.phone}</p>
-                <p>{item?.email}</p>
-              </TableCell>
-              <TableCell className="font-medium text-[#525252]">
-                {item?.registered}
-              </TableCell>
-              <TableCell className="font-medium">
-                <p className="text-[#22C55E] bg-[#E6FFEF] border border-[#22C55E] w-fit py-1.5 px-3 rounded-2xl">
-                  {item?.status}
-                </p>
-              </TableCell>
-              <TableCell className="text-right">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <Button variant="ghost" size="icon" className="size-8">
-                      <MoreHorizontalIcon />
-                      <span className="sr-only">Open menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem className="flex items-center gap-1.5 text-[#0E5FD9]">
-                      <IoMdEye />
-                      View Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-1.5 text-[#22C55E]">
-                      <IoCheckmarkDoneSharp />
-                      Approve
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-1.5 text-[#BA5F00]">
-                      <IoMdCloseCircleOutline />
-                      Rejected
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-1.5 text-[#FF0000]">
-                      <MdBlock />
-                      Block
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="flex items-center gap-1.5 text-[#FFBB00]">
-                      <BiErrorAlt />
-                      Suspened
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          ))}
+          {loading ? (
+            <ReporterTableSkeleton />
+          ) : (
+            reporterData.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{item?.fullName}</TableCell>
+                <TableCell className="flex flex-col text-[#525252]">
+                  <p>{item?.contactNo}</p>
+                  <p>{item?.user?.email}</p>
+                </TableCell>
+                <TableCell className="font-medium text-[#525252]">
+                  {item?.createdAt?.split("T")[0]}
+                </TableCell>
+                <TableCell className="font-medium">
+                  <p className="text-[#22C55E] bg-[#E6FFEF] border border-[#22C55E] w-fit py-1.5 px-3 rounded-2xl">
+                    {item?.isActive}
+                  </p>
+                </TableCell>
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Button variant="ghost" size="icon" className="size-8">
+                        <MoreHorizontalIcon />
+                        <span className="sr-only">Open menu</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#0E5FD9]">
+                        <IoMdEye />
+                        View Profile
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#22C55E]">
+                        <IoCheckmarkDoneSharp />
+                        Approve
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#BA5F00]">
+                        <IoMdCloseCircleOutline />
+                        Rejected
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#FF0000]">
+                        <MdBlock />
+                        Block
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#FFBB00]">
+                        <BiErrorAlt />
+                        Suspened
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </div>

@@ -8,3 +8,6 @@ export const getAllUser = async (): Promise<TUser[]> => {
     },
   });
 };
+
+
+

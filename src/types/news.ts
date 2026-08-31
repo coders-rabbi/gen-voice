@@ -20,14 +20,14 @@ export type TNewsStatus =
   | "approved"
   | "published"
   | "pending"
-  | "reject"
-  | "archived";
+  | "rejected"
+  | "archived"
+  | "blocked";
 
 export type TConentType = "Text" | "Video" | "Mixed";
 
 export type TNewsPayload = {
   reporterId: string;
-  approvedBy: string;
   categoryId: string;
   title: string;
   slug: string;
@@ -94,4 +94,16 @@ export type TNews = {
   publishAt?: string;
   createdAt: string;
   updatedAt: string;
+};
+
+
+export type TNewsQueryParams = {
+  searchTerm?: string;
+  status?: string;
+  categoryId?: string;
+  page?: number;
+  limit?: number;
+  sort?: string;
+  fields?: string;
+  [key: string]: unknown; // extra filter fields এর জন্য (dynamic filter() support করার কারণে)
 };

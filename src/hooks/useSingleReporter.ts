@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import type { TReporter } from "@/types/reporter";
 import { getSingleReporterUsingUserId } from "@/services/reporter/single.reporter";
-// ↑ আসল path তোমার service ফাইল যেখানে আছে সেটা বসাও
 
 interface UseSingleReporterResult {
   data: TReporter | null;

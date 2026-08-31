@@ -18,14 +18,17 @@ import { TCategory } from "@/types/category";
 import { createNews } from "@/services/news/news.service"; // adjust path to match your project
 import { TNewsPayload } from "@/types/news"; // adjust path to match your project
 import Swal from "sweetalert2"; // npm install sweetalert2
-import { authkey } from "@/constants/authkey";;
+import { authkey } from "@/constants/authkey";
 
 type CategoriesProps = {
   categories: TCategory[];
   reporterId: string;
 };
 
-const statusLabels: Record<"draft" | "preview" | "published" | "pending", string> = {
+const statusLabels: Record<
+  "draft" | "preview" | "published" | "pending",
+  string
+> = {
   draft: "saved as draft",
   preview: "saved as preview",
   published: "published",
@@ -113,7 +116,6 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
 
     const payload: TNewsPayload = {
       reporterId: reporterId,
-      approvedBy: "N?A",
 
       categoryId,
 
@@ -157,7 +159,9 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
     });
   };
 
-  const submitWithStatus = async (status: "draft" | "published" | "pending") => {
+  const submitWithStatus = async (
+    status: "draft" | "published" | "pending",
+  ) => {
     setIsSubmitting(true);
     try {
       const payload = await buildPayload(status);

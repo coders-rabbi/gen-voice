@@ -76,7 +76,8 @@ const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
           </div>
           <RxExit
             onClick={handleSingOut}
-            className="text-2xl text-[#193CB8] font-bold"
+            className="text-2xl text-[#193CB8] font-bold hover:text-red-500 transition-normal"
+            title="Logout"
           />
         </div>
       </div>

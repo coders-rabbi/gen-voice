@@ -1,14 +1,61 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCardVertical from "@/components/newsCardVertical";
 import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import PostSatisfactionReaction from "@/components/dashboard/postSatisfactionReaction";
 import ProfileInfo from "@/components/dashboard/profileInfo";
-import { getAllNews } from "@/services/news/news.service";
+import { getSingleReporterAllNews } from "@/services/news/news.service";
+import { authkey } from "@/constants/authkey";
+import { TNews } from "@/types/news";
 
-const page = async () => {
-  const data = await getAllNews();
-  const myNews = data.filter((item) => item?.reporterId?.id === "REP-0005");
+const Page = () => {
+  const [myNews, setMyNews] = useState<TNews[]>([]);
+  const [saveNews, setSaveNews] = useState<TNews[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const accessToken = localStorage.getItem(authkey);
+
+        if (!accessToken) {
+          setError("You are not logged in.");
+          setLoading(false);
+          return;
+        }
+
+        const data = await getSingleReporterAllNews(accessToken);
+        setMyNews(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Something went wrong.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-60">
+        <p className="text-[#3E3232]">Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-60">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="">
       <Image
@@ -23,7 +70,7 @@ const page = async () => {
       </div>
 
       {/* profile chart */}
-      <div className="grid md:grid-cols-12 gap-4 px-3 md:px-0">
+      <div className="grid md:grid-cols-12 gap-4 px-3">
         <div className="grid md:col-span-9 mt-12">
           <div className="flex items-center gap-2 mb-5">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
@@ -34,7 +81,7 @@ const page = async () => {
         <div className="grid md:col-span-3">
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-            <h2 className="text-xl text-[#3E3232]">Satisfaction of Posts</h2>
+            <h2 className="text-xl text-[#3E3232] ">Satisfaction of Posts</h2>
           </div>
           <div className="grid grid-cols-4 md:grid-cols-3 gap-1 mx-auto mt-2">
             <PostSatisfactionReaction />
@@ -51,7 +98,7 @@ const page = async () => {
       </div>
 
       {/* others content */}
-      <div className="mt-12 px-3 md:px-0">
+      <div className="mt-12 px-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
@@ -67,11 +114,15 @@ const page = async () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-2">
-          {myNews.map((item) => (
-            <NewsCardVertical key={item._id} news={item} />
-          ))}
-        </div>
+        {myNews.length === 0 ? (
+          <p className="text-[#3E3232] text-sm">No posts yet.</p>
+        ) : (
+          <div className="grid md:grid-cols-4 gap-2">
+            {myNews.map((item) => (
+              <NewsCardVertical key={item._id} news={item} />
+            ))}
+          </div>
+        )}
 
         <div className="flex justify-between items-center mt-10">
           <div className="flex items-center gap-2 mb-1">
@@ -88,14 +139,20 @@ const page = async () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-2">
-          {myNews.map((item) => (
-            <NewsCardVertical key={item._id} news={item} />
-          ))}
-        </div>
+        {saveNews.length === 0 ? (
+          <p className="text-[#3E3232] text-sm flex flex-col justify-center items-center h-50">
+            No saved posts yet.
+          </p>
+        ) : (
+          <div className="grid md:grid-cols-4 gap-2">
+            {myNews.map((item) => (
+              <NewsCardVertical key={item._id} news={item} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;
