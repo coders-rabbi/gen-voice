@@ -4,10 +4,12 @@ export const TAB_STATUS_MAP: Record<string, string> = {
   rejected: "rejected",
   blocked: "blocked",
   suspended: "archived",
+  active: "active",
 };
 
 export const STATUS_TAB_MAP: Record<string, string> = {
   published: "approved",
+  active: "active",
   pending: "pending",
   rejected: "rejected",
   blocked: "blocked",

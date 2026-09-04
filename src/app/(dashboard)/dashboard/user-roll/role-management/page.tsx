@@ -1,8 +1,14 @@
+"use client";
 import PageTitle from "@/app/(dashboard)/components/page-Title";
 import Link from "next/link";
-import { FaArrowLeft, FaPlus, FaUserShield } from "react-icons/fa6";
-import { RiUserSettingsLine } from "react-icons/ri";
-import { RollTable } from "./components/roleManagementTabale";
+import { FaArrowLeft, FaPlus } from "react-icons/fa6";
+import RollTable from "./components/roleManagementTabale";
+import { getFromLocalStorage } from "../../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
+import { useEffect, useState } from "react";
+import { TRole } from "@/types/role";
+import { getRoles } from "@/services/role/role.service";
+import { RollTableSkeleton } from "./components/RoleSkeleton";
 
 const TitleDetails = {
   title: "Roll Management",
@@ -10,13 +16,23 @@ const TitleDetails = {
   breadcrumbs: [
     { label: "Home", href: "/dashboard" },
     { label: "Users & Roll", href: "/dashboard/user-roll" },
-    {
-      label: "Roll Management",
-    },
+    { label: "Roll Management" },
   ],
 };
 
-const page = () => {
+const Page = () => {
+  const [data, setData] = useState<TRole[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const token = getFromLocalStorage(authkey);
+
+  useEffect(() => {
+    setIsLoading(true);
+    getRoles(token as string)
+      .then((res) => setData(res.data))
+      .finally(() => setIsLoading(false));
+  }, []);
+
   return (
     <div>
       <div className="lg:flex justify-between items-center">
@@ -39,10 +55,14 @@ const page = () => {
         </div>
       </div>
       <div className="mt-10">
-        <RollTable />
+        {isLoading ? (
+          <RollTableSkeleton rows={5} />
+        ) : (
+          <RollTable data={data} token={token as string} />
+        )}
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;

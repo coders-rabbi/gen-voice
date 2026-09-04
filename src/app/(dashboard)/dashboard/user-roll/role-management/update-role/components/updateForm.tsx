@@ -1,11 +1,18 @@
 "use client";
 
 import { authkey } from "@/constants/authkey";
-import { createRole } from "@/services/role/role.service";
+import {
+  createRole,
+  getSingleRole,
+  updateRole,
+} from "@/services/role/role.service";
 import { TPermission, TRolePayload } from "@/types/role";
-import { useState } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import Swal from "sweetalert2";
+import useSWR from "swr";
+import RoleFormSkeleton from "./updateFormSkeleton";
 
 type FeatureKey =
   | "categories"
@@ -83,13 +90,41 @@ function Toggle({
   );
 }
 
-export default function CreateRoleForm() {
+export default function UpdateRoleForm() {
   const [roleName, setRoleName] = useState("");
   const [sectionOpen, setSectionOpen] = useState(true);
   const [permissions, setPermissions] =
     useState<Record<FeatureKey, boolean>>(initialPermissions);
-
   const token = localStorage.getItem(authkey);
+
+  const roleId = useParams();
+
+  const {
+    data: roleData,
+    error,
+    isLoading,
+    mutate,
+  } = useSWR(roleId?.id ? [roleId.id, token] : null, ([id, token]) =>
+    getSingleRole(id as string, token as string),
+  );
+
+  useEffect(() => {
+    if (roleData?.data?.permissions) {
+      const permissionsArray = roleData.data.permissions as TPermission[];
+      const permissionsRecord = permissionsArray.reduce(
+        (acc, curr) => {
+          acc[curr.feature as FeatureKey] = curr.isGranted;
+          return acc;
+        },
+        {} as Record<FeatureKey, boolean>,
+      );
+      setPermissions(permissionsRecord);
+      setRoleName(roleData?.data?.roleName);
+    }
+  }, [roleData]);
+
+  if (isLoading) return <RoleFormSkeleton />;
+  if (error) return <p>Error loading data</p>;
 
   const togglePermission = (key: FeatureKey) => {
     setPermissions((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -104,7 +139,7 @@ export default function CreateRoleForm() {
     );
   };
 
-  const handleCreateRole = async () => {
+  const handleUpdateRole = async () => {
     if (!roleName) {
       Swal.fire({
         icon: "warning",
@@ -113,7 +148,19 @@ export default function CreateRoleForm() {
       });
       return;
     }
+    if (
+      !permissions ||
+      Object.values(permissions).filter(Boolean).length === 0
+    ) {
+      Swal.fire({
+        icon: "warning",
+        title: "Permissions required",
+        text: "Please select at least one permission before submitting.",
+      });
+      return;
+    }
 
+    // Record<FeatureKey, boolean> -> TPermission[] e convert kora
     const permissionsArray: TPermission[] = Object.entries(permissions).map(
       ([feature, isGranted]) => ({
         feature: feature as FeatureKey,
@@ -126,15 +173,19 @@ export default function CreateRoleForm() {
       permissions: permissionsArray,
     };
 
-    console.log(payload);
-
     try {
-      const result = await createRole(payload, token as string);
-      console.log(result);
+      const result = await updateRole(
+        roleId.id as string,
+        payload,
+        token as string,
+      );
+
+      mutate(result, { revalidate: false });
+
       Swal.fire({
         icon: "success",
-        title: "Added",
-        text: `"${roleName}" Category successfully created.`,
+        title: "Updated",
+        text: `"${roleName}" role successfully updated.`,
         timer: 2000,
         showConfirmButton: false,
       });
@@ -146,10 +197,8 @@ export default function CreateRoleForm() {
       });
     }
   };
-
   return (
     <div className="w-full">
-      {/* Role Name */}
       <div className="mb-8">
         <label
           htmlFor="roleName"
@@ -239,11 +288,11 @@ export default function CreateRoleForm() {
         </button>
         <button
           type="button"
-          onClick={handleCreateRole}
+          onClick={handleUpdateRole}
           className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-[#155EEF] py-3 text-white font-medium hover:bg-[#0E4FD1] transition-colors"
         >
           <FaPlus size={12} />
-          Create Role
+          Update Role
         </button>
       </div>
     </div>

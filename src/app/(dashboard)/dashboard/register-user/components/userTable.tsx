@@ -22,104 +22,15 @@ import { MdBlock } from "react-icons/md";
 import { BiErrorAlt } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { TUser } from "@/types/user.type";
-import { getAllUser } from "@/services/users/user.service";
+import { getAllUser, updateUserStatus } from "@/services/users/user.service";
 import { TAB_STATUS_MAP } from "@/constants/news";
 import { getAllReporter } from "@/services/reporter/reporterService";
 import { TReporter } from "@/types/reporter";
 import { ReporterTableSkeleton } from "./userSkeleton";
-
-const userData = [
-  {
-    id: 1,
-    name: "Olivia Rhye",
-    avatar: "/avatars/olivia-rhye.jpg",
-    email: "olivia@untitledui.com",
-    phone: "+880 1700-100000",
-    registered: "2026-07-01",
-    status: "Approved",
-  },
-  {
-    id: 2,
-    name: "Phoenix Baker",
-    avatar: "/avatars/phoenix-baker.jpg",
-    email: "baker@genvoice.io",
-    phone: "+884 1712-100548",
-    registered: "2026-01-08",
-    status: "Approved",
-  },
-  {
-    id: 3,
-    name: "Lana Steiner",
-    avatar: "/avatars/lana-steiner.jpg",
-    email: "lana@genvoice.io",
-    phone: "+884 1712384492",
-    registered: "2026-01-12",
-    status: "Approved",
-  },
-  {
-    id: 4,
-    name: "Demi Wilkinson",
-    avatar: "/avatars/demi-wilkinson.jpg",
-    email: "demi@genvoice.io",
-    phone: "+884 1712-100548",
-    registered: "2026-01-11",
-    status: "Approved",
-  },
-  {
-    id: 5,
-    name: "Candice Wu",
-    avatar: "/avatars/candice-wu.jpg",
-    email: "candice@genvoice.io",
-    phone: "+884 1712-100548",
-    registered: "2026-01-19",
-    status: "Approved",
-  },
-  {
-    id: 6,
-    name: "Natali Craig",
-    avatar: "/avatars/natali-craig.jpg",
-    email: "olivia@untitledui.com",
-    phone: "+880 1700-100000",
-    registered: "2026-01-01",
-    status: "Approved",
-  },
-  {
-    id: 7,
-    name: "Drew Cano",
-    avatar: "/avatars/drew-cano.jpg",
-    email: "olivia@untitledui.com",
-    phone: "+880 1700-100000",
-    registered: "2026-01-15",
-    status: "Approved",
-  },
-  {
-    id: 8,
-    name: "Orlando Diggs",
-    avatar: "/avatars/orlando-diggs.jpg",
-    email: "olivia@untitledui.com",
-    phone: "+880 1700-100000",
-    registered: "2026-01-17",
-    status: "Approved",
-  },
-  {
-    id: 9,
-    name: "Andi Lane",
-    avatar: "/avatars/andi-lane.jpg",
-    email: "olivia@untitledui.com",
-    phone: "+880 1700-100000",
-    registered: "2026-01-21",
-    status: "Approved",
-  },
-  {
-    id: 10,
-    name: "Kate Morrison",
-    avatar: "/avatars/kate-morrison.jpg",
-    email: "olivia@untitledui.com",
-    phone: "+880 1700-100000",
-    registered: "2026-01-10",
-    status: "Approved",
-  },
-];
+import { PiArrowsCounterClockwiseLight } from "react-icons/pi";
+import { getFromLocalStorage } from "../../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
+import Swal from "sweetalert2";
 
 interface onChangeProps {
   onChangeValue: string;
@@ -127,13 +38,13 @@ interface onChangeProps {
 
 export function UsersTable({ onChangeValue }: onChangeProps) {
   const [reporterData, setReporter] = useState<TReporter[]>([]);
-  const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   // pagination states
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [hasNextPage, setHasNextPage] = useState(false);
+  const token = getFromLocalStorage(authkey);
 
   const fetchReporterData = async (targetPage: number) => {
     setLoading(true);
@@ -158,22 +69,6 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchReporterData = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const data = await getAllReporter();
-  //       setReporter(data);
-  //     } catch (err) {
-  //       console.error("Failed to fetch reporter:", err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchReporterData();
-  // }, []);
-
   useEffect(() => {
     setPage(1);
   }, [onChangeValue]);
@@ -189,6 +84,65 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
   const handleNextPage = () => {
     if (hasNextPage) {
       setPage((prev) => prev + 1);
+    }
+  };
+
+  const statusStyles: Record<string, string> = {
+    active: "text-[#22C55E] bg-[#DCFCE7] border-[#22C55E]", // green – good/active
+    pending: "text-[#F59E0B] bg-[#FEF3C7] border-[#F59E0B]", // amber – waiting
+    rejected: "text-[#EF4444] bg-[#FEE2E2] border-[#EF4444]", // red – rejected/error
+    blocked: "text-[#DC2626] bg-[#FEE2E2] border-[#DC2626]", // dark red – blocked
+    suspended: "text-[#6B7280] bg-[#F3F4F6] border-[#6B7280]", // gray – inactive
+  };
+
+  const getStatusStyle = (status?: string) =>
+    statusStyles[status?.toLowerCase() ?? ""] ?? statusStyles.default;
+
+  const handleUserStaus = async (id: string, userStatus: string) => {
+    try {
+      if (!token) {
+        console.error("No token found in local storage.");
+        Swal.fire({
+          icon: "error",
+          title: "Session expired",
+          text: "Please log in again.",
+        });
+        return;
+      }
+
+      if (!userStatus) {
+        console.error("Invalid status mapping for:", userStatus);
+        Swal.fire({
+          icon: "error",
+          title: "Invalid status",
+          text: `No mapping found for "${userStatus}".`,
+        });
+        return;
+      }
+
+      const result = await updateUserStatus(token as string, id, userStatus);
+
+      if (!result?.success) {
+        throw new Error(result?.message || "Update failed");
+      }
+
+      await Swal.fire({
+        icon: "success",
+        title: "Updated",
+        text: "User status updated successfully.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      // Refresh the data after updating the status
+      await fetchReporterData(page);
+    } catch (error) {
+      console.error("Failed to update user status:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Update failed",
+        text: error instanceof Error ? error.message : "Something went wrong.",
+      });
     }
   };
 
@@ -240,7 +194,9 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
                   {item?.createdAt?.split("T")[0]}
                 </TableCell>
                 <TableCell className="font-medium">
-                  <p className="text-[#22C55E] bg-[#E6FFEF] border border-[#22C55E] w-fit py-1.5 px-3 rounded-2xl">
+                  <p
+                    className={`w-fit py-1 px-3 rounded-2xl border ${getStatusStyle(item?.isActive)}`}
+                  >
                     {item?.isActive}
                   </p>
                 </TableCell>
@@ -257,22 +213,41 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
                         <IoMdEye />
                         View Profile
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#22C55E]">
+                      <DropdownMenuItem
+                        className="flex items-center gap-1.5 text-[#22C55E]"
+                        onClick={() => handleUserStaus(item?._id, "active")}
+                      >
                         <IoCheckmarkDoneSharp />
-                        Approve
+                        active
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#BA5F00]">
+                      <DropdownMenuItem
+                        className="flex items-center gap-1.5 text-[#c54522]"
+                        onClick={() => handleUserStaus(item?._id, "pending")}
+                      >
+                        <PiArrowsCounterClockwiseLight />
+                        pending
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="flex items-center gap-1.5 text-[#BA5F00]"
+                        onClick={() => handleUserStaus(item?._id, "rejected")}
+                      >
                         <IoMdCloseCircleOutline />
                         Rejected
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#FF0000]">
+                      <DropdownMenuItem
+                        className="flex items-center gap-1.5 text-[#FF0000]"
+                        onClick={() => handleUserStaus(item?._id, "blocked")}
+                      >
                         <MdBlock />
-                        Block
+                        Blocked
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="flex items-center gap-1.5 text-[#FFBB00]">
+                      <DropdownMenuItem
+                        className="flex items-center gap-1.5 text-[#FFBB00]"
+                        onClick={() => handleUserStaus(item?._id, "suspended")}
+                      >
                         <BiErrorAlt />
-                        Suspened
+                        Suspended
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -282,6 +257,29 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
           )}
         </TableBody>
       </Table>
+
+      {/* Pagination controls */}
+      <div className="flex items-center justify-between px-4 py-3 border-t">
+        <p className="text-xs text-[#525252]">Page {page}</p>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePrevPage}
+            disabled={page === 1 || loading}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNextPage}
+            disabled={!hasNextPage || loading}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
