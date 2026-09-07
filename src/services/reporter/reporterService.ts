@@ -1,13 +1,12 @@
 import { TReporter, TReporterQueryParams } from "@/types/reporter";
-import { apiClient } from "../apiClient";
+import { apiClient, apiClientRaw, ApiResponse } from "../apiClient";
 
-// export const getAllReporter = async (): Promise<TReporter[]> => {
-//   return apiClient<TReporter[]>("/reporters", {
-//     next: {
-//       revalidate: 30,
-//     },
-//   });
-// };
+export const createReporter = async (payload: any) => {
+  return apiClientRaw<TReporter>("/users/create-reporter", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+};
 
 export const getAllReporter = async (
   query: TReporterQueryParams = {},

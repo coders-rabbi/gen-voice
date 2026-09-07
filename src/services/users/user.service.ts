@@ -25,3 +25,4 @@ export const updateUserStatus = async (
     body: JSON.stringify({ status }),
   });
 };
+

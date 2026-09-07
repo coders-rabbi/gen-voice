@@ -8,6 +8,7 @@ import DashboardNavbar from "./components/dashboardNavBar";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { PermissionProvider, usePermission } from "@/context/PermissionContext";
 import { navItems } from "@/config/NavConfig";
+import OverviewLoading from "@/components/dashboard/dashboardSkeleton";
 // আসল guard logic আলাদা inner component এ, কারণ usePermission()
 // PermissionProvider এর ভিতরেই কল করতে হবে
 const DashboardLayoutInner = ({
@@ -42,9 +43,11 @@ const DashboardLayoutInner = ({
 
   if (isChecking) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p>checking permissions...</p>
-      </div>
+      // <div className="flex items-center justify-center min-h-screen">
+      //   <p>checking permissions...</p>
+      // </div>
+
+      <OverviewLoading />
     );
   }
 
@@ -80,7 +83,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   if (isChecking) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p>checking...</p>
+        {/* <p>checking...</p> */}
       </div>
     );
   }
