@@ -1,7 +1,7 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import ReporterCard from "@/components/ui/home/components/reporterCard";
-import { getAllReporter } from "@/services/reporterService";
+import { getAllReporter } from "@/services/reporter/reporterService";
 
 const Reporters = async () => {
   const reporters = await getAllReporter();

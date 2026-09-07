@@ -22,7 +22,7 @@ const page = () => {
         <PageTitle TitleDetails={TitleDetails} />
         <div className="flex gap-1.5 mt-5 lg:mt-0">
           <Link
-            href="/dashboard/user-roll/role-management"
+            href="/dashboard/user-role/role-management"
             className="bg-[#F0F6FF] text-[#005CE8] border px-4 py-1 flex items-center gap-2 rounded-2xl border-[#005CE8] w-fit "
           >
             <FaArrowLeft />

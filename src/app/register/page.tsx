@@ -1,4 +1,4 @@
-import logo from "@/assets/logo/logo.png";
+import logo from "@/assets/logo/logo.svg";
 import bg from "@/assets/signup/bg.png";
 import Image from "next/image";
 import Link from "next/link";
