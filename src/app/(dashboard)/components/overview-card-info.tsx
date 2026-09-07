@@ -32,7 +32,7 @@ const OverviewCard = ({ userData, newsData }: userProps) => {
     (item) => item?.status === "pending",
   ).length;
   const rejectNews = newsData.filter(
-    (item) => item?.status === "reject",
+    (item) => item?.status === "rejected",
   ).length;
   const archivedNews = newsData.filter(
     (item) => item?.status === "archived",

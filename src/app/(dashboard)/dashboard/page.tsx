@@ -1,3 +1,4 @@
+
 import { getAllUser } from "@/services/users/user.service";
 import { PostGrowthChart } from "../components/charts/growthChart";
 import { TrafficSources } from "../components/charts/trafficSource";
@@ -6,6 +7,8 @@ import { YearlyPostsChart } from "../components/charts/yearlyGrowthChart";
 import OverviewCard from "../components/overview-card-info";
 import PageTitle from "../components/page-Title";
 import { getAllNews } from "@/services/news/news.service";
+import { getFromLocalStorage } from "../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
 
 const TitleDetails = {
   title: "Overview",
@@ -14,7 +17,8 @@ const TitleDetails = {
 };
 
 const page = async () => {
-  const userDataFromDB = await getAllUser();
+  const token = getFromLocalStorage(authkey)
+  const userDataFromDB = await getAllUser(token as string);
   const newsData = await getAllNews();
 
   return (
