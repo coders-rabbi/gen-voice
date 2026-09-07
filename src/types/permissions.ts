@@ -12,16 +12,9 @@ export type TPermission = {
   isGranted: boolean;
 };
 
-export type TRolePayload = {
-  roleName: string;
-  permissions: TPermission[];
-};
-
 export type TRole = {
   _id: string;
   roleName: string;
   permissions: TPermission[];
   isDeleted: boolean;
-  createAt: Date;
-  updateAt: Date;
 };

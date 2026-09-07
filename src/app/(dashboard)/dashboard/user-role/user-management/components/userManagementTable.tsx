@@ -18,6 +18,8 @@ import { getFromLocalStorage } from "../../../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
 import useSWR, { useSWRConfig } from "swr";
 import { getAllUser } from "@/services/users/user.service";
+import { getAllAdmin } from "@/services/adminUser/admin.user";
+import AdminUserSkeleton from "./adminUserSkeleton";
 
 export function UserTable() {
   const [token, setToken] = useState<string | null>(null);
@@ -34,10 +36,12 @@ export function UserTable() {
     error,
     isLoading,
     mutate,
-  } = useSWR(token ? [token] : null, ([tok]) => getAllUser(tok as string));
+  } = useSWR(token ? [token] : null, ([tok]) => getAllAdmin(tok as string));
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <AdminUserSkeleton />;
   if (error) return <p>Error loading users</p>;
+
+  
 
   return (
     <Table className="border rounded-2xl overflow-hidden">
@@ -53,7 +57,7 @@ export function UserTable() {
           <TableHead className="text-[#717680] font-medium">Users</TableHead>
           <TableHead>
             <span className="flex items-center gap-1 text-[#717680]">
-              Role Name <BiDownArrowAlt />
+              Role <BiDownArrowAlt />
             </span>
           </TableHead>
           <TableHead className="text-right text-[#717680]">Action</TableHead>
@@ -66,17 +70,9 @@ export function UserTable() {
               {idx + 1}
             </TableCell>
             <TableCell>
-              <div className="flex items-center gap-3">
-                {/* <Image
-                  src={user.avatar}
-                  alt={user.userName}
-                  width={36}
-                  height={36}
-                  className="rounded-full object-cover w-9 h-9"
-                /> */}
-                <span className="font-medium text-[#181D27]">
-                  {user.email}
-                </span>
+              <div className=" items-center gap-3">
+                <p className="font-medium text-[#181D27]">{user.adminName}</p>
+                <p className="font-medium text-[#181D27]">{user.email}</p>
               </div>
             </TableCell>
             <TableCell>

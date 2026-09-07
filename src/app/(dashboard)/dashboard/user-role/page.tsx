@@ -29,14 +29,14 @@ const page = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
         <Link
-          href="user-roll/role-management"
+          href="user-role/role-management"
           className="flex flex-col items-center gap-7 border border-[#CFDFF7] rounded-md p-5"
         >
           <FaUserShield className="text-4xl text-[#005CE8]" />
           <h3>Roll Management</h3>
         </Link>
         <Link
-          href="user-roll/user-management"
+          href="user-role/user-management"
           className="flex flex-col items-center gap-7 border border-[#CFDFF7] rounded-md p-5"
         >
           <RiUserSettingsLine className="text-4xl text-[#005CE8]" />

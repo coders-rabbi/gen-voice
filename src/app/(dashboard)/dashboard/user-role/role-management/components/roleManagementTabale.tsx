@@ -25,22 +25,22 @@ const permissionColorMap: Record<PermissionColor, string> = {
 
 const featureLabelMap: Record<TFeature, string> = {
   categories: "Categories",
-  registeredUsers: "Registered Users",
-  allPosts: "All Posts",
-  allPolls: "All Polls",
-  usersAndRoll: "Users & Roles",
-  websiteConfiguration: "Website Configuration",
-  settings: "Settings",
+  "register-user": "Registered Users",
+  "all-news": "All Posts",
+  "all-poll": "All Polls",
+  "user-role": "Users & Roles",
+  "web-config": "Website Configuration",
+  setting: "Settings",
 };
 
 const featureColorMap: Record<TFeature, PermissionColor> = {
   categories: "purple",
-  registeredUsers: "blue",
-  allPosts: "purple",
-  allPolls: "blue",
-  usersAndRoll: "purple",
-  websiteConfiguration: "blue",
-  settings: "purple",
+  "register-user": "blue",
+  "all-news": "purple",
+  "all-poll": "blue",
+  "user-role": "purple",
+  "web-config": "blue",
+  setting: "purple",
 };
 
 const MAX_VISIBLE_PERMISSIONS = 3;

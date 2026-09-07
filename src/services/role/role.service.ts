@@ -40,6 +40,14 @@ export const getSingleRole = async (
   });
 };
 
+export const getSingleRoleByName = async (
+  roleName: string,
+): Promise<ApiResponse<TRole>> => {
+  return apiClientRaw<TRole>(`/roles/name/${roleName}`, {
+    method: "GET",
+  });
+};
+
 export const updateRole = async (
   roleId: string,
   payload: TRolePayload,

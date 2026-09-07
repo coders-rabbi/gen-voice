@@ -1,54 +1,46 @@
 "use client";
 
 import { authkey } from "@/constants/authkey";
-import {
-  createRole,
-  getSingleRole,
-  updateRole,
-} from "@/services/role/role.service";
+import { createRole } from "@/services/role/role.service";
 import { TPermission, TRolePayload } from "@/types/role";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import Swal from "sweetalert2";
-import useSWR from "swr";
-import RoleFormSkeleton from "./updateFormSkeleton";
 
 type FeatureKey =
   | "categories"
-  | "registeredUsers"
-  | "allPosts"
-  | "allPolls"
-  | "usersAndRoll"
-  | "websiteConfiguration"
-  | "settings";
+  | "register-user"
+  | "all-news"
+  | "all-poll"
+  | "user-role"
+  | "web-config"
+  | "setting";
 
 // Available role name options for the select field.
 // Update this list as needed to match the roles you want to support.
-const roleNameOptions = ["Super Admin", "Admin", "Editor", "Moderator"];
+const roleNameOptions = ["admin", "editor", "moderator"];
 
 const initialPermissions: Record<FeatureKey, boolean> = {
   categories: true,
-  registeredUsers: false,
-  allPosts: false,
-  allPolls: true,
-  usersAndRoll: true,
-  websiteConfiguration: false,
-  settings: true,
+  "register-user": false,
+  "all-news": false,
+  "all-poll": true,
+  "user-role": true,
+  "web-config": false,
+  setting: true,
 };
-
 const permissionColumns: { key: FeatureKey; label: string }[][] = [
   [
     { key: "categories", label: "Categories" },
-    { key: "registeredUsers", label: "Registered Users" },
-    { key: "allPosts", label: "All Posts" },
+    { key: "register-user", label: "Registered Users" },
+    { key: "all-news", label: "All News" },
   ],
   [
-    { key: "allPolls", label: "All Polls" },
-    { key: "usersAndRoll", label: "Users & Roll" },
-    { key: "websiteConfiguration", label: "Website Configuration" },
+    { key: "all-poll", label: "All Polls" },
+    { key: "user-role", label: "Users & Roll" },
+    { key: "web-config", label: "Website Configuration" },
   ],
-  [{ key: "settings", label: "Settings" }],
+  [{ key: "setting", label: "Setting" }],
 ];
 
 function Toggle({
@@ -90,41 +82,13 @@ function Toggle({
   );
 }
 
-export default function UpdateRoleForm() {
+export default function CreateRoleForm() {
   const [roleName, setRoleName] = useState("");
   const [sectionOpen, setSectionOpen] = useState(true);
   const [permissions, setPermissions] =
     useState<Record<FeatureKey, boolean>>(initialPermissions);
+
   const token = localStorage.getItem(authkey);
-
-  const roleId = useParams();
-
-  const {
-    data: roleData,
-    error,
-    isLoading,
-    mutate,
-  } = useSWR(roleId?.id ? [roleId.id, token] : null, ([id, token]) =>
-    getSingleRole(id as string, token as string),
-  );
-
-  useEffect(() => {
-    if (roleData?.data?.permissions) {
-      const permissionsArray = roleData.data.permissions as TPermission[];
-      const permissionsRecord = permissionsArray.reduce(
-        (acc, curr) => {
-          acc[curr.feature as FeatureKey] = curr.isGranted;
-          return acc;
-        },
-        {} as Record<FeatureKey, boolean>,
-      );
-      setPermissions(permissionsRecord);
-      setRoleName(roleData?.data?.roleName);
-    }
-  }, [roleData]);
-
-  if (isLoading) return <RoleFormSkeleton />;
-  if (error) return <p>Error loading data</p>;
 
   const togglePermission = (key: FeatureKey) => {
     setPermissions((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -139,7 +103,7 @@ export default function UpdateRoleForm() {
     );
   };
 
-  const handleUpdateRole = async () => {
+  const handleCreateRole = async () => {
     if (!roleName) {
       Swal.fire({
         icon: "warning",
@@ -148,19 +112,7 @@ export default function UpdateRoleForm() {
       });
       return;
     }
-    if (
-      !permissions ||
-      Object.values(permissions).filter(Boolean).length === 0
-    ) {
-      Swal.fire({
-        icon: "warning",
-        title: "Permissions required",
-        text: "Please select at least one permission before submitting.",
-      });
-      return;
-    }
 
-    // Record<FeatureKey, boolean> -> TPermission[] e convert kora
     const permissionsArray: TPermission[] = Object.entries(permissions).map(
       ([feature, isGranted]) => ({
         feature: feature as FeatureKey,
@@ -173,19 +125,15 @@ export default function UpdateRoleForm() {
       permissions: permissionsArray,
     };
 
+    console.log(payload);
+
     try {
-      const result = await updateRole(
-        roleId.id as string,
-        payload,
-        token as string,
-      );
-
-      mutate(result, { revalidate: false });
-
+      const result = await createRole(payload, token as string);
+      console.log(result);
       Swal.fire({
         icon: "success",
-        title: "Updated",
-        text: `"${roleName}" role successfully updated.`,
+        title: "Added",
+        text: `"${roleName}" Category successfully created.`,
         timer: 2000,
         showConfirmButton: false,
       });
@@ -197,8 +145,10 @@ export default function UpdateRoleForm() {
       });
     }
   };
+
   return (
     <div className="w-full">
+      {/* Role Name */}
       <div className="mb-8">
         <label
           htmlFor="roleName"
@@ -288,11 +238,11 @@ export default function UpdateRoleForm() {
         </button>
         <button
           type="button"
-          onClick={handleUpdateRole}
+          onClick={handleCreateRole}
           className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-[#155EEF] py-3 text-white font-medium hover:bg-[#0E4FD1] transition-colors"
         >
           <FaPlus size={12} />
-          Update Role
+          Create Role
         </button>
       </div>
     </div>

@@ -4,10 +4,14 @@ import PageTitle from "@/app/(dashboard)/components/page-Title";
 import Link from "next/link";
 import { useState } from "react";
 import { FaArrowLeft, FaPlus } from "react-icons/fa6";
+import { getFromLocalStorage } from "../../../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
+import { adminUserCreate } from "@/services/adminUser/admin.user";
+import Swal from "sweetalert2";
 
 type TFormData = {
-  userName: string;
-  userEmail: string;
+  adminName: string;
+  email: string;
   role: string;
   password: string;
   confirmPassword: string;
@@ -26,13 +30,15 @@ const TitleDetails = {
 
 const CreateUserForm = () => {
   const [formData, setFormData] = useState<TFormData>({
-    userName: "",
-    userEmail: "",
+    adminName: "",
+    email: "",
     role: "",
     password: "",
     confirmPassword: "",
   });
   const [error, setError] = useState<string | null>(null);
+
+  const token = getFromLocalStorage(authkey);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -43,8 +49,8 @@ const CreateUserForm = () => {
 
   const handleReset = () => {
     setFormData({
-      userName: "",
-      userEmail: "",
+      adminName: "",
+      email: "",
       role: "",
       password: "",
       confirmPassword: "",
@@ -52,7 +58,7 @@ const CreateUserForm = () => {
     setError(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -61,9 +67,30 @@ const CreateUserForm = () => {
       return;
     }
 
-    console.log("Form submitted:", formData);
+    const { confirmPassword, ...payload } = formData;
 
-    // পরে এখানে API call বসানো যাবে
+    try {
+      if (!token) {
+        throw new Error("Your are not authorized!");
+      }
+      const response = await adminUserCreate(token as string, payload);
+      if (response?.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Created",
+          text: `"${payload?.role}" acount successfully created.`,
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+      handleReset();
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: `${payload?.role} account faild to create`,
+      });
+    }
   };
 
   return (
@@ -82,12 +109,12 @@ const CreateUserForm = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-800 mb-2">
-              User Name
+              Name
             </label>
             <input
               type="text"
-              name="userName"
-              value={formData.userName}
+              name="adminName"
+              value={formData.adminName}
               onChange={handleChange}
               placeholder="Write here..."
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500"
@@ -97,12 +124,12 @@ const CreateUserForm = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-800 mb-2">
-              User Email
+              Email
             </label>
             <input
               type="email"
-              name="userEmail"
-              value={formData.userEmail}
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               placeholder="Write here..."
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500"
@@ -127,10 +154,9 @@ const CreateUserForm = () => {
                 <option value="" disabled>
                   Select Role
                 </option>
-                <option value="admin">Admin</option>
-                <option value="editor">Editor</option>
-                <option value="author">Author</option>
-                <option value="viewer">Viewer</option>
+                <option value="admin">admin</option>
+                <option value="editor">editor</option>
+                <option value="viewer">modarator</option>
               </select>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

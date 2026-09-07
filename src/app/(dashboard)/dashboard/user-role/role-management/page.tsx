@@ -20,7 +20,7 @@ const TitleDetails = {
   ],
 };
 
-const Page = () => {
+const page = () => {
   const [data, setData] = useState<TRole[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -46,11 +46,11 @@ const Page = () => {
             Back
           </Link>
           <Link
-            href="role-management/create-roll"
+            href="role-management/create-role"
             className="bg-[#005CE8] text-white border px-4 py-1 flex items-center gap-2 rounded-2xl border-[#F0F6FF] w-fit "
           >
             <FaPlus />
-            Create Roll
+            Create Role
           </Link>
         </div>
       </div>
@@ -65,4 +65,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default page;

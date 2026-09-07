@@ -21,7 +21,6 @@ interface DashboardNavbarProps {
 
 const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
   const adminInfo = getUserInfo();
-  // const reporterData = useSingleReporter(userInfo?._id as string);
   const router = useRouter();
 
   const handleSingOut = () => {
