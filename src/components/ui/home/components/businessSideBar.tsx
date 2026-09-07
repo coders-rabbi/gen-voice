@@ -1,17 +1,17 @@
 import Link from "next/link";
-import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import businessMan from "@/assets/home/businessman.jpg";
 import Image from "next/image";
-import { CiCalendar } from "react-icons/ci";
 import sideBarImage from "@/assets/home/sidebarimage.jpg";
 import BusinessSideCart from "./businessSideCart";
-import { IPost } from "@/types/news";
+import { TNews } from "@/types/news";
 import { getAllNews } from "@/services/news/news.service";
 
 const BusinessSideBar = async () => {
   const data = await getAllNews();
-  const posts: IPost[] = data.filter((item) => item.category === "Business");
+  const posts: TNews[] = data.filter(
+    (item) => item.categoryId?.categoryName === "Business",
+  );
   return (
     <div className="mt-6">
       <div className="flex justify-between items-center">
