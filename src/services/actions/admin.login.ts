@@ -9,7 +9,7 @@ export type LoginPayload = {
 export const adminLogin = async (
   payload: LoginPayload,
 ): Promise<ApiResponse<string>> => {
-  return apiClientRaw<string>("/auth/login", {
+  return apiClientRaw<string>("/auth/admin-login", {
     method: "POST",
     body: JSON.stringify(payload),
   });

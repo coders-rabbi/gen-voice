@@ -1,10 +1,12 @@
 import { apiClient, apiClientRaw, ApiResponse } from "../apiClient";
 import { TUser } from "@/types/user.type";
 
-export const getAllUser = async (): Promise<TUser[]> => {
+export const getAllUser = async (token: string): Promise<TUser[]> => {
   return apiClient<TUser[]>("/users", {
-    next: {
-      revalidate: 60,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
     },
   });
 };

@@ -15,7 +15,7 @@ const TitleDetails = {
   ],
 };
 
-const page = () => {
+const page = async () => {
   return (
     <div>
       <div className="lg:flex justify-between items-center">

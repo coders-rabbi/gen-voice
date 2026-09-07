@@ -8,15 +8,20 @@ import DemoUser from "@/assets/dashboard/user.jpg";
 import { RxExit } from "react-icons/rx";
 import { getUserInfo, removeUser } from "@/services/actions/auth.service";
 import { useRouter } from "next/navigation";
-import { useSingleReporter } from "@/hooks/useSingleReporter";
+
+type TAdminInfo = {
+  _id: string,
+  adminName: string,
+  email: string,
+}
 
 interface DashboardNavbarProps {
   onMenuClick: () => void;
 }
 
 const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
-  const userInfo = getUserInfo();
-  const reporterData = useSingleReporter(userInfo?._id as string);
+  const adminInfo = getUserInfo();
+  // const reporterData = useSingleReporter(userInfo?._id as string);
   const router = useRouter();
 
   const handleSingOut = () => {
@@ -70,8 +75,8 @@ const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
               className="rounded-full"
             />
             <div className="hidden md:flex md:flex-col gap-0.5 text-xs">
-              <h4>{reporterData?.data?.fullName || "Loading..."}</h4>
-              <h4>ID: {reporterData?.data?.id || "..."}</h4>
+              <h4>{adminInfo?.adminName || "Loading..."}</h4>
+              <h4>ID: {adminInfo?.email || "..."}</h4>
             </div>
           </div>
           <RxExit

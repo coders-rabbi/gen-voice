@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import {
   Table,
@@ -12,48 +13,32 @@ import { BiDownArrowAlt } from "react-icons/bi";
 import { CiCircleQuestion } from "react-icons/ci";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
-
-type RoleRow = {
-  slNo: string;
-  userName: string;
-  avatar: string;
-  roleName: string;
-};
-
-const roles: RoleRow[] = [
-  {
-    slNo: "01",
-    userName: "Olivia Rhye",
-    avatar: "https://randomuser.me/api/portraits/women/1.jpg",
-    roleName: "Super Admin",
-  },
-  {
-    slNo: "02",
-    userName: "Phoenix Baker",
-    avatar: "https://randomuser.me/api/portraits/men/2.jpg",
-    roleName: "Admin",
-  },
-  {
-    slNo: "03",
-    userName: "Lana Steiner",
-    avatar: "https://randomuser.me/api/portraits/women/3.jpg",
-    roleName: "Admin",
-  },
-  {
-    slNo: "04",
-    userName: "Demi Wilkinson",
-    avatar: "https://randomuser.me/api/portraits/women/4.jpg",
-    roleName: "Admin",
-  },
-  {
-    slNo: "05",
-    userName: "Candice Wu",
-    avatar: "https://randomuser.me/api/portraits/women/5.jpg",
-    roleName: "Admin",
-  },
-];
+import { useEffect, useState } from "react";
+import { getFromLocalStorage } from "../../../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
+import useSWR, { useSWRConfig } from "swr";
+import { getAllUser } from "@/services/users/user.service";
 
 export function UserTable() {
+  const [token, setToken] = useState<string | null>(null);
+
+  console.log("token:", token); // eta server console-e dekhabe
+  useEffect(() => {
+    const storedToken = getFromLocalStorage(authkey);
+    console.log("users:", storedToken); // ekhon eta BROWSER console-e dekhabe
+    setToken(storedToken);
+  }, []);
+
+  const {
+    data: users,
+    error,
+    isLoading,
+    mutate,
+  } = useSWR(token ? [token] : null, ([tok]) => getAllUser(tok as string));
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading users</p>;
+
   return (
     <Table className="border rounded-2xl overflow-hidden">
       <TableCaption>A list of your users and roles.</TableCaption>
@@ -75,29 +60,29 @@ export function UserTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {roles.map((role, idx) => (
+        {users?.map((user, idx) => (
           <TableRow key={idx}>
             <TableCell className="font-medium text-[#414651]">
-              {role.slNo}
+              {idx + 1}
             </TableCell>
             <TableCell>
               <div className="flex items-center gap-3">
-                <Image
-                  src={role.avatar}
-                  alt={role.userName}
+                {/* <Image
+                  src={user.avatar}
+                  alt={user.userName}
                   width={36}
                   height={36}
                   className="rounded-full object-cover w-9 h-9"
-                />
+                /> */}
                 <span className="font-medium text-[#181D27]">
-                  {role.userName}
+                  {user.email}
                 </span>
               </div>
             </TableCell>
             <TableCell>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[#D5D7DA] px-3 py-1 text-sm text-[#414651]">
                 <span className="h-2 w-2 rounded-full bg-[#17B26A]" />
-                {role.roleName}
+                {user.role}
               </span>
             </TableCell>
             <TableCell className="text-right">
