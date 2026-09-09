@@ -37,7 +37,7 @@ const CreateUserForm = () => {
     confirmPassword: "",
   });
   const [error, setError] = useState<string | null>(null);
-
+  const [loading, setLoading] = useState(false);
   const token = getFromLocalStorage(authkey);
 
   const handleChange = (
@@ -68,6 +68,7 @@ const CreateUserForm = () => {
     }
 
     const { confirmPassword, ...payload } = formData;
+    setLoading(true);
 
     try {
       if (!token) {
@@ -90,6 +91,8 @@ const CreateUserForm = () => {
         title: "Failed",
         text: `${payload?.role} account faild to create`,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,7 +101,7 @@ const CreateUserForm = () => {
       <div className="flex justify-between items-center">
         <PageTitle TitleDetails={TitleDetails} />
         <Link
-          href="/dashboard"
+          href="/dashboard/user-role/user-management"
           className="bg-[#F0F6FF] text-[#005CE8] border px-4 py-1 flex items-center gap-2 rounded-2xl border-[#005CE8] w-fit "
         >
           <FaArrowLeft />
@@ -156,7 +159,7 @@ const CreateUserForm = () => {
                 </option>
                 <option value="admin">admin</option>
                 <option value="editor">editor</option>
-                <option value="viewer">modarator</option>
+                <option value="modarator">modarator</option>
               </select>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -219,10 +222,20 @@ const CreateUserForm = () => {
           </button>
           <button
             type="submit"
-            className="flex-1 bg-[#005CE8] text-white rounded-xl py-3 font-medium flex items-center justify-center gap-2 hover:bg-blue-700"
+            disabled={loading}
+            className="flex-1 bg-[#005CE8] text-white rounded-xl py-3 font-medium flex items-center justify-center gap-2 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
           >
-            <FaPlus />
-            Create
+            {loading ? (
+              <>
+                <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4" />
+                Creating...
+              </>
+            ) : (
+              <>
+                <FaPlus />
+                Create
+              </>
+            )}
           </button>
         </div>
       </form>

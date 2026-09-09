@@ -1,24 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import {
-  FaAlignLeft,
-  FaEye,
-  FaImage,
-  FaPen,
-  FaPlus,
-  FaRegFolderOpen,
-} from "react-icons/fa6";
-import { HiCodeBracket } from "react-icons/hi2";
-import { CiLink } from "react-icons/ci";
+import { useEffect, useState } from "react";
+import { FaEye, FaPlus, FaRegFolderOpen } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import { MdNoteAdd } from "react-icons/md";
 import { BsSend } from "react-icons/bs";
 import { TCategory } from "@/types/category";
-import { createNews } from "@/services/news/news.service"; // adjust path to match your project
-import { TNewsPayload } from "@/types/news"; // adjust path to match your project
-import Swal from "sweetalert2"; // npm install sweetalert2
+import { createNews } from "@/services/news/news.service";
+import { TNewsPayload } from "@/types/news";
+import Swal from "sweetalert2";
 import { authkey } from "@/constants/authkey";
+import RichTextEditor from "@/components/RichTextEditor";
 
 type CategoriesProps = {
   categories: TCategory[];
@@ -45,6 +37,7 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
   const [isAnonymous, setIsAnonymous] = useState("No");
   const [mediaType, setMediaType] = useState<"Image" | "Video">("Image");
   const [file, setFile] = useState<File | null>(null);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
   const [categoryId, setCategoryId] = useState("");
   const [location, setLocation] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,8 +56,15 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+
+      // আগের preview URL থাকলে revoke করে memory leak এড়ানো
+      setFilePreview((prevUrl) => {
+        if (prevUrl) URL.revokeObjectURL(prevUrl);
+        return URL.createObjectURL(selectedFile);
+      });
     }
   };
 
@@ -72,20 +72,30 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
     setMediaType(e.target.value as "Image" | "Video");
     // Clear a previously selected file if it no longer matches the chosen type
     setFile(null);
+    setFilePreview((prevUrl) => {
+      if (prevUrl) URL.revokeObjectURL(prevUrl);
+      return null;
+    });
   };
+
+  // Component unmount হলে বর্তমান preview URL revoke করা
+  useEffect(() => {
+    return () => {
+      if (filePreview) URL.revokeObjectURL(filePreview);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const uploadFile = async (fileToUpload: File): Promise<string> => {
     const formData = new FormData();
     formData.append("file", fileToUpload);
 
-    // Do NOT set a Content-Type header manually — the browser sets
-    // multipart/form-data with the correct boundary automatically.
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/upload/upload_file`,
       {
         method: "POST",
         body: formData,
-        credentials: "include", // drop this if your backend doesn't use cookies/auth
+        credentials: "include",
       },
     );
 
@@ -159,6 +169,21 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
     });
   };
 
+  const resetForm = () => {
+    setTitle("");
+    setSlug("");
+    setTags([]);
+    setShortDescription("");
+    setContent("");
+    setFile(null);
+    setFilePreview((prevUrl) => {
+      if (prevUrl) URL.revokeObjectURL(prevUrl);
+      return null;
+    });
+    setCategoryId("");
+    setLocation("");
+  };
+
   const submitWithStatus = async (
     status: "draft" | "published" | "pending",
   ) => {
@@ -170,24 +195,18 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
         return;
       }
       const res = await createNews(payload, token as string);
-
-      await Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: `News ${statusLabels[status]} successfully.`,
-        timer: 2000,
-        showConfirmButton: false,
-      });
+      if (res.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: `News ${statusLabels[status]} successfully.`,
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
 
       // Reset form on a clean publish/draft save
-      setTitle("");
-      setSlug("");
-      setTags([]);
-      setShortDescription("");
-      setContent("");
-      setFile(null);
-      setCategoryId("");
-      setLocation("");
+      resetForm();
     } catch (err) {
       console.error(err);
       await Swal.fire({
@@ -207,7 +226,6 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
     <div className="grid grid-cols-1 md:grid-cols-12 mt-12 gap-6 px-4">
       <div className="md:col-span-9">
         <div className="flex gap-6 w-full">
-          {/* Title Input Field */}
           <div className="w-1/2">
             <legend className="fieldset-legend mb-2 block text-black">
               Title
@@ -302,54 +320,13 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
             placeholder="Type..."
           ></textarea>
         </div>
-
-        <div className="mt-7">
-          <h4 className="mb-2">Content</h4>
-          <div className="p-4 shadow-sm rounded-2xl">
-            <div className="grid grid-cols-4 md:grid-cols-6 gap-2 py-2">
-              <button
-                type="button"
-                className="btn btn-sm border-none bg-[#F5F5F5] text-[#3E3232BF]"
-              >
-                <FaImage />
-                Image
-              </button>
-              <button
-                type="button"
-                className="btn btn-sm border-none bg-[#F5F5F5] text-[#3E3232BF]"
-              >
-                <FaPen />
-                Color
-              </button>
-              <button
-                type="button"
-                className="btn btn-sm border-none bg-[#F5F5F5] text-[#3E3232BF]"
-              >
-                <HiCodeBracket />
-                Text
-              </button>
-              <button
-                type="button"
-                className="btn btn-sm border-none bg-[#F5F5F5] text-[#3E3232BF]"
-              >
-                <FaAlignLeft />
-                Align
-              </button>
-              <button
-                type="button"
-                className="btn btn-sm border-none bg-[#F5F5F5] text-[#3E3232BF]"
-              >
-                <CiLink />
-                Link
-              </button>
-            </div>
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="textarea h-75 rounded-[8px] border w-full bg-[#F5F5F5] text-[#3E3232BF]"
-              placeholder="Type..."
-            ></textarea>
-          </div>
+        <div className="md:my-5">
+          <RichTextEditor
+            label="Description"
+            value={content}
+            onChange={setContent}
+            placeholder="Write your description..."
+          />
         </div>
       </div>
 
@@ -422,10 +399,28 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
                 id="file-upload"
                 onChange={handleFileChange}
               />
-              <div className="text-[#C4C4C4] text-7xl mb-4">
-                <FaRegFolderOpen strokeWidth={0.5} />
-              </div>
-              <p className="text-sm text-[#71717A] text-center mb-5 font-medium">
+
+              {filePreview ? (
+                mediaType === "Image" ? (
+                  <img
+                    src={filePreview}
+                    alt="Preview"
+                    className="w-32 h-32 object-cover rounded-xl mb-4"
+                  />
+                ) : (
+                  <video
+                    src={filePreview}
+                    controls
+                    className="w-40 h-32 object-cover rounded-xl mb-4"
+                  />
+                )
+              ) : (
+                <div className="text-[#C4C4C4] text-7xl mb-4">
+                  <FaRegFolderOpen strokeWidth={0.5} />
+                </div>
+              )}
+
+              <p className="text-sm text-[#71717A] text-center mb-5 font-medium truncate max-w-full px-2">
                 {file?.name}
               </p>
               <label

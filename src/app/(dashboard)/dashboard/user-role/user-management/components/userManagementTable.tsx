@@ -18,8 +18,9 @@ import { getFromLocalStorage } from "../../../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
 import useSWR, { useSWRConfig } from "swr";
 import { getAllUser } from "@/services/users/user.service";
-import { getAllAdmin } from "@/services/adminUser/admin.user";
+import { deleteAdminUser, getAllAdmin } from "@/services/adminUser/admin.user";
 import AdminUserSkeleton from "./adminUserSkeleton";
+import Swal from "sweetalert2";
 
 export function UserTable() {
   const [token, setToken] = useState<string | null>(null);
@@ -41,7 +42,47 @@ export function UserTable() {
   if (isLoading) return <AdminUserSkeleton />;
   if (error) return <p>Error loading users</p>;
 
-  
+  const handleAdminUserDelete = async (id: string) => {
+    if (!token) {
+      Swal.fire({
+        icon: "error",
+        title: "Unauthorized",
+        text: "You are not authorized!",
+      });
+      return;
+    }
+
+    const confirm = await Swal.fire({
+      icon: "warning",
+      title: "Are you sure?",
+      text: "This user will be deleted permanently.",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#d33",
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+      const res = await deleteAdminUser(id, token);
+      if (res?.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Deleted",
+          text: "User deleted successfully.",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "User could not be deleted.",
+      });
+    }
+  };
 
   return (
     <Table className="border rounded-2xl overflow-hidden">
@@ -84,7 +125,10 @@ export function UserTable() {
             <TableCell className="text-right">
               <div className="flex items-center justify-end gap-3">
                 <button aria-label="Delete user">
-                  <FaTrashAlt className="text-[#FF383C]" />
+                  <FaTrashAlt
+                    onClick={() => handleAdminUserDelete(user?._id)}
+                    className="text-[#FF383C]"
+                  />
                 </button>
                 <button aria-label="Edit user">
                   <FaPencil className="text-[#AC39D4]" />

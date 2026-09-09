@@ -13,7 +13,7 @@ import ReporterCard from "@/components/ui/home/components/reporterCard";
 import { TReporter } from "@/types/reporter";
 import { getAllNews } from "@/services/news/news.service";
 import { getAllReporter } from "@/services/reporter/reporterService";
-import manImg from "@/assets/home/man.jpg"
+import manImg from "@/assets/home/man.jpg";
 
 interface PageProps {
   params: Promise<{
@@ -71,50 +71,36 @@ const page = async ({ params }: PageProps) => {
               className="px-3 py-1 bg-[#F5F5F5] flex items-center w-fit rounded-[8px] gap-1.5"
             >
               <CiBookmark />
-              Share
+              Save
             </Link>
             <Link
               href=""
               className="px-3 py-1 bg-[#F5F5F5] flex items-center w-fit rounded-[8px] gap-1.5"
             >
               <FaRegCommentDots />
-              Share
+              Comment
             </Link>
           </div>
         </div>
         <div className="mt-10">
-          <h4 className="text-[16px] text-[#3E3232] font-semibold">
-            {news?.[0]?.slug?.[0]}
-          </h4>
-          <p className="mt-4 text-[#3E3232] text-[16px]">{news?.[0]?.slug}</p>
-          {news?.[0]?.slug}
-          <Image
-            src={news?.[0]?.featuredImageUrl}
-            alt={news?.[0]?.title}
-            width={800}
-            height={500}
-            className="w-full md:w-2/3 h-[50vh] mx-auto object-cover rounded-[10px] my-12"
-          />
-          <h4 className="text-[16px] text-[#3E3232] font-semibold">
-            {news?.[0]?.slug?.[1]}
-          </h4>
+          <div dangerouslySetInnerHTML={{ __html: news?.[0]?.content }} />
           <p className="mt-4 text-[#3E3232] text-[16px]">
             {/* {post?.[0]?.subtitles} */}
           </p>
-          <p className="bg-[#EAF3FF] text-[#181A2A] p-8 rounded-[12px] text-xs border-l-3 border-[#3385FF] mt-2">
+          {/* <p className="bg-[#EAF3FF] text-[#181A2A] p-8 rounded-[12px] text-xs border-l-3 border-[#3385FF] mt-2">
             “ Want to leave your stress on the water? The resort has kayaks,
             paddleboards, or the low-key pedal boats. Snorkeling equipment is
             available as well, so you can experience the ever-changing undersea
             environment. ”
-          </p>
+          </p> */}
           <Advertisement />
-          <h4 className="text-xl text-[#3E3232] font-semibold">
+          {/* <h4 className="text-xl text-[#3E3232] font-semibold">
             Not how long, but how well you have lived is the main thing.
-          </h4>
-          <p className="mt-4 text-[#3E3232] text-[16px]">
+          </h4> */}
+          {/* <p className="mt-4 text-[#3E3232] text-[16px]">
             {news?.[0]?.content}
-          </p>
-          <div className="flex items-center">
+          </p> */}
+          {/* <div className="flex items-center">
             <div className="flex gap-3 items-center w-full mt-2.5">
               <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
               <div className="flex flex-col gap-0.5 flex-1">
@@ -130,7 +116,7 @@ const page = async ({ params }: PageProps) => {
               </div>
             </div>
             <div className="w-8 h-2 rounded-tl-2xl bg-[#3385FF] flex-shrink-0"></div>
-          </div>
+          </div> */}
         </div>
 
         {/* reader comment section */}

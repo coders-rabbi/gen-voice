@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://gen-voice-backend-bpte.vercel.app/api/v1";
 
 export type ApiResponse<T> = {
   statusCode: number;

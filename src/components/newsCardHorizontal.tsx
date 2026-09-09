@@ -29,7 +29,7 @@ const NewsCard = ({ news }: NewsCardProps) => {
               </h1>
 
               <p className="text-xs text-gray-500 line-clamp-2">
-                {news?.content}
+                {news?.shortDetails}
               </p>
             </div>
 

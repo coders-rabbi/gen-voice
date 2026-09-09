@@ -5,9 +5,13 @@ import Link from "next/link";
 import { FaArrowLeft, FaPlus } from "react-icons/fa6";
 import Image from "next/image";
 import userImage from "@/assets/dashboard/user.jpg";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { getUserInfo } from "@/services/actions/auth.service";
 import { useSingleReporter } from "@/hooks/useSingleReporter";
+import { updateAdminInfo } from "@/services/adminUser/admin.user";
+import { getFromLocalStorage } from "../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
+import Swal from "sweetalert2";
 
 const TitleDetails = {
   title: "Website Configuration",
@@ -18,30 +22,56 @@ const TitleDetails = {
   ],
 };
 
-const initialFormState = {
-  name: "Raisul R.",
-  role: "Super Admin",
-  email: "raisulr@gmail.com",
+type TAdminForm = {
+  adminName: string;
+  email: string;
 };
 
 const Page = () => {
-  const [formData, setFormData] = useState(initialFormState);
-
+  const token = getFromLocalStorage(authkey);
   const userInfo = getUserInfo();
-  const reporterData = useSingleReporter(userInfo?._id as string);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = useForm<TAdminForm>({
+    defaultValues: {
+      adminName: "",
+      email: userInfo?.email ?? "",
+    },
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Profile Updated:", formData);
+  const onSubmit = async (payload: TAdminForm) => {
+    try {
+      const response = await updateAdminInfo(
+        userInfo?._id as string,
+        token as string,
+        { adminName: payload.adminName },
+      );
+      if (response.success) {
+        await Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Your Information update successfully",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    } catch (err) {
+      await Swal.fire({
+        icon: "error",
+        title: "failed",
+        text: "Your information failed to update",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
   };
 
   const handleReset = () => {
-    setFormData(initialFormState);
+    reset();
     console.log("Form Reset");
   };
 
@@ -69,7 +99,7 @@ const Page = () => {
           className="rounded-full object-cover w-[100px] h-[100px]"
         />
 
-        <form onSubmit={handleSubmit} className="mt-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
           <div className="flex flex-col gap-1.5">
             <label htmlFor="name" className="text-sm text-gray-700">
               Name
@@ -77,9 +107,8 @@ const Page = () => {
             <input
               id="name"
               type="text"
-              name="name"
-              onChange={handleChange}
-              placeholder="Write here..."
+              placeholder={userInfo?.adminName}
+              {...register("adminName")}
               className="border border-gray-200 p-3 rounded-lg outline-0 focus:border-[#005CE8] placeholder:text-gray-400"
             />
           </div>
@@ -106,10 +135,8 @@ const Page = () => {
             <input
               id="email"
               type="email"
-              name="email"
-              value={userInfo?.email}
-              onChange={handleChange}
               placeholder="Write here..."
+              {...register("email")}
               className="border border-gray-200 p-3 rounded-lg outline-0 focus:border-[#005CE8] placeholder:text-gray-400"
             />
           </div>
@@ -127,12 +154,13 @@ const Page = () => {
             </button>
             <button
               type="submit"
-              className="flex items-center justify-center gap-2 bg-[#005CE8] text-white rounded-lg py-3 font-medium hover:bg-[#0049ba] transition"
+              disabled={isSubmitting}
+              className="flex items-center justify-center gap-2 bg-[#005CE8] text-white rounded-lg py-3 font-medium hover:bg-[#0049ba] transition disabled:opacity-60"
             >
               <span className="bg-white/20 rounded p-1 flex items-center justify-center">
                 <FaPlus size={10} />
               </span>
-              Update
+              {isSubmitting ? "Updating..." : "Update"}
             </button>
           </div>
         </form>

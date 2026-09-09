@@ -24,3 +24,31 @@ export const getAllAdmin = async (token: string): Promise<TAdmin[]> => {
     },
   });
 };
+
+export const updateAdminInfo = async (
+  id: string,
+  token: string,
+  payload: Partial<TAdminPayload>,
+): Promise<ApiResponse<TAdminPayload>> => {
+  return apiClientRaw<TAdminPayload>(`/admin/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+};
+
+export const deleteAdminUser = async (
+  id: string,
+  token: string,
+): Promise<ApiResponse<TAdminPayload>> => {
+  return apiClientRaw<TAdminPayload>(`/admin/${id}/delete`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
