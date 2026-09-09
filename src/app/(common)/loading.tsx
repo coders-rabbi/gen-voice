@@ -1,11 +1,11 @@
-import React from 'react';
+import NewsDetailsSkeleton from "./news/components/newsDetailsSkeleton";
 
 const loading = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <div>
+      <NewsDetailsSkeleton />;
+    </div>
+  );
 };
 
 export default loading;

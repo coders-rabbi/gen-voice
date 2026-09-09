@@ -14,6 +14,8 @@ import { TReporter } from "@/types/reporter";
 import { getAllNews } from "@/services/news/news.service";
 import { getAllReporter } from "@/services/reporter/reporterService";
 import manImg from "@/assets/home/man.jpg";
+import NewsDetailsSkeleton from "../components/newsDetailsSkeleton";
+import { splitContentAtMidpoint } from "../components/splitContent";
 
 interface PageProps {
   params: Promise<{
@@ -25,6 +27,12 @@ const page = async ({ params }: PageProps) => {
 
   const data = await getAllNews();
   const news = data.filter((news) => news?.newsId === newsDetails);
+
+  if (!news.length) {
+    return <NewsDetailsSkeleton />;
+  }
+
+  const { first, second } = splitContentAtMidpoint(news?.[0]?.content);
 
   const resporters: TReporter[] = await getAllReporter();
   const featuredReporter = resporters[0];
@@ -39,6 +47,8 @@ const page = async ({ params }: PageProps) => {
           width={1200}
           height={800}
           className="w-full h-[60vh] object-cover rounded-[10px] my-5"
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,..."
         />
         <div className="flex flex-col md:flex-row  gap-3 justify-between flex-wrap">
           <div className="flex gap-2 md:gap-5">
@@ -83,40 +93,11 @@ const page = async ({ params }: PageProps) => {
           </div>
         </div>
         <div className="mt-10">
-          <div dangerouslySetInnerHTML={{ __html: news?.[0]?.content }} />
-          <p className="mt-4 text-[#3E3232] text-[16px]">
-            {/* {post?.[0]?.subtitles} */}
-          </p>
-          {/* <p className="bg-[#EAF3FF] text-[#181A2A] p-8 rounded-[12px] text-xs border-l-3 border-[#3385FF] mt-2">
-            “ Want to leave your stress on the water? The resort has kayaks,
-            paddleboards, or the low-key pedal boats. Snorkeling equipment is
-            available as well, so you can experience the ever-changing undersea
-            environment. ”
-          </p> */}
-          <Advertisement />
-          {/* <h4 className="text-xl text-[#3E3232] font-semibold">
-            Not how long, but how well you have lived is the main thing.
-          </h4> */}
-          {/* <p className="mt-4 text-[#3E3232] text-[16px]">
-            {news?.[0]?.content}
-          </p> */}
-          {/* <div className="flex items-center">
-            <div className="flex gap-3 items-center w-full mt-2.5">
-              <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
-              <div className="flex flex-col gap-0.5 flex-1">
-                <hr className="w-full border-t border-[#3384FE33]" />
-                <hr className="w-full border-t border-[#3384FE33]" />
-              </div>
-            </div>
-            <div className="flex gap-3  w-full mt-2.5">
-              <div className="w-8 h-2 rounded-tl-2xl rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
-              <div className="flex flex-col gap-0.5 flex-1">
-                <hr className="w-full border-t border-[#3384FE33]" />
-                <hr className="w-full border-t border-[#3384FE33]" />
-              </div>
-            </div>
-            <div className="w-8 h-2 rounded-tl-2xl bg-[#3385FF] flex-shrink-0"></div>
-          </div> */}
+          <div className="mt-10">
+            <div dangerouslySetInnerHTML={{ __html: first }} />
+            <Advertisement />
+            {second && <div dangerouslySetInnerHTML={{ __html: second }} />}
+          </div>
         </div>
 
         {/* reader comment section */}
