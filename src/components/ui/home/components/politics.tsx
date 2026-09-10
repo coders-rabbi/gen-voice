@@ -10,7 +10,7 @@ interface NewsProps {
 }
 
 const Politics = async ({ news }: NewsProps) => {
-  const [featuredNews, ...sideNews] = news;
+  const featuredNews = news[0];
 
   return (
     <div>
@@ -40,7 +40,7 @@ const Politics = async ({ news }: NewsProps) => {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3 mt-4">
         {featuredNews && (
           <div className="md:col-span-8">
-            <Link href={`/news/${featuredNews?.featuredImageUrl}`}>
+            <Link href={`/news/${featuredNews?.newsId}`}>
               <Image
                 src={featuredNews.featuredImageUrl}
                 width={500}
@@ -69,7 +69,7 @@ const Politics = async ({ news }: NewsProps) => {
 
         <div className="md:col-span-4">
           <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
-            {sideNews.slice(0, 4).map((item) => (
+            {news.slice(1, 5).map((item) => (
               <PoliticsSideCard key={item._id} news={item} />
             ))}
           </div>

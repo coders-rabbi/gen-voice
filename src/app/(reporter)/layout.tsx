@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Navbar from "@/components/shared/navbar/navbar";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { useRouter } from "next/navigation";
+import RepoterSkeleton from "./components/reporterSkeleton";
 
 const ReporterLayout = ({ children }: { children: React.ReactNode }) => {
   const { isChecking, isAuthenticated } = useAuthGuard();
@@ -18,7 +19,7 @@ const ReporterLayout = ({ children }: { children: React.ReactNode }) => {
   if (isChecking) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p>Cheaking...</p>
+        <RepoterSkeleton />
       </div>
     );
   }

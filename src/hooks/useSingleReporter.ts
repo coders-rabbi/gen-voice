@@ -21,7 +21,10 @@ export const useSingleReporter = (userId: string): UseSingleReporterResult => {
       setError(null);
       try {
         const result = await getSingleReporterUsingUserId(userId);
-        setData(result);
+        const reporter = Array.isArray(result.data)
+          ? result.data[0]
+          : result.data;
+        setData(reporter ?? null);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong");
       } finally {

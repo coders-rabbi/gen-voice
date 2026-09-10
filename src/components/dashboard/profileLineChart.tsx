@@ -1,4 +1,6 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,40 +10,76 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { getMonthlyPostCount } from "@/services/news/news.service";
 
-export const description = "A line chart with dots";
-
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-  { month: "July", desktop: 314, mobile: 140 },
-  { month: "August", desktop: 114, mobile: 140 },
-  { month: "Septembar", desktop: 454, mobile: 140 },
-  { month: "Octobor", desktop: 413, mobile: 140 },
-  { month: "Ovembar", desktop: 298, mobile: 140 },
-  { month: "Decembar", desktop: 274, mobile: 140 },
-];
+export const description = "Reporter monthly post count";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#FCC54C",
-  },
-  mobile: {
-    label: "Mobile",
+  count: {
+    label: "Posts",
     color: "#FCC54C",
   },
 } satisfies ChartConfig;
 
-export function ProfileChart() {
+type ProfileChartProps = {
+  reporterId: string;
+  year?: number;
+};
+
+export function ProfileChart({ reporterId, year }: ProfileChartProps) {
+  const [chartData, setChartData] = useState<
+    { month: string; count: number }[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const res = await getMonthlyPostCount(reporterId, year);
+        setChartData(res.data?.data ?? []);
+      } catch (error) {
+        console.error("Failed to fetch monthly post count:", error);
+        setChartData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (reporterId) {
+      fetchData();
+    }
+  }, [reporterId, year]);
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent className="flex h-75 items-center justify-center">
+          <p className="text-muted-foreground text-sm">Loading chart...</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!chartData.length) {
+    return (
+      <Card>
+        <CardContent className="flex h-75 items-center justify-center">
+          <p className="text-muted-foreground text-sm">
+            No post data available
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <CardContent>
-        <ChartContainer className="h-112.5 w-full max-h-75" config={chartConfig}>
+        <ChartContainer
+          className="h-112.5 w-full max-h-75"
+          config={chartConfig}
+        >
           <LineChart
             accessibilityLayer
             data={chartData}
@@ -56,19 +94,18 @@ export function ProfileChart() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-              dataKey="desktop"
+              dataKey="count"
               type="natural"
-              stroke="var(--color-desktop)"
+              stroke="var(--color-count)"
               strokeWidth={2}
               dot={{
-                fill: "var(--color-desktop)",
+                fill: "var(--color-count)",
               }}
               activeDot={{
                 r: 6,

@@ -9,9 +9,12 @@ import { getAllNews } from "@/services/news/news.service";
 
 const BusinessSideBar = async () => {
   const data = await getAllNews();
-  const posts: TNews[] = data.filter(
+  const news: TNews[] = data.filter(
     (item) => item.categoryId?.categoryName === "Business",
   );
+
+  const singleBusinessNews = news[0];
+
   return (
     <div className="mt-6">
       <div className="flex justify-between items-center">
@@ -40,11 +43,17 @@ const BusinessSideBar = async () => {
       </div>
 
       <div className="mt-4">
-        <Image src={businessMan} alt="gen voice" className="h-[210px] w-full" />
+        <Image
+          src={singleBusinessNews?.featuredImageUrl}
+          alt="gen voice"
+          className="h-[210px] w-full"
+          width={10}
+          height={10}
+        />
 
         <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
-          {posts.slice(0, 5).map((item) => (
-            <BusinessSideCart key={item._id} posts={item} />
+          {news.slice(0, 5).map((item) => (
+            <BusinessSideCart key={item._id} news={item} />
           ))}
         </div>
 

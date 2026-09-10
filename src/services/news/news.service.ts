@@ -1,5 +1,6 @@
 import {
   THomePageNews,
+  TMonthlyPostCountResponse,
   TNews,
   TNewsPayload,
   TNewsQueryParams,
@@ -107,4 +108,17 @@ export const getNewsByCategory = async (
   return apiClientRaw<TNews[]>(`/news/${categoryId}/category`, {
     method: "GET",
   });
+};
+
+export const getMonthlyPostCount = async (
+  reporterId: string,
+  year?: number,
+): Promise<ApiResponse<TMonthlyPostCountResponse>> => {
+  const query = year ? `?year=${year}` : "";
+  return apiClientRaw<TMonthlyPostCountResponse>(
+    `/news/monthly-post-count/${reporterId}${query}`,
+    {
+      method: "GET",
+    },
+  );
 };

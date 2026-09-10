@@ -4,21 +4,30 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCardVertical from "@/components/newsCardVertical";
-import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import PostSatisfactionReaction from "@/components/dashboard/postSatisfactionReaction";
 import ProfileInfo from "@/components/dashboard/profileInfo";
 import { getSingleReporterAllNews } from "@/services/news/news.service";
 import { authkey } from "@/constants/authkey";
 import { TNews } from "@/types/news";
+import { TReporter } from "@/types/reporter";
+import RepoterSkeleton from "../components/reporterSkeleton";
+import { ProfileChart } from "@/components/dashboard/profileLineChart";
+import { getUserInfo } from "@/services/actions/auth.service";
+import { getSingleReporterUsingUserId } from "@/services/reporter/single.reporter";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
   const [saveNews, setSaveNews] = useState<TNews[]>([]);
+  const [reporterData, setReporterData] = useState<TReporter | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const pendingNews = myNews.filter((item) => item?.status === "pending");
+  const publishedNews = myNews.filter((item) => item?.status === "published");
+  const profileExtraDetails = { pendingNews, publishedNews };
+
   useEffect(() => {
-    const fetchNews = async () => {
+    const fetchData = async () => {
       try {
         const accessToken = localStorage.getItem(authkey);
 
@@ -28,8 +37,18 @@ const Page = () => {
           return;
         }
 
-        const data = await getSingleReporterAllNews(accessToken);
-        setMyNews(data);
+        const newsData = await getSingleReporterAllNews(accessToken);
+        setMyNews(newsData);
+
+        const userInfo = getUserInfo();
+        if (userInfo?._id) {
+          const reporterRes = await getSingleReporterUsingUserId(userInfo._id);
+          setReporterData(
+            Array.isArray(reporterRes.data)
+              ? reporterRes.data[0]
+              : reporterRes.data,
+          );
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong.");
       } finally {
@@ -37,15 +56,11 @@ const Page = () => {
       }
     };
 
-    fetchNews();
+    fetchData();
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-60">
-        <p className="text-[#3E3232]">Loading...</p>
-      </div>
-    );
+    return <RepoterSkeleton />;
   }
 
   if (error) {
@@ -66,7 +81,7 @@ const Page = () => {
 
       {/* profile info */}
       <div>
-        <ProfileInfo />
+        <ProfileInfo extraDetails={profileExtraDetails} />
       </div>
 
       {/* profile chart */}
@@ -76,7 +91,9 @@ const Page = () => {
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
             <h2 className="text-xl text-[#3E3232]">Post Analysis</h2>
           </div>
-          <ProfileChart />
+          {reporterData?._id && (
+            <ProfileChart reporterId={reporterData?._id} year={2026} />
+          )}
         </div>
         <div className="grid md:col-span-3">
           <div className="flex items-center gap-2">
@@ -115,7 +132,9 @@ const Page = () => {
         </div>
 
         {myNews.length === 0 ? (
-          <p className="text-[#3E3232] text-sm">No posts yet.</p>
+          <p className="text-[#3E3232] text-sm flex flex-col justify-center items-center h-50">
+            No news posts yet.
+          </p>
         ) : (
           <div className="grid md:grid-cols-4 gap-2">
             {myNews.map((item) => (

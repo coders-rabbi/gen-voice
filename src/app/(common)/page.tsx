@@ -13,12 +13,14 @@ import { getHomePageCategoryNews } from "@/services/news/news.service";
 const Home = async () => {
   const homeNews = await getHomePageCategoryNews();
 
+  console.log(homeNews);
+
   return (
     <div className="px-4">
       <Herosection />
       <PopularCategory />
       <Sports news={homeNews?.Sports ?? []} />
-      <VideoNews news={homeNews?.Politics ?? []} />
+      <VideoNews Politicsnews={homeNews?.Politics ?? []} />
       <SportsWidget />
       <TechNews news={homeNews?.Technology ?? []} />
       <MusicNews news={homeNews?.Music ?? []} />

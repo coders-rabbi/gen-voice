@@ -11,6 +11,7 @@ import { getAllNews } from "@/services/news/news.service";
 
 const Herosection = async () => {
   const allNews: TNews[] = await getAllNews();
+  const publishedNews = allNews.filter((item) => item.status === "published");
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 ">
@@ -27,7 +28,7 @@ const Herosection = async () => {
             className="w-full h-auto object-cover"
           />
         </div> */}
-        <HeroSectionCarousel news={allNews} />
+        <HeroSectionCarousel news={publishedNews} />
 
         <TechnologyCard />
       </div>
@@ -54,7 +55,7 @@ const Herosection = async () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-4">
-          {allNews.slice(0, 3).map((item) => (
+          {publishedNews.slice(0, 3).map((item) => (
             <NewsCard key={item._id} news={item} />
           ))}
         </div>

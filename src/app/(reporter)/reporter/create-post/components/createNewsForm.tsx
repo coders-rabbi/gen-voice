@@ -108,6 +108,8 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
     return data.url as string;
   };
 
+  console.log(reporterId);
+
   const buildPayload = async (
     status: "draft" | "published" | "pending",
   ): Promise<TNewsPayload> => {

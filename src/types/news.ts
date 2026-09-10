@@ -107,3 +107,13 @@ export type TNewsQueryParams = {
   fields?: string;
   [key: string]: unknown; // extra filter fields এর জন্য (dynamic filter() support করার কারণে)
 };
+
+export type TMonthlyPostCount = {
+  month: string;
+  count: number;
+};
+
+export type TMonthlyPostCountResponse = {
+  year: number;
+  data: TMonthlyPostCount[];
+};

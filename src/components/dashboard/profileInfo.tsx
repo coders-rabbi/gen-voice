@@ -9,7 +9,12 @@ import { FaUserEdit } from "react-icons/fa";
 import { getUserInfo } from "@/services/actions/auth.service";
 import { useSingleReporter } from "@/hooks/useSingleReporter";
 
-const ProfileInfo = () => {
+interface newsProps {
+  extraDetails: any;
+}
+
+const ProfileInfo = ({ extraDetails }: newsProps) => {
+  const { pendingNews, publishedNews } = extraDetails;
   const userInfo = getUserInfo();
   const reporterData = useSingleReporter(userInfo?._id as string);
   return (
@@ -32,16 +37,18 @@ const ProfileInfo = () => {
           <FaStar className="text-[#3385FF]" /> Rate : 4.2
         </p>
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-          <FaUser className="text-[#3385FF]" /> Rate : 4.2
+          <FaUser className="text-[#3385FF]" /> Follower : 0
         </p>
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-          <FaUser className="text-[#3385FF]" /> Rate : 4.2
+          <FaUser className="text-[#3385FF]" /> Following :
         </p>
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-          <MdOutlinePostAdd className="text-[#3385FF]" /> Rate : 4.2
+          <MdOutlinePostAdd className="text-[#3385FF]" /> News :{" "}
+          {publishedNews.length}
         </p>
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-          <PiNotebookBold className="text-[#3385FF]" /> Rate : 4.2
+          <PiNotebookBold className="text-[#3385FF]" /> Pending news :{" "}
+          {pendingNews.length}
         </p>
       </div>
 

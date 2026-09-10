@@ -24,7 +24,7 @@ const FormProfileInfo = ({ reporter }: reporterProprs) => {
       </div>
 
       {/* Stats */}
-      <div className="flex flex-wrap gap-x-5 gap-y-2 md:gap-x-10">
+      {/* <div className="flex flex-wrap gap-x-5 gap-y-2 md:gap-x-10">
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
           <FaStar className="text-[#3385FF]" /> Rate : 4.2
         </p>
@@ -40,7 +40,7 @@ const FormProfileInfo = ({ reporter }: reporterProprs) => {
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
           <PiNotebookBold className="text-[#3385FF]" /> Rate : 4.2
         </p>
-      </div>
+      </div> */}
 
       {/* Buttons */}
       <Link

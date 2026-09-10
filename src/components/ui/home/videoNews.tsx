@@ -16,10 +16,10 @@ import { TNews } from "@/types/news";
 import { getAllVideoNews } from "@/services/news/news.service";
 
 interface politicsNewsProps {
-  news: TNews[];
+  Politicsnews: TNews[];
 }
 
-const VideoNews = async ({ news }: politicsNewsProps) => {
+const VideoNews = async ({ Politicsnews }: politicsNewsProps) => {
   const allVideoNews = await getAllVideoNews();
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-screen">
@@ -111,7 +111,7 @@ const VideoNews = async ({ news }: politicsNewsProps) => {
         <Advertisement />
 
         <div>
-          <Politics news={news} />
+          <Politics news={Politicsnews} />
         </div>
       </div>
 
