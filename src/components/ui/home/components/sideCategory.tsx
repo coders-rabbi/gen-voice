@@ -23,7 +23,7 @@ const SideCategory = async () => {
 
       <div className="flex flex-col gap-1 mt-2">
         {cateogries.slice(0, 9).map((item) => (
-          <div className="flex justify-between">
+          <div key={item?._id} className="flex justify-between">
             <div className="flex gap-2 items-center">
               <GoDotFill className="text-[#F65050]" />
               <p>{item?.categoryName}</p>

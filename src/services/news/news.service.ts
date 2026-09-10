@@ -39,6 +39,28 @@ export const getAllNews = async (
   });
 };
 
+export const getNewsByReporterId = async (repId: string) => {
+  return apiClient<TNews[]>(`/news/${repId}/news`, {
+    cache: "no-cache",
+  });
+};
+
+export async function getRecentNews() {
+  const data = await getAllNews();
+  return [...data].sort((a, b) => {
+    const dateA = a.publishAt ? new Date(a.publishAt).getTime() : 0;
+    const dateB = b.publishAt ? new Date(b.publishAt).getTime() : 0;
+    return dateB - dateA;
+  });
+}
+
+// export async function getPopularNews() {
+//   const data = await getAllNews();
+//   return [...data].sort(
+//     (a, b) => (b.totalViewsCount ?? 0) - (a.totalViewsCount ?? 0),
+//   );
+// }
+
 export const getAllVideoNews = async (): Promise<TNews[]> => {
   return apiClient<TNews[]>("/news/video-news", {
     next: {
@@ -76,5 +98,13 @@ export const updateNewsStatus = async (
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
+  });
+};
+
+export const getNewsByCategory = async (
+  categoryId: string,
+): Promise<ApiResponse<TNews[]>> => {
+  return apiClientRaw<TNews[]>(`/news/${categoryId}/category`, {
+    method: "GET",
   });
 };

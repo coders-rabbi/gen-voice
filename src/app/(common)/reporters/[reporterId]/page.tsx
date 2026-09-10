@@ -38,16 +38,10 @@ const page = async () => {
             <FaStar className="text-[#3385FF]" /> Rate : 4.2
           </p>
           <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-            <FaUser className="text-[#3385FF]" /> Rate : 4.2
+            <FaUser className="text-[#3385FF]" /> Follower : 4.2
           </p>
           <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-            <FaUser className="text-[#3385FF]" /> Rate : 4.2
-          </p>
-          <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-            <MdOutlinePostAdd className="text-[#3385FF]" /> Rate : 4.2
-          </p>
-          <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-            <PiNotebookBold className="text-[#3385FF]" /> Rate : 4.2
+            <FaUser className="text-[#3385FF]" /> News : 4.2
           </p>
         </div>
 

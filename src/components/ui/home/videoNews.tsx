@@ -48,7 +48,7 @@ const VideoNews = async ({ news }: politicsNewsProps) => {
         </div>
 
         {allVideoNews.map((item) => (
-          <div className="my-4 grid grid-cols-2 gap-4">
+          <div key={item?._id} className="my-4 grid grid-cols-2 gap-4">
             <div className="overflow-hidden">
               <iframe
                 src={item?.featuredImageUrl}
