@@ -149,7 +149,10 @@ const page = async ({ params }: PageProps) => {
             </div>
           </div>
           {featuredReporter ? (
-            <ReporterCard reporter={featuredReporter} />
+            <ReporterCard
+              reporter={featuredReporter}
+              reporterNewsLength={reporterOthersNews}
+            />
           ) : null}
           <div className="flex items-center gap-2 mb-2 mt-10">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
