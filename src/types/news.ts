@@ -94,8 +94,9 @@ export type TNews = {
   publishAt?: string;
   createdAt: string;
   updatedAt: string;
+  commentCount: number;
+  views: number;
 };
-
 
 export type TNewsQueryParams = {
   searchTerm?: string;

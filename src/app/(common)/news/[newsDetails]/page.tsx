@@ -26,6 +26,7 @@ import NewsComments from "../components/newsComments";
 import { getCommentsByNewsId } from "@/services/comments";
 import { TComments } from "@/types/comment.type";
 import RelatedNews from "../components/relatedNews";
+import NewsViewTracker from "../components/viewCountracker";
 
 interface PageProps {
   params: Promise<{
@@ -88,7 +89,7 @@ const page = async ({ params }: PageProps) => {
               </p>
               <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
                 <FaComment />
-                comments : {comments.length || 0}
+                comments : {news?.[0]?.commentCount}
               </p>
               <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
                 <FaFile />
@@ -134,6 +135,7 @@ const page = async ({ params }: PageProps) => {
             {/* comment form */}
             <CommentForm newsId={news?.[0]?.newsId} />
           </div>
+          <NewsViewTracker newsId={news?.[0]?.newsId} />
         </div>
 
         <div className="md:col-span-4">
@@ -151,7 +153,7 @@ const page = async ({ params }: PageProps) => {
           {featuredReporter ? (
             <ReporterCard
               reporter={featuredReporter}
-              reporterNewsLength={reporterOthersNews}
+              reporterNewsLength={reporterOthersNews.length}
             />
           ) : null}
           <div className="flex items-center gap-2 mb-2 mt-10">

@@ -122,3 +122,32 @@ export const getMonthlyPostCount = async (
     },
   );
 };
+
+export const incrementNewsView = async (
+  newsId: string,
+): Promise<ApiResponse<{ views: number }>> => {
+  return apiClientRaw<{ views: number }>(`/news/increment-view/${newsId}`, {
+    method: "PATCH",
+  });
+};
+
+export const getPopularNews = async (
+  query: TNewsQueryParams = {},
+): Promise<TNews[]> => {
+  const searchParams = new URLSearchParams();
+
+  Object.entries(query).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      searchParams.append(key, String(value));
+    }
+  });
+
+  const queryString = searchParams.toString();
+  const url = queryString
+    ? `/news/popular-news?${queryString}`
+    : "/news/popular-news";
+
+  return apiClient<TNews[]>(url, {
+    cache: "no-cache",
+  });
+};

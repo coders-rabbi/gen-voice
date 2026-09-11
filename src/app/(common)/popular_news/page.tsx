@@ -1,9 +1,9 @@
 import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCard from "@/components/newsCardHorizontal";
-import { getAllNews } from "@/services/news/news.service";
+import { getPopularNews } from "@/services/news/news.service";
 const PopularNews = async () => {
-  const allNews = await getAllNews();
+  const allNews = await getPopularNews();
   return (
     <div className="min-h-screen">
       <Image

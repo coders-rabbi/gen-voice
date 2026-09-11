@@ -2,15 +2,23 @@ import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCardVertical from "@/components/newsCardVertical";
 import manImage from "@/assets/home/man2.jpg";
-import { getAllNews } from "@/services/news/news.service";
+import { getAllNews, getNewsByReporterId } from "@/services/news/news.service";
 import Link from "next/link";
 import { FaPlus, FaStar, FaUser } from "react-icons/fa6";
 import { PiNotebookBold } from "react-icons/pi";
 import { MdOutlinePostAdd } from "react-icons/md";
+import { TNews } from "@/types/news";
 
-const page = async () => {
-  const data = await getAllNews();
-  const myNews = data.filter((item) => item?.reporterId?.id === "REP-0005");
+type Props = {
+  params: Promise<{ reporterId: string }>;
+};
+const page = async ({ params }: Props) => {
+  const { reporterId } = await params;
+  console.log(reporterId);
+  // const data = await getNewsByReporterId(reporterId as string);
+
+  const reporterOthersNews: TNews[] = await getNewsByReporterId(reporterId);
+
   return (
     <div className="">
       <Image
@@ -73,7 +81,7 @@ const page = async () => {
         </div>
 
         <div className="grid md:grid-cols-4 gap-2">
-          {myNews.map((item) => (
+          {reporterOthersNews.map((item) => (
             <NewsCardVertical key={item._id} news={item} />
           ))}
         </div>

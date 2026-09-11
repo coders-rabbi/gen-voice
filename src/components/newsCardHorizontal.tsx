@@ -44,7 +44,7 @@ const NewsCard = ({ news }: NewsCardProps) => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-semibold text-gray-800 leading-tight">
-                    <p>{news?.reporterId?.fullName ?? "N/A"}</p>
+                    <p>{news?.reporterId?.fullName}</p>
                   </span>
                   <span className="text-xs text-gray-400 mt-0.5">
                     {news?.publishAt?.slice(0, news.publishAt.indexOf("T"))}

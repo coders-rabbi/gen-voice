@@ -231,11 +231,11 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
                   </TableCell>
 
                   <TableCell className="font-medium text-[#525252]">
-                    <p className="text-[#FF8200]">N/A</p>
+                    <p className="text-[#FF8200]">{item?.views}</p>
                   </TableCell>
 
                   <TableCell className="font-medium text-[#525252]">
-                    <p className="text-[#FF8200]">N/A</p>
+                    <p className="text-[#FF8200]">{item?.commentCount}</p>
                   </TableCell>
 
                   <TableCell className="font-medium">

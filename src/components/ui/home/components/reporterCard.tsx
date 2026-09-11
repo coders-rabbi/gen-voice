@@ -7,7 +7,7 @@ import { TNews } from "@/types/news";
 
 interface reporterProps {
   reporter: TReporter;
-  reporterNewsLength: TNews[];
+ reporterNewsLength: number;
 }
 
 const ReporterCard = ({ reporter, reporterNewsLength }: reporterProps) => {
@@ -25,7 +25,7 @@ const ReporterCard = ({ reporter, reporterNewsLength }: reporterProps) => {
           <div className="flex justify-between mb-2">
             <h3>{reporter?.fullName}</h3>
             <p className="text-[#3E3232BF]">
-              {reporterNewsLength?.length} news
+              {reporterNewsLength} news
             </p>
           </div>
           <div className="flex justify-between items-center">
@@ -38,7 +38,7 @@ const ReporterCard = ({ reporter, reporterNewsLength }: reporterProps) => {
             </Link>
 
             <Link
-              href={`/reporters/${reporter?.id}`}
+              href={`/reporters/${reporter?._id}`}
               className="flex gap-1 items-center border-2 py-1 px-2 rounded-xl bg-[#3385FF] text-white text-[10px]"
             >
               <FaEye />
