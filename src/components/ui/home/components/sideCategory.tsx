@@ -1,9 +1,17 @@
-import { getAllNewsCategories } from "@/services/category";
-import React from "react";
 import { GoDotFill } from "react-icons/go";
 
-const SideCategory = async () => {
-  const cateogries = await getAllNewsCategories();
+type TCategoryNewsMap = Record<string, unknown[]>;
+
+interface SideCategoryProps {
+  news: TCategoryNewsMap;
+}
+
+const SideCategory = ({ news }: SideCategoryProps) => {
+  const categories = Object.entries(news).map(([name, newsArray]) => ({
+    name,
+    count: newsArray.length,
+  }));
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -22,14 +30,14 @@ const SideCategory = async () => {
       </div>
 
       <div className="flex flex-col gap-1 mt-2">
-        {cateogries.slice(0, 9).map((item) => (
-          <div key={item?._id} className="flex justify-between">
+        {categories.map(({ name, count }) => (
+          <div key={name} className="flex justify-between">
             <div className="flex gap-2 items-center">
               <GoDotFill className="text-[#F65050]" />
-              <p>{item?.categoryName}</p>
+              <p>{name}</p>
             </div>
             <p className="bg-[#F65050] p-1.5 rounded-[6px] text-white w-fit">
-              50
+              {count}
             </p>
           </div>
         ))}

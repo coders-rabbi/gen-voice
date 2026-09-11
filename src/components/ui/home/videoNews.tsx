@@ -19,8 +19,9 @@ interface politicsNewsProps {
   Politicsnews: TNews[];
 }
 
-const VideoNews = async ({ Politicsnews }: politicsNewsProps) => {
+const VideoNews = async ({ homeNews }: any) => {
   const allVideoNews = await getAllVideoNews();
+  const Politicsnews = homeNews?.Politics ?? [];
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-screen">
       <div className="md:col-span-7">
@@ -123,7 +124,7 @@ const VideoNews = async ({ Politicsnews }: politicsNewsProps) => {
           </div>
           <div className="md:col-span-6">
             <StayConnet />
-            <SideCategory />
+            <SideCategory news={homeNews}/>
             <VoteOpinion />
             <CaltureSideBar />
           </div>
