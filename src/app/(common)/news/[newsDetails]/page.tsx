@@ -152,6 +152,7 @@ const page = async ({ params }: PageProps) => {
           </div>
           {featuredReporter ? (
             <ReporterCard
+              key={featuredReporter?._id}
               reporter={featuredReporter}
               reporterNewsLength={reporterOthersNews.length}
             />
