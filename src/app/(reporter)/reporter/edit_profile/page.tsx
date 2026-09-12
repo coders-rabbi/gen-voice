@@ -1,9 +1,9 @@
-import ProfileInfo from "@/components/dashboard/profileInfo";
 import Image from "next/image";
 import React from "react";
 import banner from "@/assets/writer/writerBanner.jpg";
 import { FaRegFolderOpen } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
+import ProfileInfo from "@/components/dashboard/profileInfo";
 
 const page = () => {
   return (
@@ -16,7 +16,7 @@ const page = () => {
 
       {/* profile info */}
       <div>
-        <ProfileInfo />
+        {/* <ProfileInfo /> */}
       </div>
       <div className="px-4 mt-12">
         <div className="flex flex-col md:flex-row md:gap-4 w-full">
