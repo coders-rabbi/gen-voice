@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { TReporter } from "@/types/reporter";
-import { getSingleReporterUsingUserId } from "@/services/reporter/single.reporter";
+import { getSingleReporterUsingUserId } from "@/services/reporter/reporterService";
 
 interface UseSingleReporterResult {
   data: TReporter | null;

@@ -2,11 +2,9 @@ import Image from "next/image";
 import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCardVertical from "@/components/newsCardVertical";
 import manImage from "@/assets/home/man2.jpg";
-import { getAllNews, getNewsByReporterId } from "@/services/news/news.service";
+import { getNewsByReporterId } from "@/services/news/news.service";
 import Link from "next/link";
 import { FaPlus, FaStar, FaUser } from "react-icons/fa6";
-import { PiNotebookBold } from "react-icons/pi";
-import { MdOutlinePostAdd } from "react-icons/md";
 import { TNews } from "@/types/news";
 
 type Props = {
@@ -14,7 +12,6 @@ type Props = {
 };
 const page = async ({ params }: Props) => {
   const { reporterId } = await params;
-  console.log(reporterId);
   // const data = await getNewsByReporterId(reporterId as string);
 
   const reporterOthersNews: TNews[] = await getNewsByReporterId(reporterId);

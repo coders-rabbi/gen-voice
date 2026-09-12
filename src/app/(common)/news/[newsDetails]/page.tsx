@@ -16,7 +16,10 @@ import {
   getNewsByCategory,
   getNewsByReporterId,
 } from "@/services/news/news.service";
-import { getAllReporter } from "@/services/reporter/reporterService";
+import {
+  getAllReporter,
+  getSingleReporterByReporterId,
+} from "@/services/reporter/reporterService";
 import NewsDetailsSkeleton from "../components/newsDetailsSkeleton";
 import { splitContentAtMidpoint } from "../components/splitContent";
 import { TNews } from "@/types/news";
@@ -45,8 +48,10 @@ const page = async ({ params }: PageProps) => {
 
   const { first, second } = splitContentAtMidpoint(news?.[0]?.content);
 
-  const resporters: TReporter[] = await getAllReporter();
-  const featuredReporter = resporters[0];
+  const reporter = await getSingleReporterByReporterId(
+    news?.[0]?.reporterId?._id,
+  );
+
 
   const reporterOthersNews: TNews[] = await getNewsByReporterId(
     news?.[0]?.reporterId?._id,
@@ -55,7 +60,6 @@ const page = async ({ params }: PageProps) => {
   const withOutDisplayNews = reporterOthersNews.filter(
     (item) => item?.newsId !== newsDetails,
   );
-
   const res = await getCommentsByNewsId(news?.[0]?.newsId);
   const comments: TComments[] = Array.isArray(res?.data) ? res.data : [];
 
@@ -139,6 +143,7 @@ const page = async ({ params }: PageProps) => {
         </div>
 
         <div className="md:col-span-4">
+          {/* news reporter card */}
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
             <h2 className="text-xl text-[#3E3232] ">Reporter Profile</h2>
@@ -150,13 +155,9 @@ const page = async ({ params }: PageProps) => {
               <hr className="w-full border-t border-[#3384FE33]" />
             </div>
           </div>
-          {featuredReporter ? (
-            <ReporterCard
-              key={featuredReporter?._id}
-              reporter={featuredReporter}
-              reporterNewsLength={reporterOthersNews.length}
-            />
-          ) : null}
+          <div>
+            <ReporterCard reporter={reporter?.data} />
+          </div>
           <div className="flex items-center gap-2 mb-2 mt-10">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
             <h2 className="text-xl text-[#3E3232] ">Tags</h2>

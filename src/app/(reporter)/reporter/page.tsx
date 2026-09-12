@@ -13,7 +13,7 @@ import { TReporter } from "@/types/reporter";
 import RepoterSkeleton from "../components/reporterSkeleton";
 import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import { getUserInfo } from "@/services/actions/auth.service";
-import { getSingleReporterUsingUserId } from "@/services/reporter/single.reporter";
+import { getSingleReporterUsingUserId } from "@/services/reporter/reporterService";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);

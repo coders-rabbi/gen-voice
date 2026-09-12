@@ -6,6 +6,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { TCommentPyaload } from "@/types/comment.type";
 import { createCommentAction } from "@/services/actions/comment";
+import Reaction from "./reaction";
 
 interface newsIdProps {
   newsId: string;
@@ -114,7 +115,8 @@ const CommentForm = ({ newsId }: newsIdProps) => {
                 {errors.comment.message}
               </p>
             )}
-            <div className="flex justify-end">
+            <div className="flex justify-between">
+              <Reaction newsId={newsId}/>
               <button
                 type="submit"
                 disabled={loading}

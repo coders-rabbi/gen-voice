@@ -37,13 +37,14 @@ const Herosection = async () => {
         <div className="flex flex-row justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-            <Link href="/recent_news" className="text-2xl text-[#3E3232] ">
-              Latest News
-            </Link>
+            <h3 className="text-2xl text-[#3E3232] ">Latest News</h3>
           </div>
-          <button className="btn btn-info border bg-transparent rounded-2xl text-[#3385FF] font-medium ">
+          <Link
+            href="/recent_news"
+            className="btn btn-info border bg-transparent rounded-2xl text-[#3385FF] font-medium "
+          >
             Show All
-          </button>
+          </Link>
         </div>
 
         <div className="flex gap-3 items-center w-full mb-4">

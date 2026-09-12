@@ -51,7 +51,6 @@ const UpdateCategoryModal = ({
 
     try {
       const result = await updateNewsCategory(category._id, payload);
-      console.log("Update success:", result);
 
       Swal.fire({
         icon: "success",

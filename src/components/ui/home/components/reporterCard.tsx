@@ -3,14 +3,12 @@ import reporterImage from "@/assets/home/man.jpg";
 import { FaEye, FaPlus, FaRegBookmark } from "react-icons/fa6";
 import Link from "next/link";
 import { TReporter } from "@/types/reporter";
-import { TNews } from "@/types/news";
 
 interface reporterProps {
   reporter: TReporter;
- reporterNewsLength: number;
 }
 
-const ReporterCard = ({ reporter, reporterNewsLength }: reporterProps) => {
+const ReporterCard = ({ reporter }: reporterProps) => {
   return (
     <div>
       <div className="flex items-center gap-2 border p-1.5 w-full rounded-[12px]">
@@ -25,7 +23,7 @@ const ReporterCard = ({ reporter, reporterNewsLength }: reporterProps) => {
           <div className="flex justify-between mb-2">
             <h3>{reporter?.fullName}</h3>
             <p className="text-[#3E3232BF]">
-              {reporterNewsLength} news
+              {reporter?.reporterNewsLength} news
             </p>
           </div>
           <div className="flex justify-between items-center">

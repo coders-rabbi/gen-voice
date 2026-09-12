@@ -26,3 +26,19 @@ export const getAllReporter = async (
     cache: "no-cache",
   });
 };
+
+export const getSingleReporterUsingUserId = async (
+  userId: string,
+): Promise<ApiResponse<TReporter>> => {
+  return apiClientRaw<TReporter>(`/reporters/user-id/${userId}`, {
+    method: "GET",
+  });
+};
+
+export const getSingleReporterByReporterId = async (
+  repId: string,
+): Promise<ApiResponse<TReporter>> => {
+  return apiClientRaw<TReporter>(`/reporters/${repId}`, {
+    method: "GET",
+  });
+};

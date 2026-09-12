@@ -31,8 +31,8 @@ export type TReporter = {
   createdAt: string;
   updatedAt: string;
   fullName: string;
+  reporterNewsLength?: number;
 };
-
 
 export type TReporterQueryParams = {
   searchTerm?: string;
