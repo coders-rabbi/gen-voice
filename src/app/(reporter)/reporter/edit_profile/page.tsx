@@ -4,8 +4,17 @@ import banner from "@/assets/writer/writerBanner.jpg";
 import { FaRegFolderOpen } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import ProfileInfo from "@/components/dashboard/profileInfo";
+import { getSingleReporterAllNews } from "@/services/news/news.service";
+import { TNews } from "@/types/news";
+import { getFromLocalStorage } from "../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
 
-const page = () => {
+const page = async () => {
+  const token = getFromLocalStorage(authkey);
+  const myNews: TNews[] = await getSingleReporterAllNews(token as string);
+  const pendingNews = myNews.filter((item) => item?.status === "pending");
+  const publishedNews = myNews.filter((item) => item?.status === "published");
+  const profileExtraDetails = { pendingNews, publishedNews };
   return (
     <div>
       <Image
@@ -16,7 +25,7 @@ const page = () => {
 
       {/* profile info */}
       <div>
-        {/* <ProfileInfo /> */}
+        <ProfileInfo extraDetails={profileExtraDetails} />
       </div>
       <div className="px-4 mt-12">
         <div className="flex flex-col md:flex-row md:gap-4 w-full">

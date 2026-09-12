@@ -78,8 +78,22 @@ export const getHomePageCategoryNews = async (): Promise<THomePageNews> => {
   });
 };
 
-export const getSingleReporterAllNews = async (token: string) => {
-  return apiClient<TNews[]>("/news/reporterNews", {
+export const getSingleReporterAllNews = async (
+  token: string,
+  query?: Record<string, string | number | undefined>,
+) => {
+  const queryString = query
+    ? "?" +
+      Object.entries(query)
+        .filter(([, value]) => value !== undefined && value !== "")
+        .map(
+          ([key, value]) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
+        )
+        .join("&")
+    : "";
+
+  return apiClient<TNews[]>(`/news/reporter-news${queryString}`, {
     cache: "no-cache",
     headers: {
       Authorization: `Bearer ${token}`,
