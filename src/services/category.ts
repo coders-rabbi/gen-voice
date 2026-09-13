@@ -2,10 +2,15 @@ import { TCategory, TCreateCategoryPayload } from "@/types/category";
 import { apiClient, apiClientRaw, ApiResponse } from "./apiClient";
 
 export const createNewsCategory = async (
+  token: string,
   payload: TCreateCategoryPayload,
 ): Promise<ApiResponse<TCategory>> => {
   return apiClientRaw<TCategory>("/categories/create_category", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(payload),
   });
 };

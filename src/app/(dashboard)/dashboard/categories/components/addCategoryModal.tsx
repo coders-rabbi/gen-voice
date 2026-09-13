@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
 import Swal from "sweetalert2";
 import { createNewsCategory } from "@/services/category";
+import { getFromLocalStorage } from "../../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
+import { TCreateCategoryPayload } from "@/types/category";
 
 type Props = {
   isOpen: boolean;
@@ -11,47 +14,61 @@ type Props = {
   onSuccess?: () => void;
 };
 
+type FormValues = {
+  categoryName: string;
+  slug: string;
+  description: string;
+  isFeatured: boolean;
+};
+
+const defaultValues: FormValues = {
+  categoryName: "",
+  slug: "",
+  description: "",
+  isFeatured: false,
+};
+
 const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
-  const [categoryName, setCategoryName] = useState("");
-  const [slug, setSlug] = useState("");
-  const [description, setDescription] = useState("");
-  const [isFeatured, setIsFeatured] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({ defaultValues });
+
+  const token = getFromLocalStorage(authkey);
+  const isFeatured = watch("isFeatured");
 
   if (!isOpen) return null;
 
-  const resetForm = () => {
-    setCategoryName("");
-    setSlug("");
-    setDescription("");
-    setIsFeatured(false);
-    setError(null);
+  const handleCancel = () => {
+    reset(defaultValues);
+    onClose();
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setIsSubmitting(true);
+  const onSubmit = async (data: FormValues) => {
+    const payload: TCreateCategoryPayload = {
+      categoryName: data.categoryName,
+      slug: data.slug,
+      description: data.description,
+      isFeatured: data.isFeatured,
+    };
 
     try {
-      await createNewsCategory({
-        categoryName,
-        slug,
-        description,
-        isFeatured,
-      });
+      await createNewsCategory(token as string, payload);
 
       Swal.fire({
         icon: "success",
         title: "Added",
-        text: `"${categoryName}"Category successfully created.`,
+        text: `"${data.categoryName}"Category successfully created.`,
         timer: 2000,
         showConfirmButton: false,
       });
 
       onSuccess?.();
-      resetForm();
+      reset(defaultValues);
       onClose();
     } catch (err) {
       Swal.fire({
@@ -59,14 +76,7 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
         title: "Failed",
         text: "Category তৈরি করা যায়নি। আবার চেষ্টা করুন।",
       });
-    } finally {
-      setIsSubmitting(false);
     }
-  };
-
-  const handleCancel = () => {
-    resetForm();
-    onClose();
   };
 
   return (
@@ -82,7 +92,7 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
             <div>
               <label className="block text-sm text-gray-700 mb-2">
@@ -90,24 +100,32 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
               </label>
               <input
                 type="text"
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
                 placeholder="Write here...."
                 className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
-                required
+                {...register("categoryName", {
+                  required: "Category name is required",
+                })}
               />
+              {errors.categoryName && (
+                <p className="text-sm text-red-500 mt-1">
+                  {errors.categoryName.message}
+                </p>
+              )}
             </div>
 
             <div>
               <label className="block text-sm text-gray-700 mb-2">Slug</label>
               <input
                 type="text"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
                 placeholder="Write here...."
                 className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
-                required
+                {...register("slug", { required: "Slug is required" })}
               />
+              {errors.slug && (
+                <p className="text-sm text-red-500 mt-1">
+                  {errors.slug.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -116,13 +134,18 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
               Category Description
             </label>
             <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
               placeholder="Write here...."
               rows={4}
               className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 resize-none"
-              required
+              {...register("description", {
+                required: "Description is required",
+              })}
             />
+            {errors.description && (
+              <p className="text-sm text-red-500 mt-1">
+                {errors.description.message}
+              </p>
+            )}
           </div>
 
           {/* Featured Category Toggle */}
@@ -132,7 +155,7 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
             </span>
             <button
               type="button"
-              onClick={() => setIsFeatured((prev) => !prev)}
+              onClick={() => setValue("isFeatured", !isFeatured)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
                 isFeatured ? "bg-[#005CE8]" : "bg-gray-300"
               }`}
@@ -144,8 +167,6 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
               />
             </button>
           </div>
-
-          {error && <p className="text-sm text-red-500 mb-4">{error}</p>}
 
           <div className="flex gap-3">
             <button
