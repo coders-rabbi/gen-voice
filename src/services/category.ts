@@ -24,11 +24,16 @@ export const getAllNewsCategories = async (): Promise<TCategory[]> => {
 };
 
 export const updateNewsCategory = async (
+  token: string,
   categoryId: string,
   payload: Partial<TCategory>,
 ): Promise<ApiResponse<TCategory>> => {
   return apiClientRaw<TCategory>(`/categories/update_category/${categoryId}`, {
     method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(payload),
   });
 };

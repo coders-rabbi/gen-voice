@@ -5,6 +5,8 @@ import { IoClose } from "react-icons/io5";
 import Swal from "sweetalert2";
 import { TCategory } from "@/types/category";
 import { updateNewsCategory } from "@/services/category";
+import { getFromLocalStorage } from "../../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
 
 type Props = {
   isOpen: boolean;
@@ -23,6 +25,7 @@ const UpdateCategoryModal = ({
   const [isFeatured, setIsFeatured] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const token = getFromLocalStorage(authkey);
 
   useEffect(() => {
     if (category) {
@@ -50,7 +53,7 @@ const UpdateCategoryModal = ({
     };
 
     try {
-      const result = await updateNewsCategory(category._id, payload);
+      const result = await updateNewsCategory(token as string,category._id, payload);
 
       Swal.fire({
         icon: "success",
