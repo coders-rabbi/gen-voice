@@ -6,6 +6,8 @@ import UpdateCategoryModal from "./updateCategoryModal";
 import { useState } from "react";
 import { deleteNewsCategory } from "@/services/category";
 import Swal from "sweetalert2";
+import { getFromLocalStorage } from "../../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
 
 interface CategoriesCardProps {
   item: TCategory;
@@ -14,6 +16,7 @@ interface CategoriesCardProps {
 
 const CategoriesCard = ({ item, onUpdated }: CategoriesCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const token = getFromLocalStorage(authkey);
 
   const handleDelete = async (categoryId: string) => {
     const confirm = await Swal.fire({
@@ -30,7 +33,7 @@ const CategoriesCard = ({ item, onUpdated }: CategoriesCardProps) => {
     if (!confirm.isConfirmed) return;
 
     try {
-      const result = await deleteNewsCategory(categoryId);
+      const result = await deleteNewsCategory(token as string, categoryId);
       console.log("Delete success:", result);
 
       Swal.fire({

@@ -34,9 +34,11 @@ export const updateNewsCategory = async (
 };
 
 export const deleteNewsCategory = async (
+  token: string,
   categoryId: string,
 ): Promise<ApiResponse<TCategory>> => {
   return apiClientRaw<TCategory>(`/categories/delete_category/${categoryId}`, {
     method: "PATCH",
+    headers: { Authorization: `Bearer ${token}` },
   });
 };
