@@ -10,9 +10,10 @@ import { TNews } from "@/types/news";
 interface userProps {
   userData: TUser[];
   newsData: TNews[];
+  totalViews: number;
 }
 
-const OverviewCard = ({ userData, newsData }: userProps) => {
+const OverviewCard = ({ userData, newsData, totalViews }: userProps) => {
   const totalUser = userData.length;
   const activeUsers = userData.filter(
     (item) => item?.isActive === "active",
@@ -177,7 +178,7 @@ const OverviewCard = ({ userData, newsData }: userProps) => {
             </h3>
             <LuUsers className="bg-[#D2FFDB] text-[#00BC26] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">400.1K</p>
+          <p className="text-2xl mb-1.5 font-semibold">{totalViews || "00"} </p>
           <p className="flex items-center text-[#00BC26]">
             <MdArrowOutward />
             +20%

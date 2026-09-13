@@ -165,3 +165,9 @@ export const getPopularNews = async (
     cache: "no-cache",
   });
 };
+
+export const getNewsTotalView = async () => {
+  return apiClientRaw("/news/total-views", {
+    method: "GET",
+  });
+};
