@@ -5,13 +5,13 @@ import { RiUserSettingsLine } from "react-icons/ri";
 import CreateRoleForm from "./components/form";
 
 const TitleDetails = {
-  title: "Users & Roll",
+  title: "Users & Role",
   subtitle: "Manage user roles and configure granular permissions for each.",
   breadcrumbs: [
     { label: "Home", href: "/dashboard" },
-    { label: "Users & Roll", href: "roll-management" },
-    { label: "Roll Management", href: "/role-management" },
-    { label: "Create Roll" },
+    { label: "Users & Role", href: "role-management" },
+    { label: "Role Management", href: "/role-management" },
+    { label: "Create Role" },
   ],
 };
 

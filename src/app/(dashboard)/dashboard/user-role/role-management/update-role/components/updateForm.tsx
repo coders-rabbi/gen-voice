@@ -95,6 +95,7 @@ export default function UpdateRoleForm() {
   const [sectionOpen, setSectionOpen] = useState(true);
   const [permissions, setPermissions] =
     useState<Record<FeatureKey, boolean>>(initialPermissions);
+  const [isUpdating, setIsUpdating] = useState(false);
   const token = localStorage.getItem(authkey);
 
   const roleId = useParams();
@@ -173,6 +174,7 @@ export default function UpdateRoleForm() {
       permissions: permissionsArray,
     };
 
+    setIsUpdating(true);
     try {
       const result = await updateRole(
         roleId.id as string,
@@ -195,6 +197,8 @@ export default function UpdateRoleForm() {
         title: "Failed",
         text: error instanceof Error ? error.message : "Something went wrong",
       });
+    } finally {
+      setIsUpdating(false);
     }
   };
   return (
@@ -281,7 +285,8 @@ export default function UpdateRoleForm() {
         <button
           type="button"
           onClick={handleReset}
-          className="flex-1 flex items-center justify-center gap-2 rounded-lg border border-[#FDA29B] py-3 text-[#FF383C] font-medium hover:bg-[#FEF3F2] transition-colors"
+          disabled={isUpdating}
+          className="flex-1 flex items-center justify-center gap-2 rounded-lg border border-[#FDA29B] py-3 text-[#FF383C] font-medium hover:bg-[#FEF3F2] transition-colors disabled:cursor-not-allowed disabled:opacity-70"
         >
           <FaPlus size={12} />
           Reset
@@ -289,10 +294,20 @@ export default function UpdateRoleForm() {
         <button
           type="button"
           onClick={handleUpdateRole}
-          className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-[#155EEF] py-3 text-white font-medium hover:bg-[#0E4FD1] transition-colors"
+          disabled={isUpdating}
+          className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-[#155EEF] py-3 text-white font-medium hover:bg-[#0E4FD1] transition-colors disabled:cursor-not-allowed disabled:opacity-70"
         >
-          <FaPlus size={12} />
-          Update Role
+          {isUpdating ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              Updating...
+            </>
+          ) : (
+            <>
+              <FaPlus size={12} />
+              Update Role
+            </>
+          )}
         </button>
       </div>
     </div>

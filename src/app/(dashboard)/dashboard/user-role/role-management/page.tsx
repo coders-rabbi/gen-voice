@@ -5,18 +5,18 @@ import { FaArrowLeft, FaPlus } from "react-icons/fa6";
 import RollTable from "./components/roleManagementTabale";
 import { getFromLocalStorage } from "../../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TRole } from "@/types/role";
 import { getRoles } from "@/services/role/role.service";
 import { RollTableSkeleton } from "./components/RoleSkeleton";
 
 const TitleDetails = {
-  title: "Roll Management",
+  title: "Role Management",
   subtitle: "Manage user roles and configure granular permissions for each.",
   breadcrumbs: [
     { label: "Home", href: "/dashboard" },
-    { label: "Users & Roll", href: "/dashboard/user-roll" },
-    { label: "Roll Management" },
+    { label: "Users & Role", href: "/dashboard/user-role" },
+    { label: "Role Management" },
   ],
 };
 
@@ -26,12 +26,16 @@ const page = () => {
 
   const token = getFromLocalStorage(authkey);
 
-  useEffect(() => {
+  const fetchRoles = useCallback(() => {
     setIsLoading(true);
     getRoles(token as string)
       .then((res) => setData(res.data))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [token]);
+
+  useEffect(() => {
+    fetchRoles();
+  }, [fetchRoles]);
 
   return (
     <div>
@@ -39,7 +43,7 @@ const page = () => {
         <PageTitle TitleDetails={TitleDetails} />
         <div className="flex gap-1.5 mt-5 lg:mt-0">
           <Link
-            href="/dashboard"
+            href="/dashboard/user-role"
             className="bg-[#F0F6FF] text-[#005CE8] border px-4 py-1 flex items-center gap-2 rounded-2xl border-[#005CE8] w-fit "
           >
             <FaArrowLeft />
@@ -58,7 +62,11 @@ const page = () => {
         {isLoading ? (
           <RollTableSkeleton rows={5} />
         ) : (
-          <RollTable data={data} token={token as string} />
+          <RollTable
+            data={data}
+            token={token as string}
+            onRefetch={fetchRoles}
+          />
         )}
       </div>
     </div>

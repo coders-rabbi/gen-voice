@@ -48,23 +48,45 @@ const MAX_VISIBLE_PERMISSIONS = 3;
 interface dataProps {
   data: TRole[];
   token: string;
+  onRefetch: () => void;
 }
 
-const RollTable = ({ data, token }: dataProps) => {
+const RollTable = ({ data, token, onRefetch }: dataProps) => {
   const handleDeleteRole = async (roleId: string) => {
+    if (!token) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "Unauthorized access.",
+      });
+      return;
+    }
+
+    const confirmResult = await Swal.fire({
+      icon: "warning",
+      title: "Are you sure?",
+      text: "This role will be permanently deleted!",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#FF383C",
+      cancelButtonColor: "#717680",
+    });
+
+    if (!confirmResult.isConfirmed) return;
+
     try {
       const result = await deleteRole(roleId, token);
-      if (!token) {
-        throw new Error("Unauthorized access.");
-      }
+
       if (result.success) {
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
-          title: "Updated",
+          title: "Deleted",
           text: result?.message ?? "Permission deleted successfully.",
           timer: 2000,
           showConfirmButton: false,
         });
+        onRefetch(); // parent-এর state refetch করে UI আপডেট করবে
       }
     } catch (err) {
       const message =
@@ -77,6 +99,7 @@ const RollTable = ({ data, token }: dataProps) => {
       });
     }
   };
+
   return (
     <Table className="border">
       <TableCaption>A list of your roles and permissions.</TableCaption>

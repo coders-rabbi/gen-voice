@@ -87,6 +87,7 @@ export default function CreateRoleForm() {
   const [sectionOpen, setSectionOpen] = useState(true);
   const [permissions, setPermissions] =
     useState<Record<FeatureKey, boolean>>(initialPermissions);
+  const [isLoading, setIsloading] = useState(false);
 
   const token = localStorage.getItem(authkey);
 
@@ -125,9 +126,8 @@ export default function CreateRoleForm() {
       permissions: permissionsArray,
     };
 
-    console.log(payload);
-
     try {
+      setIsloading(true);
       const result = await createRole(payload, token as string);
       console.log(result);
       Swal.fire({
@@ -143,6 +143,8 @@ export default function CreateRoleForm() {
         title: "Failed",
         text: error instanceof Error ? error.message : "Something went wrong",
       });
+    }finally{
+      setIsloading(false)
     }
   };
 
@@ -239,10 +241,20 @@ export default function CreateRoleForm() {
         <button
           type="button"
           onClick={handleCreateRole}
-          className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-[#155EEF] py-3 text-white font-medium hover:bg-[#0E4FD1] transition-colors"
+          disabled={isLoading}
+          className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-[#155EEF] py-3 text-white font-medium hover:bg-[#0E4FD1] transition-colors disabled:cursor-not-allowed disabled:opacity-70"
         >
-          <FaPlus size={12} />
-          Create Role
+          {isLoading ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              Creating...
+            </>
+          ) : (
+            <>
+              <FaPlus size={12} />
+              Create Role
+            </>
+          )}
         </button>
       </div>
     </div>
