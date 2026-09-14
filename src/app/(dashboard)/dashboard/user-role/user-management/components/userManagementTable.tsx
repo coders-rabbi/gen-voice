@@ -16,19 +16,17 @@ import { FaPencil } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { getFromLocalStorage } from "../../../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
-import useSWR, { useSWRConfig } from "swr";
-import { getAllUser } from "@/services/users/user.service";
+import useSWR from "swr";
 import { deleteAdminUser, getAllAdmin } from "@/services/adminUser/admin.user";
 import AdminUserSkeleton from "./adminUserSkeleton";
 import Swal from "sweetalert2";
+import Link from "next/link";
 
 export function UserTable() {
   const [token, setToken] = useState<string | null>(null);
 
-  console.log("token:", token); // eta server console-e dekhabe
   useEffect(() => {
     const storedToken = getFromLocalStorage(authkey);
-    console.log("users:", storedToken); // ekhon eta BROWSER console-e dekhabe
     setToken(storedToken);
   }, []);
 
@@ -67,6 +65,11 @@ export function UserTable() {
     try {
       const res = await deleteAdminUser(id, token);
       if (res?.success) {
+        // cache theke deleted user soriye dey, server call na kore (optimistic)
+        mutate((prev) => prev?.filter((user) => user._id !== id), {
+          revalidate: false,
+        });
+
         Swal.fire({
           icon: "success",
           title: "Deleted",
@@ -89,7 +92,7 @@ export function UserTable() {
       <TableCaption>A list of your users and roles.</TableCaption>
       <TableHeader className="bg-[#FAFAFA]">
         <TableRow>
-          <TableHead className="w-[100px]">
+          <TableHead className="w-25">
             <span className="flex items-center gap-1 text-[#717680]">
               SL No.
               <CiCircleQuestion />
@@ -126,13 +129,17 @@ export function UserTable() {
               <div className="flex items-center justify-end gap-3">
                 <button aria-label="Delete user">
                   <FaTrashAlt
+                    cursor="pointer"
                     onClick={() => handleAdminUserDelete(user?._id)}
                     className="text-[#FF383C]"
                   />
                 </button>
-                <button aria-label="Edit user">
+                <Link
+                  href={`user-management/user-update/${user?._id}`}
+                  aria-label="Edit user"
+                >
                   <FaPencil className="text-[#AC39D4]" />
-                </button>
+                </Link>
               </div>
             </TableCell>
           </TableRow>

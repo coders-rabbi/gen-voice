@@ -105,7 +105,7 @@ const RollTable = ({ data, token, onRefetch }: dataProps) => {
       <TableCaption>A list of your roles and permissions.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">
+          <TableHead className="w-25">
             <span className="flex items-center gap-1 text-[#717680]">
               SL No.
               <CiCircleQuestion />

@@ -25,6 +25,16 @@ export const getAllAdmin = async (token: string): Promise<TAdmin[]> => {
   });
 };
 
+export const getSingleAdminUser = async (id: string ,token: string): Promise<TAdmin> => {
+  return apiClient<TAdmin>(`/admin/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const updateAdminInfo = async (
   id: string,
   token: string,

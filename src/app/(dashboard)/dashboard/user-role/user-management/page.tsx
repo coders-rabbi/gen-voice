@@ -8,7 +8,7 @@ const TitleDetails = {
   subtitle: "Manage user roles and configure granular permissions for each.",
   breadcrumbs: [
     { label: "Home", href: "/dashboard" },
-    { label: "Users & Roll", href: "/dashboard/user-roll" },
+    { label: "Users & Role", href: "/dashboard/user-role" },
     {
       label: "User Management",
     },
