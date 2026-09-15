@@ -1,10 +1,10 @@
 // components/ActiveUsersBadge.tsx
 "use client";
 
-import { useActiveUsers } from "@/hooks/useActiveUsers";
+import { useActiveUsersContext } from "@/context/activeUserContext";
 
 export default function ActiveUsersBadge() {
-  const { activeCount, isConnected } = useActiveUsers();
+  const { activeCount, isConnected } = useActiveUsersContext();
 
   return (
     <div className="border rounded-2xl p-5">

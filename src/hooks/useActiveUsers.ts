@@ -11,6 +11,7 @@ export function useActiveUsers() {
 
   useEffect(() => {
     const user = getUserInfo();
+    console.log("Logged in user object:", user);
 
     if (!user?._id) {
       console.warn("No userId found, skipping socket connection");
@@ -18,7 +19,7 @@ export function useActiveUsers() {
     }
 
     const socket: Socket = io(process.env.NEXT_PUBLIC_SOCKET_URL as string, {
-      auth: { userId: user._id }, // shudhu id (string) pathano hocche, pura object na
+      auth: { userId: user._id },
     });
 
     socket.on("connect", () => {
