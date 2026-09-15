@@ -6,6 +6,7 @@ import { GiNotebook } from "react-icons/gi";
 import { IoTrashBinSharp } from "react-icons/io5";
 import { TUser } from "@/types/user.type";
 import { TNews } from "@/types/news";
+import ActiveUsersBadge from "./activeUserBadge";
 
 interface userProps {
   userData: TUser[];
@@ -41,19 +42,7 @@ const OverviewCard = ({ userData, newsData, totalViews }: userProps) => {
   return (
     <div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
-        <div className="border rounded-2xl p-5">
-          <div className="flex justify-between items-center">
-            <h3 className="text-[#4F4F4F] mb-2.5 text-sm font-semibold">
-              Total Active Users
-            </h3>
-            <LuUsers className="bg-[#D2FFDB] text-[#00BC26] text-3xl p-1 rounded-md" />
-          </div>
-          <p className="text-2xl mb-1.5 font-semibold">{activeUsers}</p>
-          <p className="flex items-center text-[#00BC26]">
-            <MdArrowOutward />
-            +4.7K
-          </p>
-        </div>
+        <ActiveUsersBadge />
         <div className="border rounded-2xl p-5">
           <div className="flex justify-between items-center">
             <h3 className="text-[#4F4F4F] mb-2.5 text-sm font-semibold">
