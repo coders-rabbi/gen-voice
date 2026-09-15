@@ -14,7 +14,6 @@ const TitleDetails = {
   subtitle: "Latest news, updates and stories from our team",
   breadcrumbs: [{ label: "Home", href: "/" }],
 };
-
 const page = async () => {
   const token = getFromLocalStorage(authkey);
   const userDataFromDB = await getAllUser(token as string);
