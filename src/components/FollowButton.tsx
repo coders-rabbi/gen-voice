@@ -86,7 +86,7 @@ const FollowButton = ({ reporterId, token }: FollowButtonProps) => {
         )}
         {isFollowing ? "Following" : "Follow"}
       </button>
-      <span className="text-sm text-gray-500">{count} followers</span>
+      {/* <span className="text-sm text-gray-500">{count} followers</span> */}
     </div>
   );
 };

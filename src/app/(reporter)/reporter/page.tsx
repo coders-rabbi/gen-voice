@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCardVertical from "@/components/newsCardVertical";
 import PostSatisfactionReaction from "@/components/dashboard/postSatisfactionReaction";
 import ProfileInfo from "@/components/dashboard/profileInfo";
