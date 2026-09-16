@@ -1,13 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  BsEmojiExpressionlessFill,
-  BsEmojiGrin,
-  BsEmojiHeartEyesFill,
-  BsFillEmojiKissFill,
-} from "react-icons/bs";
-import { FaAngry } from "react-icons/fa";
 import { TReactionCounts, TReactionType } from "@/types/reaction.type";
 import {
   getMyReaction,
@@ -23,39 +16,39 @@ interface newsIdProps {
 
 const reactionConfig: {
   type: TReactionType;
-  icon: React.ElementType;
-  activeColor: string;
-  inactiveColor: string;
+  emoji: string;
+  label: string;
+  color: string;
 }[] = [
   {
-    type: "angry",
-    icon: FaAngry,
-    activeColor: "text-red-500",
-    inactiveColor: "text-gray-300",
-  },
-  {
-    type: "sad",
-    icon: BsEmojiExpressionlessFill,
-    activeColor: "text-gray-500",
-    inactiveColor: "text-gray-300",
-  },
-  {
     type: "like",
-    icon: BsEmojiGrin,
-    activeColor: "text-yellow-400",
-    inactiveColor: "text-gray-300",
+    emoji: "👍",
+    label: "Like",
+    color: "#2078f4",
   },
   {
     type: "love",
-    icon: BsEmojiHeartEyesFill,
-    activeColor: "text-pink-400",
-    inactiveColor: "text-gray-300",
+    emoji: "❤️",
+    label: "Love",
+    color: "#f33e58",
   },
   {
     type: "wow",
-    icon: BsFillEmojiKissFill,
-    activeColor: "text-pink-500",
-    inactiveColor: "text-gray-300",
+    emoji: "😲",
+    label: "Wow",
+    color: "#f7b125",
+  },
+  {
+    type: "sad",
+    emoji: "😢",
+    label: "Sad",
+    color: "#8a8a8a",
+  },
+  {
+    type: "angry",
+    emoji: "😡",
+    label: "Angry",
+    color: "#e9710f",
   },
 ];
 
@@ -95,7 +88,6 @@ const Reaction = ({ newsId }: newsIdProps) => {
     if (isLoading) return;
     setIsLoading(true);
 
-    // Optimistic update
     const prevCounts = { ...counts };
     const prevReaction = myReaction;
 
@@ -117,7 +109,6 @@ const Reaction = ({ newsId }: newsIdProps) => {
     try {
       await toggleReaction(token as string, newsId, { type });
     } catch (error) {
-      // ব্যর্থ হলে আগের অবস্থায় ফিরিয়ে নেওয়া
       setCounts(prevCounts);
       setMyReaction(prevReaction);
       console.error("Reaction failed:", error);
@@ -130,23 +121,29 @@ const Reaction = ({ newsId }: newsIdProps) => {
     <div className="flex items-center justify-center gap-2 mt-2">
       <p>Rate: </p>
       <div className="flex items-center gap-4">
-        {reactionConfig.map(
-          ({ type, icon: Icon, activeColor, inactiveColor }) => (
-            <button
-              key={type}
-              onClick={() => handleReaction(type)}
-              disabled={isLoading}
-              className="flex flex-col items-center gap-0.5 disabled:opacity-60"
+        {reactionConfig.map(({ type, emoji, label, color }) => (
+          <button
+            key={type}
+            onClick={() => handleReaction(type)}
+            disabled={isLoading}
+            title={label}
+            className="flex flex-col items-center gap-0.5 disabled:opacity-60 transition-transform hover:scale-125"
+          >
+            <span
+              className={`text-2xl transition-all ${
+                myReaction === type ? "" : "grayscale opacity-40"
+              }`}
             >
-              <Icon
-                className={`text-xl ${
-                  myReaction === type ? activeColor : inactiveColor
-                }`}
-              />
-              <span className="text-xs text-gray-500">{counts[type]}</span>
-            </button>
-          ),
-        )}
+              {emoji}
+            </span>
+            <span
+              className="text-xs"
+              style={{ color: myReaction === type ? color : "#9ca3af" }}
+            >
+              {counts[type]}
+            </span>
+          </button>
+        ))}
       </div>
     </div>
   );

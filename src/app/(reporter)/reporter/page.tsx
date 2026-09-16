@@ -14,6 +14,9 @@ import { getUserInfo } from "@/services/actions/auth.service";
 import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
 import useSWR from "swr";
 import { getFollowerCount } from "@/services/follow";
+import { getMyReaction, getReporterReactionCounts } from "@/services/reaction";
+import { calculateRating } from "../../../../utils/calculateRating";
+import { TReactionCounts } from "@/types/reaction.type";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
@@ -22,7 +25,6 @@ const Page = () => {
   const [error, setError] = useState<string | null>(null);
 
   const userInfo = getUserInfo();
-
   const { data: repData, isLoading: isReporterLoading } = useSWR(
     userInfo?._id ? ["singleReporterByUserId", userInfo._id] : null,
     () => getSingleReporterByUserId(userInfo?._id as string),
@@ -34,13 +36,30 @@ const Page = () => {
   );
   const count = followerCount?.data?.count ?? 0;
 
+  const emptyCounts: TReactionCounts = {
+    like: 0,
+    love: 0,
+    wow: 0,
+    sad: 0,
+    angry: 0,
+  };
+
+  const { data: reactionCount } = useSWR(
+    ["reaction-count", repData?.data?._id],
+    () => getReporterReactionCounts(repData?.data?._id as string),
+  );
+
+  const countsReaction: TReactionCounts = reactionCount?.data ?? emptyCounts;
+  const rating = calculateRating(countsReaction);
+
   const pendingNews = myNews.filter((item) => item?.status === "pending");
   const publishedNews = myNews.filter((item) => item?.status === "published");
   const profileExtraDetails = {
     pendingNews,
     publishedNews,
     reporterData: repData,
-    count
+    count,
+    rating,
   };
 
   useEffect(() => {

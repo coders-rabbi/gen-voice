@@ -31,12 +31,22 @@ export const getReactionCounts = async (
   });
 };
 
-// বর্তমান লগইন করা ইউজারের reaction আনা
 export const getMyReaction = async (
   newsId: string,
 ): Promise<ApiResponse<TReactionType | null>> => {
   return apiClientRaw<TReactionType | null>(
     `/reactions/my-reaction/${newsId}`,
+    {
+      method: "GET",
+    },
+  );
+};
+
+export const getReporterReactionCounts = async (
+  reporterId: string,
+): Promise<ApiResponse<TReactionCounts | null>> => {
+  return apiClientRaw<TReactionCounts | null>(
+    `/reactions/reporter/${reporterId}`,
     {
       method: "GET",
     },

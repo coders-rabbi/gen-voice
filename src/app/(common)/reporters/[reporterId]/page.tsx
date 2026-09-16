@@ -10,6 +10,9 @@ import FollowButton from "@/components/FollowButton";
 import { getFromLocalStorage } from "../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
 import { getSingleReporterByReporterId } from "@/services/reporter/reporterService";
+import { getReporterReactionCounts } from "@/services/reaction";
+import { TReactionCounts } from "@/types/reaction.type";
+import { calculateRating } from "../../../../../utils/calculateRating";
 
 type Props = {
   params: Promise<{ reporterId: string }>;
@@ -22,7 +25,18 @@ const page = async ({ params }: Props) => {
   const token = getFromLocalStorage(authkey);
   const reporterOthersNews: TNews[] = await getNewsByReporterId(reporterId);
 
-  console.log("Rabbi", token);
+  const emptyCounts: TReactionCounts = {
+    like: 0,
+    love: 0,
+    wow: 0,
+    sad: 0,
+    angry: 0,
+  };
+
+  const reactionCount = await getReporterReactionCounts(reporterId as string);
+
+  const countsReaction: TReactionCounts = reactionCount?.data ?? emptyCounts;
+  const rating = calculateRating(countsReaction);
 
   return (
     <div className="">
@@ -54,7 +68,7 @@ const page = async ({ params }: Props) => {
         {/* Stats */}
         <div className="flex flex-wrap gap-x-5 gap-y-2 md:gap-x-10">
           <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-            <FaStar className="text-[#3385FF]" /> Rate : 4.2
+            <FaStar className="text-[#3385FF]" /> Rate : {rating}
           </p>
           <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
             <FaUser className="text-[#3385FF]" /> Follower : {count}
