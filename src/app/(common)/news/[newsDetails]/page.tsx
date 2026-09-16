@@ -16,10 +16,6 @@ import {
   getNewsByCategory,
   getNewsByReporterId,
 } from "@/services/news/news.service";
-import {
-  getAllReporter,
-  getSingleReporterByReporterId,
-} from "@/services/reporter/reporterService";
 import NewsDetailsSkeleton from "../components/newsDetailsSkeleton";
 import { splitContentAtMidpoint } from "../components/splitContent";
 import { TNews } from "@/types/news";
@@ -30,6 +26,7 @@ import { getCommentsByNewsId } from "@/services/comments";
 import { TComments } from "@/types/comment.type";
 import RelatedNews from "../components/relatedNews";
 import NewsViewTracker from "../components/viewCountracker";
+import { getSingleReporterByReporterId } from "@/services/reporter/reporterService";
 
 interface PageProps {
   params: Promise<{

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { TReporter } from "@/types/reporter";
-import { getSingleReporterUsingUserId } from "@/services/reporter/reporterService";
+import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
 
 interface UseSingleReporterResult {
   data: TReporter | null;
@@ -20,7 +20,7 @@ export const useSingleReporter = (userId: string): UseSingleReporterResult => {
       setIsLoading(true);
       setError(null);
       try {
-        const result = await getSingleReporterUsingUserId(userId);
+        const result = await getSingleReporterByUserId(userId);
         const reporter = Array.isArray(result.data)
           ? result.data[0]
           : result.data;

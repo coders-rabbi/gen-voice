@@ -30,7 +30,6 @@ export function ActiveUsersProvider({ children }: { children: ReactNode }) {
     console.log("[ActiveUsers] SOCKET URL:", socketUrl);
 
     const user = getUserInfo();
-    console.log("[ActiveUsers] USER INFO:", user);
 
     const userId = user?._id;
 

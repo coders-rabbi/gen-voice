@@ -27,18 +27,28 @@ export const getAllReporter = async (
   });
 };
 
-export const getSingleReporterUsingUserId = async (
-  userId: string,
-): Promise<ApiResponse<TReporter>> => {
-  return apiClientRaw<TReporter>(`/reporters/user-id/${userId}`, {
-    method: "GET",
-  });
-};
-
 export const getSingleReporterByReporterId = async (
   repId: string,
 ): Promise<ApiResponse<TReporter>> => {
   return apiClientRaw<TReporter>(`/reporters/${repId}`, {
     method: "GET",
+  });
+};
+
+export const getSingleReporterByUserId = async (
+  repId: string,
+): Promise<ApiResponse<TReporter>> => {
+  return apiClientRaw<TReporter>(`/reporters/user-id/${repId}`, {
+    method: "GET",
+  });
+};
+
+export const updateReporterById = async (
+  repId: string,
+  payload: Partial<TReporter>,
+): Promise<ApiResponse<TReporter>> => {
+  return apiClientRaw<TReporter>(`/reporters/${repId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
   });
 };

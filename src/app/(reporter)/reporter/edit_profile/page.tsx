@@ -1,20 +1,63 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 import Image from "next/image";
-import React from "react";
 import banner from "@/assets/writer/writerBanner.jpg";
-import { FaRegFolderOpen } from "react-icons/fa6";
-import { FiPlus } from "react-icons/fi";
 import ProfileInfo from "@/components/dashboard/profileInfo";
 import { getSingleReporterAllNews } from "@/services/news/news.service";
+import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
+import { getUserInfo } from "@/services/actions/auth.service";
 import { TNews } from "@/types/news";
-import { getFromLocalStorage } from "../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
+import { getFromLocalStorage } from "../../../../../utils/localStorage";
+import UpdateProfileForm from "./components/ProfileUpdateForm";
 
-const page = async () => {
-  const token = getFromLocalStorage(authkey);
-  const myNews: TNews[] = await getSingleReporterAllNews(token as string);
+const Page = () => {
+  const [myNews, setMyNews] = useState<TNews[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const userInfo = getUserInfo();
+
+  const {
+    data: reporterData,
+    isLoading: isReporterLoading,
+    mutate,
+  } = useSWR(
+    userInfo?._id ? ["singleReporterByUserId", userInfo._id] : null,
+    () => getSingleReporterByUserId(userInfo?._id as string),
+  );
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const token = getFromLocalStorage(authkey);
+
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+
+        const news: TNews[] = await getSingleReporterAllNews(token as string);
+        setMyNews(news);
+      } catch (error) {
+        console.error("Failed to fetch news:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
   const pendingNews = myNews.filter((item) => item?.status === "pending");
   const publishedNews = myNews.filter((item) => item?.status === "published");
-  const profileExtraDetails = { pendingNews, publishedNews };
+  const profileExtraDetails = { pendingNews, publishedNews, reporterData };
+
+  if (loading || isReporterLoading) {
+    return <div className="p-4">Loading...</div>;
+  }
+
   return (
     <div>
       <Image
@@ -27,126 +70,14 @@ const page = async () => {
       <div>
         <ProfileInfo extraDetails={profileExtraDetails} />
       </div>
-      <div className="px-4 mt-12">
-        <div className="flex flex-col md:flex-row md:gap-4 w-full">
-          <div className="w-full">
-            <legend className="fieldset-legend block text-[#3E3232]">
-              FullName
-            </legend>
-            <input
-              type="text"
-              className="input validator bg-[#F5F5F5] rounded-[10px] w-full text-black"
-              placeholder=""
-            />
-          </div>
-          <div className="w-full">
-            <legend className="fieldset-legend block text-[#3E3232]">
-              UserName
-            </legend>
-            <input
-              type="text"
-              className="input validator bg-[#F5F5F5] rounded-[10px] w-full text-black"
-              placeholder=""
-            />
-          </div>
-          <div className="w-full">
-            <legend className="fieldset-legend block text-[#3E3232]">
-              Phone
-            </legend>
-            <input
-              type="text"
-              className="input validator bg-[#F5F5F5] rounded-[10px] w-full text-black"
-              placeholder=""
-            />
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row md:gap-4 w-full md:mt-3">
-          <div className="w-full">
-            <legend className="fieldset-legend block text-[#3E3232]">
-              Email
-            </legend>
-            <input
-              type="text"
-              className="input validator bg-[#F5F5F5] rounded-[10px] w-full text-black"
-              placeholder=""
-            />
-          </div>
-          <div className="w-full">
-            <legend className="fieldset-legend block text-[#3E3232]">
-              Old Password
-            </legend>
-            <input
-              type="text"
-              className="input validator bg-[#F5F5F5] rounded-[10px] w-full text-black"
-              placeholder=""
-            />
-          </div>
-          <div className="w-full">
-            <legend className="fieldset-legend block text-[#3E3232]">
-              Password
-            </legend>
-            <input
-              type="text"
-              className="input validator bg-[#F5F5F5] rounded-[10px] w-full text-black"
-              placeholder=""
-            />
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row gap-2.5 mt-3">
-          <div className="bg-white rounded-xl w-full">
-            <h3 className="text-lg font-semibold text-[#3E3232] mb-3">
-              Add Profile
-            </h3>
 
-            <div className="w-full py-8 bg-[#F8F9FA] border-2 border-dashed border-[#E5E7EB] rounded-2xl flex gap-2.5 items-center justify-center transition-all hover:bg-[#F3F4F6]">
-              <input type="file" className="hidden" accept="image/*" />
-              <FaRegFolderOpen
-                strokeWidth={0.5}
-                className="text-[#C4C4C4] text-7xl mb-4"
-              />
-              <div>
-                <p className="text-sm text-[#71717A] text-center mb-2 font-medium">
-                  Drop Image here
-                </p>
-                <button
-                  type="button"
-                  className="flex items-center gap-1.5 px-5 py-2.5 bg-white border border-[#E4E4E7] text-[#3F3F46] rounded-xl font-medium shadow-sm text-sm hover:bg-gray-50 active:scale-95 transition-all"
-                >
-                  <FiPlus className="text-lg text-[#71717A]" />
-                  Select
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl w-full">
-            <h3 className="text-lg font-semibold text-[#3E3232] mb-3">
-              Add Banner
-            </h3>
-
-            <div className="w-full py-8 bg-[#F8F9FA] border-2 border-dashed border-[#E5E7EB] rounded-2xl flex gap-2.5 items-center justify-center transition-all hover:bg-[#F3F4F6]">
-              <input type="file" className="hidden" accept="image/*" />
-              <FaRegFolderOpen
-                strokeWidth={0.5}
-                className="text-[#C4C4C4] text-7xl mb-4"
-              />
-              <div>
-                <p className="text-sm text-[#71717A] text-center mb-2 font-medium">
-                  Drop Image here
-                </p>
-                <button
-                  type="button"
-                  className="flex items-center gap-1.5 px-5 py-2.5 bg-white border border-[#E4E4E7] text-[#3F3F46] rounded-xl font-medium shadow-sm text-sm hover:bg-gray-50 active:scale-95 transition-all"
-                >
-                  <FiPlus className="text-lg text-[#71717A]" />
-                  Select
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <UpdateProfileForm
+        reporterId={reporterData?.data?._id}
+        defaultValues={reporterData?.data}
+        onSuccess={() => mutate()}
+      />
     </div>
   );
 };
 
-export default page;
+export default Page;

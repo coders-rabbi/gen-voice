@@ -11,6 +11,7 @@ export const getAllUser = async (token: string): Promise<TUser[]> => {
   });
 };
 
+
 export const updateUserStatus = async (
   token: string,
   id: string,

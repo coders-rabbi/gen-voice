@@ -13,7 +13,7 @@ import { TReporter } from "@/types/reporter";
 import RepoterSkeleton from "../components/reporterSkeleton";
 import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import { getUserInfo } from "@/services/actions/auth.service";
-import { getSingleReporterUsingUserId } from "@/services/reporter/reporterService";
+import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
@@ -42,7 +42,7 @@ const Page = () => {
 
         const userInfo = getUserInfo();
         if (userInfo?._id) {
-          const reporterRes = await getSingleReporterUsingUserId(userInfo._id);
+          const reporterRes = await getSingleReporterByUserId(userInfo._id);
           setReporterData(
             Array.isArray(reporterRes.data)
               ? reporterRes.data[0]

@@ -8,20 +8,51 @@ import DemoUser from "@/assets/dashboard/user.jpg";
 import { RxExit } from "react-icons/rx";
 import { getUserInfo, removeUser } from "@/services/actions/auth.service";
 import { useRouter } from "next/navigation";
+import { getFromLocalStorage } from "../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
+import { useEffect, useState } from "react";
+import { getSingleAdminUser } from "@/services/adminUser/admin.user";
+import { TAdmin } from "@/types/admin.type";
 
 type TAdminInfo = {
-  _id: string,
-  adminName: string,
-  email: string,
-}
+  _id: string;
+  adminName: string;
+  email: string;
+};
 
 interface DashboardNavbarProps {
   onMenuClick: () => void;
 }
 
 const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
-  const adminInfo = getUserInfo();
+  const decodedData = getUserInfo();
+  const token = getFromLocalStorage(authkey);
   const router = useRouter();
+
+  const [adminData, setAdminData] = useState<TAdmin | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        setLoading(true);
+
+        const data = await getSingleAdminUser(
+          decodedData?._id as string,
+          token as string,
+        );
+        setAdminData(data);
+      } catch (err) {
+        console.error("Failed to fetch admin data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (decodedData?._id && token) {
+      fetchAdminData();
+    }
+  }, [decodedData?._id, token]);
 
   const handleSingOut = () => {
     removeUser();
@@ -74,8 +105,8 @@ const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
               className="rounded-full"
             />
             <div className="hidden md:flex md:flex-col gap-0.5 text-xs">
-              <h4>{adminInfo?.adminName || "Loading..."}</h4>
-              <h4>ID: {adminInfo?.email || "..."}</h4>
+              <h4>{adminData?.adminName || "Loading..."}</h4>
+              <h4>ID: {adminData?.email || "..."}</h4>
             </div>
           </div>
           <RxExit

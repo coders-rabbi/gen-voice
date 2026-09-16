@@ -14,17 +14,18 @@ interface newsProps {
 }
 
 const ProfileInfo = ({ extraDetails }: newsProps) => {
-  const { pendingNews, publishedNews } = extraDetails;
-  const userInfo = getUserInfo();
-  const reporterData = useSingleReporter(userInfo?._id as string);
+  const { pendingNews, publishedNews, reporterData } = extraDetails;
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-2.5 px-4">
       {/* Image + Name */}
       <div className="flex gap-2.5 items-center shrink-0">
         <Image
-          src={manImage}
+          src={reporterData?.data?.profileImage}
           alt="gen voice"
           className="w-16 h-16 md:w-20 md:h-20 object-cover rounded-[12px]"
+          width={100}
+          height={100}
+          unoptimized
         />
         <h2 className="text-sm md:text-[16px] font-medium">
           {reporterData?.data?.fullName}

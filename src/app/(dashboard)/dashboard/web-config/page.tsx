@@ -31,14 +31,14 @@ const page = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
         <Link
-          href=""
+          href="web-config/about-us"
           className="flex flex-col items-center gap-7 border border-[#CFDFF7] rounded-md p-5"
         >
           <TiContacts className="text-4xl text-[#005CE8]" />
           <h3>About Us</h3>
         </Link>
         <Link
-          href=""
+          href="web-config/contact-info"
           className="flex flex-col items-center gap-7 border border-[#CFDFF7] rounded-md p-5"
         >
           <MdContactMail className="text-4xl text-[#005CE8]" />

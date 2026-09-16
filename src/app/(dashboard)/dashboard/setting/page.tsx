@@ -8,10 +8,15 @@ import userImage from "@/assets/dashboard/user.jpg";
 import { useForm } from "react-hook-form";
 import { getUserInfo } from "@/services/actions/auth.service";
 import { useSingleReporter } from "@/hooks/useSingleReporter";
-import { updateAdminInfo } from "@/services/adminUser/admin.user";
+import {
+  getSingleAdminUser,
+  updateAdminInfo,
+} from "@/services/adminUser/admin.user";
 import { getFromLocalStorage } from "../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
 import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
+import { TAdmin } from "@/types/admin.type";
 
 const TitleDetails = {
   title: "Website Configuration",
@@ -28,6 +33,9 @@ type TAdminForm = {
 };
 
 const Page = () => {
+  const [adminData, setAdminData] = useState<TAdmin | null>(null);
+  const [loading, setLoading] = useState(true);
+
   const token = getFromLocalStorage(authkey);
   const userInfo = getUserInfo();
 
@@ -75,6 +83,28 @@ const Page = () => {
     console.log("Form Reset");
   };
 
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        setLoading(true);
+
+        const data = await getSingleAdminUser(
+          userInfo?._id as string,
+          token as string,
+        );
+        setAdminData(data);
+      } catch (err) {
+        console.error("Failed to fetch admin data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userInfo?._id && token) {
+      fetchAdminData();
+    }
+  }, [userInfo?._id, token]);
+
   return (
     <div>
       <div className="lg:flex justify-between items-center">
@@ -107,7 +137,7 @@ const Page = () => {
             <input
               id="name"
               type="text"
-              placeholder={userInfo?.adminName}
+              placeholder={adminData?.adminName}
               {...register("adminName")}
               className="border border-gray-200 p-3 rounded-lg outline-0 focus:border-[#005CE8] placeholder:text-gray-400"
             />
@@ -121,7 +151,7 @@ const Page = () => {
               id="role"
               type="text"
               name="role"
-              value={userInfo?.role}
+              value={adminData?.role}
               readOnly
               placeholder="Write here..."
               className="border border-gray-200 p-3 rounded-lg outline-0 focus:border-[#005CE8] placeholder:text-gray-400"
