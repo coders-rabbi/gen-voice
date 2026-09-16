@@ -1,5 +1,5 @@
 "use client";
-
+import { ImagePlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FaEye, FaPlus, FaRegFolderOpen } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
@@ -107,7 +107,6 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
 
     return data.url as string;
   };
-
 
   const buildPayload = async (
     status: "draft" | "published" | "pending",
@@ -392,7 +391,10 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
               Add File
             </h3>
 
-            <div className="w-full py-8 bg-[#F8F9FA] border-2 border-dashed border-[#E5E7EB] rounded-2xl flex flex-col items-center justify-center transition-all hover:bg-[#F3F4F6]">
+            <div
+              onClick={() => document.getElementById("file-upload")?.click()}
+              className="relative w-full aspect-video bg-[#F8FAFC] border-2 border-dashed border-[#D9DEE7] rounded-2xl flex flex-col items-center justify-center transition-all hover:bg-[#F1F5F9] cursor-pointer overflow-hidden group"
+            >
               <input
                 type="file"
                 className="hidden"
@@ -402,36 +404,46 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
               />
 
               {filePreview ? (
-                mediaType === "Image" ? (
-                  <img
-                    src={filePreview}
-                    alt="Preview"
-                    className="w-32 h-32 object-cover rounded-xl mb-4"
-                  />
-                ) : (
-                  <video
-                    src={filePreview}
-                    controls
-                    className="w-40 h-32 object-cover rounded-xl mb-4"
-                  />
-                )
+                <>
+                  {mediaType === "Image" ? (
+                    <img
+                      src={filePreview}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <video
+                      src={filePreview}
+                      controls
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 opacity-0 group-hover:opacity-100 transition-all text-white font-medium text-sm">
+                    Change {mediaType === "Image" ? "Image" : "Video"}
+                  </div>
+                </>
               ) : (
-                <div className="text-[#C4C4C4] text-7xl mb-4">
-                  <FaRegFolderOpen strokeWidth={0.5} />
-                </div>
+                <>
+                  <div className="w-12 h-12 rounded-xl bg-[#2563EB] flex items-center justify-center mb-3">
+                    <ImagePlus className="text-white w-6 h-6" />
+                  </div>
+                  <p className="text-[#2563EB] font-semibold text-sm mb-1">
+                    Upload {mediaType === "Image" ? "Image" : "Video"}
+                  </p>
+                  <p className="text-xs text-[#94A3B8] text-center leading-snug">
+                    Drag & Drop or Choose file
+                    <br />
+                    To upload media MAX 10 MB.
+                  </p>
+                </>
               )}
-
-              <p className="text-sm text-[#71717A] text-center mb-5 font-medium truncate max-w-full px-2">
-                {file?.name}
-              </p>
-              <label
-                htmlFor="file-upload"
-                className="flex items-center gap-1.5 px-5 py-2.5 bg-white border border-[#E4E4E7] text-[#3F3F46] rounded-xl font-medium shadow-sm text-sm hover:bg-gray-50 active:scale-95 transition-all cursor-pointer"
-              >
-                <FiPlus className="text-lg text-[#71717A]" />
-                Select
-              </label>
             </div>
+
+            {file?.name && (
+              <p className="text-sm text-[#71717A] text-center mt-2 font-medium truncate max-w-full px-2">
+                {file.name}
+              </p>
+            )}
           </div>
         </div>
 

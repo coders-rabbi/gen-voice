@@ -1,13 +1,11 @@
 "use client";
-import manImage from "@/assets/home/man2.jpg";
 import Image from "next/image";
-import { FaPlus, FaStar, FaUser } from "react-icons/fa6";
+import { FaPlus, FaStar, FaUser, FaArrowLeft } from "react-icons/fa6";
 import { PiNotebookBold } from "react-icons/pi";
 import { MdOutlinePostAdd } from "react-icons/md";
 import Link from "next/link";
 import { FaUserEdit } from "react-icons/fa";
-import { getUserInfo } from "@/services/actions/auth.service";
-import { useSingleReporter } from "@/hooks/useSingleReporter";
+import { usePathname } from "next/navigation";
 
 interface newsProps {
   extraDetails: any;
@@ -15,6 +13,10 @@ interface newsProps {
 
 const ProfileInfo = ({ extraDetails }: newsProps) => {
   const { pendingNews, publishedNews, reporterData } = extraDetails;
+
+  const pathname = usePathname();
+  const isProfileHome = pathname === "/reporter";
+
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-2.5 px-4">
       {/* Image + Name */}
@@ -55,20 +57,32 @@ const ProfileInfo = ({ extraDetails }: newsProps) => {
 
       {/* Buttons */}
       <div className="flex flex-wrap gap-2 shrink-0">
-        <Link
-          href="/reporter/edit_profile"
-          className="flex items-center justify-center gap-2 text-[#3385FF] text-xs py-2.5 px-4 border rounded-[12px] whitespace-nowrap"
-        >
-          <FaUserEdit />
-          Edit Profile
-        </Link>
-        <Link
-          href="/reporter/create-post"
-          className="flex items-center justify-center gap-2 text-white bg-[#3385FF] text-xs py-2.5 px-4 border rounded-[12px] whitespace-nowrap"
-        >
-          <FaPlus />
-          Create Post
-        </Link>
+        {isProfileHome ? (
+          <>
+            <Link
+              href="/reporter/edit_profile"
+              className="flex items-center justify-center gap-2 text-[#3385FF] text-xs py-2.5 px-4 border rounded-[12px] whitespace-nowrap"
+            >
+              <FaUserEdit />
+              Edit Profile
+            </Link>
+            <Link
+              href="/reporter/create-post"
+              className="flex items-center justify-center gap-2 text-white bg-[#3385FF] text-xs py-2.5 px-4 border rounded-[12px] whitespace-nowrap"
+            >
+              <FaPlus />
+              Create Post
+            </Link>
+          </>
+        ) : (
+          <Link
+            href="/reporter"
+            className="flex items-center justify-center gap-2 text-[#3385FF] text-xs py-2.5 px-4 border rounded-[12px] whitespace-nowrap"
+          >
+            <FaArrowLeft />
+            Back To Profile
+          </Link>
+        )}
       </div>
     </div>
   );

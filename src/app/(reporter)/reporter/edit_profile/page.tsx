@@ -12,6 +12,7 @@ import { TNews } from "@/types/news";
 import { authkey } from "@/constants/authkey";
 import { getFromLocalStorage } from "../../../../../utils/localStorage";
 import UpdateProfileForm from "./components/ProfileUpdateForm";
+import RepoterSkeleton from "../../components/reporterSkeleton";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
@@ -55,7 +56,7 @@ const Page = () => {
   const profileExtraDetails = { pendingNews, publishedNews, reporterData };
 
   if (loading || isReporterLoading) {
-    return <div className="p-4">Loading...</div>;
+    return  <RepoterSkeleton />;
   }
 
   return (

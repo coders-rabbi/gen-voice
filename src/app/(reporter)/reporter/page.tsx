@@ -9,25 +9,35 @@ import ProfileInfo from "@/components/dashboard/profileInfo";
 import { getSingleReporterAllNews } from "@/services/news/news.service";
 import { authkey } from "@/constants/authkey";
 import { TNews } from "@/types/news";
-import { TReporter } from "@/types/reporter";
 import RepoterSkeleton from "../components/reporterSkeleton";
 import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import { getUserInfo } from "@/services/actions/auth.service";
 import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
+import useSWR from "swr";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
   const [saveNews, setSaveNews] = useState<TNews[]>([]);
-  const [reporterData, setReporterData] = useState<TReporter | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const userInfo = getUserInfo();
+
+  const { data: repData, isLoading: isReporterLoading } = useSWR(
+    userInfo?._id ? ["singleReporterByUserId", userInfo._id] : null,
+    () => getSingleReporterByUserId(userInfo?._id as string),
+  );
+
   const pendingNews = myNews.filter((item) => item?.status === "pending");
   const publishedNews = myNews.filter((item) => item?.status === "published");
-  const profileExtraDetails = { pendingNews, publishedNews };
+  const profileExtraDetails = {
+    pendingNews,
+    publishedNews,
+    reporterData: repData,
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchNews = async () => {
       try {
         const accessToken = localStorage.getItem(authkey);
 
@@ -39,16 +49,6 @@ const Page = () => {
 
         const newsData = await getSingleReporterAllNews(accessToken);
         setMyNews(newsData);
-
-        const userInfo = getUserInfo();
-        if (userInfo?._id) {
-          const reporterRes = await getSingleReporterByUserId(userInfo._id);
-          setReporterData(
-            Array.isArray(reporterRes.data)
-              ? reporterRes.data[0]
-              : reporterRes.data,
-          );
-        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong.");
       } finally {
@@ -56,10 +56,10 @@ const Page = () => {
       }
     };
 
-    fetchData();
+    fetchNews();
   }, []);
 
-  if (loading) {
+  if (loading || isReporterLoading) {
     return <RepoterSkeleton />;
   }
 
@@ -74,9 +74,12 @@ const Page = () => {
   return (
     <div className="">
       <Image
-        src={banner}
+        src={repData?.data?.coverImage as string}
         alt="gen voice"
+        width={500}
+        height={500}
         className="w-full h-40 rounded-xl object-center"
+        unoptimized
       />
 
       {/* profile info */}
@@ -91,8 +94,8 @@ const Page = () => {
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
             <h2 className="text-xl text-[#3E3232]">Post Analysis</h2>
           </div>
-          {reporterData?._id && (
-            <ProfileChart reporterId={reporterData?._id} year={2026} />
+          {repData?.data?._id && (
+            <ProfileChart reporterId={repData?.data?._id} year={2026} />
           )}
         </div>
         <div className="grid md:col-span-3">
