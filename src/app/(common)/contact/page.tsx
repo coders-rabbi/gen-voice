@@ -6,13 +6,19 @@ import { HiCodeBracket } from "react-icons/hi2";
 import { CiLink } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
 import CompanyInformation from "@/components/companyInformation";
-const page = () => {
+import { getSiteContact } from "@/services/web-contact-info";
+const page = async () => {
+  const data = await getSiteContact();
+  const webContact = data?.data;
   return (
     <div>
       <Image
-        src={banner}
+        src={webContact?.logo as string}
         alt="gen voice"
+        width={500}
+        height={500}
         className="w-full h-40 rounded-xl object-center"
+        unoptimized
       />
       <div className="flex justify-between items-center mt-12 px-4 md:px-0">
         <div className="flex items-center gap-2 mb-1">
@@ -126,7 +132,7 @@ const page = () => {
           </div>
         </form>
       </div>
-      <CompanyInformation />
+      <CompanyInformation webContact={webContact} />
     </div>
   );
 };

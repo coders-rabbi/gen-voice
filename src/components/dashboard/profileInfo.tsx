@@ -12,7 +12,7 @@ interface newsProps {
 }
 
 const ProfileInfo = ({ extraDetails }: newsProps) => {
-  const { pendingNews, publishedNews, reporterData } = extraDetails;
+  const { pendingNews, publishedNews, reporterData, count } = extraDetails;
 
   const pathname = usePathname();
   const isProfileHome = pathname === "/reporter";
@@ -40,7 +40,7 @@ const ProfileInfo = ({ extraDetails }: newsProps) => {
           <FaStar className="text-[#3385FF]" /> Rate : 4.2
         </p>
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-          <FaUser className="text-[#3385FF]" /> Follower : 0
+          <FaUser className="text-[#3385FF]" /> Follower : {count}
         </p>
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
           <FaUser className="text-[#3385FF]" /> Following :

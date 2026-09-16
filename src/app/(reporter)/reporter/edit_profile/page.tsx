@@ -62,9 +62,12 @@ const Page = () => {
   return (
     <div>
       <Image
-        src={banner}
+        src={reporterData?.data?.coverImage as string}
         alt="gen voice"
+        width={500}
+        height={500}
         className="w-full h-40 rounded-xl object-center"
+        unoptimized
       />
 
       {/* profile info */}

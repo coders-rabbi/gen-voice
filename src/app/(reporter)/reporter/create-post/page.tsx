@@ -6,10 +6,7 @@ import banner from "@/assets/writer/writerBanner.jpg";
 import CreateNewsForm from "./components/createNewsForm";
 import { getAllNewsCategories } from "@/services/category";
 import { TCategory } from "@/types/category";
-import FormProfileInfo from "./components/formProfileInfo";
 import { getUserInfo } from "@/services/actions/auth.service";
-import { useSingleReporter } from "@/hooks/useSingleReporter";
-import { TReporter } from "@/types/reporter";
 import ProfileInfo from "@/components/dashboard/profileInfo";
 import useSWR from "swr";
 import { TNews } from "@/types/news";
@@ -77,13 +74,19 @@ const Page = () => {
     fetchCategories();
   }, []);
 
+  const bannerImage = reporterData?.data?.coverImage;
+
   return (
     <div>
-      <Image
-        src={banner}
-        alt="gen voice"
-        className="w-full h-40 rounded-xl object-center"
-      />
+      <div className="relative w-full h-40 rounded-xl overflow-hidden">
+        <Image
+          src={bannerImage || banner}
+          alt="gen voice"
+          fill
+          unoptimized={!!bannerImage}
+          className="object-cover"
+        />
+      </div>
 
       <div>
         <ProfileInfo extraDetails={profileExtraDetails} />

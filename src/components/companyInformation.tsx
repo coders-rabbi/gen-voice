@@ -1,8 +1,23 @@
+import { TSiteContact } from "@/types/site-contact";
 import { FaFax, FaLocationCrosshairs } from "react-icons/fa6";
 import { IoMdTime } from "react-icons/io";
 import { MdEmail, MdPhoneIphone } from "react-icons/md";
 
-const CompanyInformation = () => {
+interface webContactProps {
+  webContact: TSiteContact;
+}
+
+const CompanyInformation = ({ webContact }: webContactProps) => {
+  function convertToEmbedUrl(mapLink: string): string {
+    if (!mapLink) return "";
+
+    // ইতিমধ্যে embed link হলে সেভাবেই রাখুন
+    if (mapLink.includes("/maps/embed")) return mapLink;
+
+    const separator = mapLink.includes("?") ? "&" : "?";
+    return `${mapLink}${separator}output=embed`;
+  }
+
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-12 mt-10">
       <div className="md:col-span-8 rounded-xl border-2 ">
@@ -25,16 +40,16 @@ const CompanyInformation = () => {
         </div>
         <div className="flex flex-col gap-8 mt-8  pl-4 border-l-4 border-[#E5EFFF]">
           <p className="flex items-center gap-1 text-sm text-[#3E3232] font-medium">
-            <MdEmail /> Email : management@mega.news
+            <MdEmail /> Email : {webContact?.email}
           </p>
           <p className="flex items-center gap-1 text-sm text-[#3E3232] font-medium">
-            <MdPhoneIphone /> Phone number : management@mega.news
+            <MdPhoneIphone /> Phone number : {webContact?.phone}
           </p>
           <p className="flex items-center gap-1 text-sm text-[#3E3232] font-medium">
-            <FaFax /> Fax : management@mega.news
+            <FaFax /> Fax : {webContact?.fax}
           </p>
           <p className="flex items-center gap-1 text-sm text-[#3E3232] font-medium">
-            <FaLocationCrosshairs /> Address : management@mega.news
+            <FaLocationCrosshairs /> Address :{webContact?.address}
           </p>
         </div>
         <p className="flex items-center gap-1 text-sm mt-7 font-medium bg-[#E5EFFF] w-fit px-6 py-2.5 rounded-2xl text-[#3385FF]">

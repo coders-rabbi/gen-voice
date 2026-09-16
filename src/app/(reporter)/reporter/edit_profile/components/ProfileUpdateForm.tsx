@@ -237,7 +237,7 @@ const UpdateProfileForm = ({
   };
 
   return (
-    <form className="px-4 mt-12" onSubmit={handleSubmit(onSubmit)}>
+    <form className="px-4 mt-10" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col md:flex-row md:gap-4 w-full">
         <div className="w-full">
           <legend className="fieldset-legend block text-[#3E3232]">
@@ -409,13 +409,15 @@ const UpdateProfileForm = ({
         </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={isProfileUploading || isCoverUploading || isSubmitting}
-        className="mt-4 px-6 py-2.5 bg-[#2563EB] text-white rounded-xl font-medium hover:opacity-90 active:scale-95 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {isSubmitting ? "Saving..." : "Save Changes"}
-      </button>
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          disabled={isProfileUploading || isCoverUploading || isSubmitting}
+          className="mt-4 mb-5 px-6 py-2.5 bg-[#2563EB] text-white rounded-xl font-medium hover:opacity-90 active:scale-95 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? "Saving..." : "Save Changes"}
+        </button>
+      </div>
     </form>
   );
 };

@@ -14,6 +14,7 @@ import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import { getUserInfo } from "@/services/actions/auth.service";
 import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
 import useSWR from "swr";
+import { getFollowerCount } from "@/services/follow";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
@@ -28,12 +29,19 @@ const Page = () => {
     () => getSingleReporterByUserId(userInfo?._id as string),
   );
 
+  const { data: followerCount, mutate: mutateCount } = useSWR(
+    ["follower-count", repData?.data?._id],
+    () => getFollowerCount(repData?.data?._id as string),
+  );
+  const count = followerCount?.data?.count ?? 0;
+
   const pendingNews = myNews.filter((item) => item?.status === "pending");
   const publishedNews = myNews.filter((item) => item?.status === "published");
   const profileExtraDetails = {
     pendingNews,
     publishedNews,
     reporterData: repData,
+    count
   };
 
   useEffect(() => {

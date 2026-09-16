@@ -1,14 +1,26 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import reporterImage from "@/assets/home/man.jpg";
 import { FaEye, FaPlus, FaRegBookmark } from "react-icons/fa6";
 import Link from "next/link";
 import { TReporter } from "@/types/reporter";
+import FollowButton from "@/components/FollowButton";
+import { getFromLocalStorage } from "../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
 
 interface reporterProps {
   reporter: TReporter;
 }
 
 const ReporterCard = ({ reporter }: reporterProps) => {
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    setToken(getFromLocalStorage(authkey));
+  }, []);
+
   return (
     <div>
       <div className="flex items-center gap-2 border p-1.5 w-full rounded-[12px]">
@@ -27,13 +39,7 @@ const ReporterCard = ({ reporter }: reporterProps) => {
             </p>
           </div>
           <div className="flex justify-between items-center">
-            <Link
-              href="/"
-              className="flex gap-1 items-center border py-1 px-2 rounded-xl text-[10px]"
-            >
-              <FaPlus />
-              Follow
-            </Link>
+            <FollowButton reporterId={reporter?._id} token={token} />
 
             <Link
               href={`/reporters/${reporter?._id}`}
