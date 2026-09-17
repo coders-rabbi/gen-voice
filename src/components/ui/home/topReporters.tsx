@@ -1,11 +1,10 @@
 import Link from "next/link";
-import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
-import ReporterCard from "./components/reporterCard";
 import Advertisement from "@/components/advertisement";
 import { getAllReporter } from "@/services/reporter/reporterService";
+import ReporterCard from "./components/reporterCard";
 
-const TopWrite = async () => {
+const ToReporters = async () => {
   const reporters = await getAllReporter();
   return (
     <div className="mt-12">
@@ -13,7 +12,7 @@ const TopWrite = async () => {
         <div className="flex items-center gap-2 mb-2.5  ">
           <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
           <h2 className="text-[14px] font-semibold text-[#3E3232] ">
-            Top Writes
+            Top Repoters
           </h2>
         </div>
 
@@ -34,15 +33,15 @@ const TopWrite = async () => {
         </div>
       </div>
 
-      {/* <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
-        {writers.slice(0, 9).map((item) => (
-          <WritesCard key={item._id} writers={item}/>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
+        {reporters.slice(0, 9).map((item) => (
+          <ReporterCard key={item._id} reporter={item}/>
         ))}
-      </div> */}
+      </div>
 
       <Advertisement />
     </div>
   );
 };
 
-export default TopWrite;
+export default ToReporters;

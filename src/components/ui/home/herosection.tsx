@@ -9,9 +9,14 @@ import { HeroSectionCarousel } from "./components/heroSectionCarousel";
 import { TNews } from "@/types/news";
 import { getAllNews } from "@/services/news/news.service";
 
-const Herosection = async () => {
+interface newsProps {
+  news: TNews[];
+}
+
+const Herosection = async ({ news }: newsProps) => {
   const allNews: TNews[] = await getAllNews();
   const publishedNews = allNews.filter((item) => item.status === "published");
+  const firstNews = news[0];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 ">
@@ -20,17 +25,8 @@ const Herosection = async () => {
           <Image src={breakingImage} alt="gen voice" className="h-auto" />
           <Topnotice />
         </div>
-
-        {/* <div className="mt-3 w-full overflow-hidden rounded-lg -z-10">
-          <Image
-            src={img01}
-            alt="Dynamic Hero Image" // ব্রাউজারকে অপ্টিমাইজেশনের জন্য সাইজ বলে দেওয়া
-            className="w-full h-auto object-cover"
-          />
-        </div> */}
         <HeroSectionCarousel news={publishedNews} />
-
-        <TechnologyCard />
+        <TechnologyCard news={firstNews} />
       </div>
 
       <div className="md:col-span-4 w-full mt-5 md:mt-0">

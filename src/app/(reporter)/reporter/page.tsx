@@ -16,7 +16,8 @@ import useSWR from "swr";
 import { getFollowerCount } from "@/services/follow";
 import { getMyReaction, getReporterReactionCounts } from "@/services/reaction";
 import { calculateRating } from "../../../../utils/calculateRating";
-import { TReactionCounts } from "@/types/reaction.type";
+import { TReactionCounts, TReactionType } from "@/types/reaction.type";
+import { Item } from "@radix-ui/react-dropdown-menu";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
@@ -129,16 +130,18 @@ const Page = () => {
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
             <h2 className="text-xl text-[#3E3232] ">Satisfaction of Posts</h2>
           </div>
-          <div className="grid grid-cols-4 md:grid-cols-3 gap-1 mx-auto mt-2">
-            <PostSatisfactionReaction />
-            <PostSatisfactionReaction />
-            <PostSatisfactionReaction />
-            <PostSatisfactionReaction />
-            <PostSatisfactionReaction />
-            <PostSatisfactionReaction />
-            <PostSatisfactionReaction />
-            <PostSatisfactionReaction />
-            <PostSatisfactionReaction />
+          <div>
+            <div className="grid grid-cols-3 gap-2 items-start">
+              {(
+                Object.entries(countsReaction) as [TReactionType, number][]
+              ).map(([type, count]) => (
+                <PostSatisfactionReaction
+                  key={type}
+                  type={type}
+                  count={count}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

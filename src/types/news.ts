@@ -61,6 +61,7 @@ type TReporterId = {
     _id?: string;
   };
   fullName: string;
+  profileImage: string;
 };
 
 type TApprovedBy = {
