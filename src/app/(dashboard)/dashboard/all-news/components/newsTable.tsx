@@ -35,6 +35,7 @@ import { TAB_STATUS_MAP } from "@/constants/news";
 import { TCategory } from "@/types/category";
 import { getUserInfo } from "@/services/actions/auth.service";
 import { SkeletonRow } from "./SkeletonRow";
+import Link from "next/link";
 
 type TStatus =
   | "draft"
@@ -264,9 +265,11 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem className="flex items-center gap-1.5 text-[#0E5FD9]">
-                          <IoMdEye />
-                          View/Edit
+                        <DropdownMenuItem className="flex items-center gap-1 text-[#0E5FD9]">
+                          <Link href={`all-news/${item?.newsId}`}>
+                            <IoMdEye />
+                            View/Edit
+                          </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() =>

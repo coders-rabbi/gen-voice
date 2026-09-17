@@ -171,3 +171,26 @@ export const getNewsTotalView = async () => {
     method: "GET",
   });
 };
+
+export const getSingleNewsByNewsId = async (
+  newsId: string,
+): Promise<ApiResponse<TNews>> => {
+  return apiClientRaw<TNews>(`/news/${newsId}/single`, {
+    method: "GET",
+  });
+};
+
+export const updateNews = async (
+  newsId: string,
+  payload: Partial<TNewsPayload>,
+  token: string,
+): Promise<ApiResponse<TNews>> => {
+  return apiClientRaw<TNews>(`/news/${newsId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+};
