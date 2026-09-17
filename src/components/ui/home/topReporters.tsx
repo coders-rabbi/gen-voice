@@ -17,7 +17,7 @@ const ToReporters = async () => {
         </div>
 
         <Link
-          href="/writers"
+          href="/reporters"
           className="border border-[#D1E2FD] text-[#3385FF] px-3 py-1.5 rounded-2xl flex items-center gap-1.5"
         >
           View All
@@ -33,7 +33,7 @@ const ToReporters = async () => {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 mt-5">
         {reporters.slice(0, 9).map((item) => (
           <ReporterCard key={item._id} reporter={item}/>
         ))}
