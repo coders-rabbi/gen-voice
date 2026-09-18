@@ -43,7 +43,7 @@ const page = () => {
   const token = getFromLocalStorage(authkey);
   const { data: webAboutInfo, mutate } = useSWR(
     token ? ["webAboutInfo", token] : null,
-    () => getWebAboutInfo(token as string),
+    () => getWebAboutInfo(),
   );
 
   useEffect(() => {

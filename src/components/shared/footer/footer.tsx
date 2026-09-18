@@ -145,7 +145,7 @@ const Footer = () => {
               </div>
               <ul className="flex flex-col gap-2 text-[#3E3232] mt-2">
                 <Link href="/" className="text-sm">Home</Link>
-                <Link href="/about_us" className="text-sm">About Us</Link>
+                <Link href="/about-us" className="text-sm">About Us</Link>
                 <Link href="/contact" className="text-sm">Contact</Link>
                 <Link href="/writers" className="text-sm">Writers</Link>
               </ul>

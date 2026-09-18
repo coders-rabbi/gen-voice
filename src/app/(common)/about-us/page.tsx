@@ -6,8 +6,11 @@ import img01 from "@/assets/about/img01.jpg";
 import { FaFax, FaLocationCrosshairs, FaVoicemail } from "react-icons/fa6";
 import { MdEmail, MdPhoneIphone } from "react-icons/md";
 import NewTeamCard from "./components/newTeamCard";
+import { getWebAboutInfo } from "@/services/web-about-info";
 
-const page = () => {
+const page = async () => {
+  const res = await getWebAboutInfo();
+  const aboutData = res.data;
   return (
     <div>
       <Image
@@ -25,7 +28,7 @@ const page = () => {
         </div>
       </div>
 
-      <div className="flex gap-3 items-center w-full mb-4 px-4 md:px-0">
+      <div className="flex gap-3 items-center w-full mb-4 md:px-0">
         <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
         <div className="flex flex-col gap-0.5 flex-1">
           <hr className="w-full border-t border-[#3384FE33]" />
@@ -33,34 +36,24 @@ const page = () => {
         </div>
       </div>
 
-      <div className="px-4 md:px-9">
+      <div className="">
         <h3 className="text-2xl md:text-4xl font-semibold mb-8">
-          We pay attention to your needs and do the best design.
+          {aboutData?.heading}
         </h3>
         <div className="md:grid grid-cols-2 gap-12">
           <div>
-            <p className="text-[18px] leading-9 text-justify">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Egestas purus viverra accumsan in nisl nisi. Arcu cursus vitae
-              congue mauris rhoncus aenean vel elit scelerisque. In egestas erat
-              imperdiet sed euismod nisi porta lorem mollis. Morbi tristique
-              senectus et netus. Mattis pellentesque id nibh tortor id aliquet
-              lectus proin. Sapien faucibus et molestie ac feugiat sed lectus
-              vestibulum. Ullamcorper velit sed ullamcorper morbi tincidunt
-              ornare massa eget. Dictum varius duis at consectetur lorem. Nisi
-              vitae suscipit tellus mauris a diam maecenas sed enim. Velit ut
-              tortor pretium viverra suspendisse potenti nullam. Et molestie ac
-              feugiat sed lectus. Non nisi est sit amet facilisis magna.
-              Dignissim diam quis enim lobortis scelerisque fermentum. Odio ut
-              enim blandit volutpat maecenas volutpat. Ornare lectus sit amet
-              est placerat in egestas erat.Lorem ipsum dolor sit amet.
-            </p>
+            <p
+              className="text-sm leading-5 text-justify"
+              dangerouslySetInnerHTML={{ __html: aboutData?.description || "" }}
+            />
           </div>
           <Image
-            src={img01}
+            src={aboutData?.image as string}
             alt="gen voice"
+            width={500}
+            height={500}
             className="w-full h-[450px] rounded-xl object-center mt-8 md:mt-0"
+            unoptimized
           />
         </div>
       </div>

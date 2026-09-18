@@ -14,12 +14,11 @@ export const createWebAboutInfo = async (
 };
 
 export const getWebAboutInfo = (
-  token: string,
 ): Promise<ApiResponse<IAbout>> => {
   return apiClientRaw<IAbout>("/web-about-info", {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    // headers: {
+    //   Authorization: `Bearer $}`,
+    // },
   });
 };
