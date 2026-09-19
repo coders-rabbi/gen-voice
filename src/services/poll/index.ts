@@ -10,7 +10,7 @@ export const createPoll = async (
   token: string,
   payload: TCreatePollPayload,
 ): Promise<ApiResponse<TCreatePollResult>> => {
-  return apiClientRaw<TCreatePollResult>(`/polls`, {
+  return apiClientRaw<TCreatePollResult>(`/polls/create-poll`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

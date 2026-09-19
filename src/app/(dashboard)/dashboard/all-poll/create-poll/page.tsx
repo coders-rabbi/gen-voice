@@ -27,7 +27,7 @@ const page = () => {
             <FaArrowLeft />
             Back
           </Link>
-          <button className="btn rounded-2xl border border-[#C0D7FA] bg-[#F0F6FF]">
+          {/* <button className="btn rounded-2xl border border-[#C0D7FA] bg-[#F0F6FF]">
             Save Draft
           </button>
           <Link
@@ -35,10 +35,10 @@ const page = () => {
             className="bg-[#005CE8] text-white border px-4 py-1 flex items-center gap-2 rounded-2xl border-[#F0F6FF] w-fit "
           >
             Publish Poll
-          </Link>
+          </Link> */}
         </div>
       </div>
-      <CreatePollForm/>
+      <CreatePollForm />
     </div>
   );
 };

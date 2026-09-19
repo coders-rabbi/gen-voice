@@ -13,12 +13,20 @@ export const createWebAboutInfo = async (
   });
 };
 
-export const getWebAboutInfo = (
-): Promise<ApiResponse<IAbout>> => {
+export const getWebAboutInfo = (): Promise<ApiResponse<IAbout>> => {
   return apiClientRaw<IAbout>("/web-about-info", {
     method: "GET",
-    // headers: {
-    //   Authorization: `Bearer $}`,
-    // },
+  });
+};
+
+export const updateWebAboutInfo = async (
+  payload: IAboutPayload,
+): Promise<ApiResponse<IAbout>> => {
+  return apiClientRaw<IAbout>("/web-about-info/update-web-about", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
   });
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   ChevronDown,
   Calendar,
@@ -15,6 +15,10 @@ import {
   Link2,
   Smile,
 } from "lucide-react";
+import { createPoll } from "@/services/poll";
+import { getFromLocalStorage } from "../../../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
+import { Category, Visibility } from "@/types/poll.type";
 
 type QuestionType =
   | "RADIO"
@@ -37,8 +41,8 @@ type PollPayload = {
   description: string;
   startDate: string;
   endDate: string;
-  visibility: string;
-  category: string;
+  visibility: Visibility;
+  category: Category;
   questions: Question[];
 };
 
@@ -71,8 +75,27 @@ export default function CreatePollForm() {
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [visibility, setVisibility] = useState("Public");
-  const [category, setCategory] = useState("Politics");
+  const [visibility, setVisibility] = useState<Visibility>("Public");
+  const [category, setCategory] = useState<Category>("Politics");
+  const token = getFromLocalStorage(authkey);
+
+  const startDateRef = useRef<HTMLInputElement>(null);
+  const endDateRef = useRef<HTMLInputElement>(null);
+
+  const openDatePicker = (ref: React.RefObject<HTMLInputElement | null>) => {
+    const el = ref.current as
+      | (HTMLInputElement & { showPicker?: () => void })
+      | null;
+
+    if (!el) return;
+
+    // showPicker() is supported in Chrome/Edge/Safari; falls back to focus() elsewhere
+    if (typeof el.showPicker === "function") {
+      el.showPicker();
+    } else {
+      el.focus();
+    }
+  };
 
   const [questions, setQuestions] = useState<Question[]>([
     {
@@ -152,8 +175,7 @@ export default function CreatePollForm() {
       questions,
     };
 
-    console.log("Poll submit payload:", payload);
-
+    const res = createPoll(token as string, payload);
     
   };
 
@@ -202,13 +224,21 @@ export default function CreatePollForm() {
                   </label>
                   <div className="relative">
                     <input
-                      type="text"
+                      ref={startDateRef}
+                      type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      placeholder="DD-MM-YYYY"
-                      className="w-full border rounded-lg px-3.5 py-2.5 pr-9 text-sm outline-none placeholder:text-gray-400 focus:border-[#005CE8]"
+                      max={endDate || undefined}
+                      className="w-full border rounded-lg px-3.5 py-2.5 pr-9 text-sm outline-none focus:border-[#005CE8] [&::-webkit-calendar-picker-indicator]:opacity-0"
                     />
-                    <Calendar className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <button
+                      type="button"
+                      onClick={() => openDatePicker(startDateRef)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#005CE8]"
+                      aria-label="Open start date picker"
+                    >
+                      <Calendar className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
                 <div>
@@ -217,13 +247,21 @@ export default function CreatePollForm() {
                   </label>
                   <div className="relative">
                     <input
-                      type="text"
+                      ref={endDateRef}
+                      type="date"
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      placeholder="DD-MM-YYYY"
-                      className="w-full border rounded-lg px-3.5 py-2.5 pr-9 text-sm outline-none placeholder:text-gray-400 focus:border-[#005CE8]"
+                      min={startDate || undefined}
+                      className="w-full border rounded-lg px-3.5 py-2.5 pr-9 text-sm outline-none focus:border-[#005CE8] [&::-webkit-calendar-picker-indicator]:opacity-0"
                     />
-                    <Calendar className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <button
+                      type="button"
+                      onClick={() => openDatePicker(endDateRef)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#005CE8]"
+                      aria-label="Open end date picker"
+                    >
+                      <Calendar className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -237,7 +275,9 @@ export default function CreatePollForm() {
                   <div className="relative">
                     <select
                       value={visibility}
-                      onChange={(e) => setVisibility(e.target.value)}
+                      onChange={(e) =>
+                        setVisibility(e.target.value as Visibility)
+                      }
                       className="w-full appearance-none border rounded-lg px-3.5 py-2.5 pr-9 text-sm outline-none bg-white focus:border-[#005CE8]"
                     >
                       <option>Public</option>
@@ -254,7 +294,7 @@ export default function CreatePollForm() {
                   <div className="relative">
                     <select
                       value={category}
-                      onChange={(e) => setCategory(e.target.value)}
+                      onChange={(e) => setCategory(e.target.value as Category)}
                       className="w-full appearance-none border rounded-lg px-3.5 py-2.5 pr-9 text-sm outline-none bg-white focus:border-[#005CE8]"
                     >
                       <option>Politics</option>

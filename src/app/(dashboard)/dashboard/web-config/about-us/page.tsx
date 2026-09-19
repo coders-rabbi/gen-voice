@@ -8,7 +8,11 @@ import PageTitle from "@/app/(dashboard)/components/page-Title";
 import RichTextEditor from "@/components/RichTextEditor";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
-import { createWebAboutInfo, getWebAboutInfo } from "@/services/web-about-info";
+import {
+  createWebAboutInfo,
+  getWebAboutInfo,
+  updateWebAboutInfo,
+} from "@/services/web-about-info";
 import Swal from "sweetalert2";
 import { getFromLocalStorage } from "../../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
@@ -36,8 +40,8 @@ const page = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const [uploadedImagePublicId, setUploadedImagePublicId] = useState<
-    string | null
-  >(null);
+    string | ""
+  >("");
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const token = getFromLocalStorage(authkey);
@@ -46,6 +50,7 @@ const page = () => {
     () => getWebAboutInfo(),
   );
 
+
   useEffect(() => {
     if (webAboutInfo?.data) {
       reset({
@@ -53,7 +58,13 @@ const page = () => {
         description: webAboutInfo.data.description ?? "",
       });
       if (webAboutInfo.data.image) {
+        // 🔧 FIX: existing image URL + publicId must also populate
+        // uploadedImageUrl / uploadedImagePublicId, not just previewUrl.
+        // Otherwise onSubmit's "please upload an image" guard blocks
+        // updates when the user doesn't re-upload a new image.
         setPreviewUrl(webAboutInfo.data.image);
+        setUploadedImageUrl(webAboutInfo.data.image);
+        setUploadedImagePublicId(webAboutInfo.data.imagePublicId ?? null);
       }
     }
   }, [webAboutInfo]);
@@ -118,18 +129,20 @@ const page = () => {
     reset();
     setPreviewUrl(null);
     setUploadedImageUrl(null);
-    setUploadedImagePublicId(null);
+    setUploadedImagePublicId("");
     setUploadError(null);
   };
 
   const onSubmit: SubmitHandler<AboutFormValues> = async (data) => {
-    if (!uploadedImageUrl || !uploadedImagePublicId) {
+    // 🔧 FIX: fallback to existing data's image if user didn't re-upload
+    const imageUrl = uploadedImageUrl ?? webAboutInfo?.data?.image ?? null;
+    const imagePublicId =
+      uploadedImagePublicId ?? webAboutInfo?.data?.imagePublicId ?? null;
+
+    if (!imageUrl) {
       setUploadError("Please upload an image first");
       return;
     }
-
-    const imageUrl: string = uploadedImageUrl;
-    const imagePublicId: string = uploadedImagePublicId;
 
     try {
       const payload = {
@@ -138,28 +151,37 @@ const page = () => {
         imagePublicId: imagePublicId,
       };
 
-      const res = await createWebAboutInfo(payload);
+      const isUpdate = !!webAboutInfo?.data;
+
+      const res = isUpdate
+        ? await updateWebAboutInfo(payload)
+        : await createWebAboutInfo(payload);
+
       if (!res.success) {
         throw new Error(res?.message || "Something went wrong");
       }
 
-      if (res.success) {
-        Swal.fire({
-          icon: "success",
-          title: "Added",
-          text: `"About Info successfully created.`,
-          timer: 2000,
-          showConfirmButton: false,
-        });
-      }
+      Swal.fire({
+        icon: "success",
+        title: isUpdate ? "Updated" : "Added",
+        text: isUpdate
+          ? "About Info successfully updated."
+          : "About Info successfully created.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      // 🔧 FIX: refresh cached data so UI reflects the latest saved state
+      mutate();
     } catch (err) {
       Swal.fire({
         icon: "error",
         title: "Failed",
-        text: "About info can't create",
+        text: err instanceof Error ? err.message : "About info can't be saved",
       });
     }
   };
+
   return (
     <div>
       <div className="flex items-center justify-between">

@@ -7,10 +7,14 @@ import { FaFax, FaLocationCrosshairs, FaVoicemail } from "react-icons/fa6";
 import { MdEmail, MdPhoneIphone } from "react-icons/md";
 import NewTeamCard from "./components/newTeamCard";
 import { getWebAboutInfo } from "@/services/web-about-info";
+import { getSiteContact } from "@/services/web-contact-info";
 
 const page = async () => {
   const res = await getWebAboutInfo();
   const aboutData = res.data;
+
+  const siteContact = await getSiteContact();
+
   return (
     <div>
       <Image
@@ -51,8 +55,8 @@ const page = async () => {
             src={aboutData?.image as string}
             alt="gen voice"
             width={500}
-            height={500}
-            className="w-full h-[450px] rounded-xl object-center mt-8 md:mt-0"
+            height={400}
+            className="w-full h-[400px] rounded-xl object-center mt-8 md:mt-0"
             unoptimized
           />
         </div>
@@ -79,16 +83,16 @@ const page = async () => {
           </div>
           <div className="flex flex-col gap-8 mt-8  pl-4 border-l-4 border-[#E5EFFF]">
             <p className="flex items-center gap-1 text-sm text-[#3E3232] font-medium">
-              <MdEmail /> Email : management@mega.news
+              <MdEmail /> Email : {siteContact?.data?.email}
             </p>
             <p className="flex items-center gap-1 text-sm text-[#3E3232] font-medium">
-              <MdPhoneIphone /> Phone number : management@mega.news
+              <MdPhoneIphone /> Phone number : {siteContact?.data?.phone}
             </p>
             <p className="flex items-center gap-1 text-sm text-[#3E3232] font-medium">
-              <FaFax /> Fax : management@mega.news
+              <FaFax /> Fax : {siteContact?.data?.fax}
             </p>
             <p className="flex items-center gap-1 text-sm text-[#3E3232] font-medium">
-              <FaLocationCrosshairs /> Address : management@mega.news
+              <FaLocationCrosshairs /> Address : {siteContact?.data?.address}
             </p>
           </div>
           <p className="flex items-center gap-1 text-sm mt-7 font-medium bg-[#E5EFFF] w-fit px-6 py-2.5 rounded-2xl text-[#3385FF]">
