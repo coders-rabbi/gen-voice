@@ -20,14 +20,9 @@ export const createPoll = async (
   });
 };
 
-export const getPolls = async (
-  token: string,
-): Promise<ApiResponse<TGetPollsResult>> => {
+export const getPolls = async (): Promise<ApiResponse<TGetPollsResult>> => {
   return apiClientRaw<TGetPollsResult>(`/polls`, {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
   });
 };
 
