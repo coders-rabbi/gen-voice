@@ -156,7 +156,7 @@ const OverviewCard = ({ userData, newsData, totalViews, polls }: userProps) => {
             </h3>
             <LuBoxes className="bg-[#CAEFFF] text-[#01ADF6] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">5.1K</p>
+          <p className="text-2xl mb-1.5 font-semibold">{activeUsers}</p>
           <p className="flex items-center text-[#00BC26]">
             <MdArrowOutward />
             +4.7K

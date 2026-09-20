@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ActiveUsersProvider } from "@/context/activeUserContext";
+import VisitTracker from "@/components/Visittracker";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -41,7 +42,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-white" suppressHydrationWarning>
-        <ActiveUsersProvider>{children}</ActiveUsersProvider>
+        <ActiveUsersProvider>
+          <VisitTracker />
+          {children}
+        </ActiveUsersProvider>
       </body>
     </html>
   );

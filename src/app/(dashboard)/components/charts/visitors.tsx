@@ -9,24 +9,16 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { TTrafficStats } from "@/services/traffic";
 
 export const description = "Visitors donut chart";
-
-const chartData = [
-  {
-    type: "nonRegistered",
-    visitors: 20000,
-    fill: "var(--color-nonRegistered)",
-  },
-  { type: "registered", visitors: 80000, fill: "var(--color-registered)" },
-];
 
 const chartConfig = {
   visitors: {
     label: "Visitors",
   },
-  nonRegistered: {
-    label: "Non-Registered",
+  guest: {
+    label: "Guest",
     color: "#155dfc",
   },
   registered: {
@@ -42,7 +34,24 @@ function formatValue(value: number) {
   return `${value}`;
 }
 
-export function VisitorsChart() {
+interface trafficProps {
+  traffic: TTrafficStats;
+}
+
+export function VisitorsChart({ traffic }: trafficProps) {
+  const chartData = [
+    {
+      type: "guest",
+      visitors: traffic.guestVisits,
+      fill: "var(--color-guest)",
+    },
+    {
+      type: "registered",
+      visitors: traffic.registeredVisits,
+      fill: "var(--color-registered)",
+    },
+  ];
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="pb-0">

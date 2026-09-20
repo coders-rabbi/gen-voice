@@ -5,10 +5,15 @@ import { VisitorsChart } from "../components/charts/visitors";
 import { YearlyPostsChart } from "../components/charts/yearlyGrowthChart";
 import OverviewCard from "../components/overview-card-info";
 import PageTitle from "../components/page-Title";
-import { getAllNews, getNewsTotalView } from "@/services/news/news.service";
+import {
+  getAllNews,
+  getHomePageCategoryNews,
+  getNewsTotalView,
+} from "@/services/news/news.service";
 import { getFromLocalStorage } from "../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
 import { getPolls } from "@/services/poll";
+import { getTrafficStats } from "@/services/traffic";
 
 const TitleDetails = {
   title: "Overview",
@@ -23,6 +28,9 @@ const page = async () => {
   const totalViews = newsTotalViews?.data;
   const res = await getPolls();
   const polls = res?.data;
+
+  const trafficRes =await getTrafficStats()
+  const trafficData = trafficRes?.data;
   return (
     <div>
       <PageTitle TitleDetails={TitleDetails} />
@@ -34,9 +42,9 @@ const page = async () => {
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
         <TrafficSources />
-        <PostGrowthChart />
-        <YearlyPostsChart />
-        <VisitorsChart />
+        <PostGrowthChart/>
+        <YearlyPostsChart newsData={newsData}/>
+        <VisitorsChart traffic={trafficData}/>
       </div>
     </div>
   );
