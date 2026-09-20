@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageTitle from "../../components/page-Title";
 import Link from "next/link";
 import {
@@ -14,6 +14,9 @@ import {
 import { IconType } from "react-icons";
 import PollInfoCards from "./components/pollInfoCards";
 import Polls from "./components/polls";
+import useSWR from "swr";
+import { getPolls } from "@/services/poll";
+import PollsSkeleton from "./components/pollSkeleton";
 
 const TitleDetails = {
   title: "All Polls",
@@ -61,7 +64,6 @@ const cardConfig: CardConfig[] = [
   },
 ];
 
-// ২) API থেকে আসা dynamic value-র shape
 type PollStats = {
   allPolls: number;
   activePolls: number;
@@ -70,24 +72,36 @@ type PollStats = {
 };
 
 const page = () => {
-  const [stats, setStats] = useState<PollStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data: res, error, isLoading, mutate } = useSWR("polls", getPolls);
+  const polls = res?.data;
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const res = await fetch("/api/polls/stats");
-        const data = await res.json();
-        setStats(data);
-      } catch (error) {
-        console.error("Failed to fetch poll stats:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const stats: PollStats = useMemo(() => {
+    if (!polls || polls.length === 0) {
+      return { allPolls: 0, activePolls: 0, totalVotes: 0, avgCompletion: 0 };
+    }
 
-    fetchStats();
-  }, []);
+    const now = new Date();
+    const allPolls = polls.length;
+
+    const activePolls = polls.filter((p) => {
+      if (!p?.startDate || !p?.endDate) return false;
+
+      const start = new Date(p.startDate);
+      const end = new Date(p.endDate);
+      end.setHours(23, 59, 59, 999); 
+
+      return start <= now && end >= now;
+    }).length;
+
+    const totalVotes = polls.reduce((sum, p) => sum + (p.votes ?? 0), 0);
+    const avgCompletion =
+      polls.reduce((sum, p) => sum + (p.completionRate ?? 0), 0) / allPolls;
+
+    return { allPolls, activePolls, totalVotes, avgCompletion };
+  }, [polls]);
+
+
+  if (isLoading) return <PollsSkeleton />;
 
   return (
     <div>
@@ -120,14 +134,14 @@ const page = () => {
               icon: config.icon,
               iconColor: config.iconColor,
               iconBg: config.iconBg,
-              value: loading ? "--" : (stats?.[config.key] ?? 0),
+              value: isLoading ? "--" : (stats?.[config.key] ?? 0),
             }}
           />
         ))}
       </div>
       <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {[1, 2, 3, 4, 5, 6].map((item, index) => (
-          <Polls key={index} />
+        {polls?.map((item) => (
+          <Polls key={item?._id} polls={item} />
         ))}
       </div>
     </div>

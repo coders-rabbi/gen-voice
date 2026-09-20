@@ -17,7 +17,7 @@ const PollInfoCards = ({ item }: PropsCard) => {
     <div className="border rounded-2xl p-3 flex justify-between">
       <div className="flex flex-col gap-5">
         <h2 className="text-xl">{item?.name}</h2>
-        <p className="text-3xl font-semibold">{item?.value}</p>
+        <p className="text-sm">{item?.value}</p>
       </div>
       <div
         className={`h-fit p-2 rounded-full ${item.iconBg} ${item.iconColor}`}

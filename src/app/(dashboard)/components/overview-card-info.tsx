@@ -7,14 +7,16 @@ import { IoTrashBinSharp } from "react-icons/io5";
 import { TUser } from "@/types/user.type";
 import { TNews } from "@/types/news";
 import ActiveUsersBadge from "./activeUserBadge";
+import { TPoll } from "@/types/poll.type";
 
 interface userProps {
   userData: TUser[];
   newsData: TNews[];
   totalViews: number;
+  polls: TPoll[]
 }
 
-const OverviewCard = ({ userData, newsData, totalViews }: userProps) => {
+const OverviewCard = ({ userData, newsData, totalViews, polls }: userProps) => {
   const totalUser = userData.length;
   const activeUsers = userData.filter(
     (item) => item?.isActive === "active",
@@ -141,7 +143,7 @@ const OverviewCard = ({ userData, newsData, totalViews }: userProps) => {
             </h3>
             <FaCheckToSlot className="bg-[#FED5FF] text-[#FB00FF] text-3xl p-1 rounded-md" />
           </div>
-          <p className="text-2xl mb-1.5 font-semibold">100</p>
+          <p className="text-2xl mb-1.5 font-semibold">{polls.length}</p>
           <p className="flex items-center text-[#00BC26]">
             <MdArrowOutward />
             +14

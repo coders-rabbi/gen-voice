@@ -19,6 +19,7 @@ import { createPoll } from "@/services/poll";
 import { getFromLocalStorage } from "../../../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
 import { Category, Visibility } from "@/types/poll.type";
+import Swal from "sweetalert2";
 
 type QuestionType =
   | "RADIO"
@@ -162,7 +163,7 @@ export default function CreatePollForm() {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const payload: PollPayload = {
@@ -175,8 +176,53 @@ export default function CreatePollForm() {
       questions,
     };
 
-    const res = createPoll(token as string, payload);
-    
+    try {
+      const res = await createPoll(token as string, payload);
+
+      if (res?.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: res?.message ?? "Poll created successfully.",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
+        // ফর্ম ক্লিয়ার
+        setTitle("");
+        setDescription("");
+        setStartDate("");
+        setEndDate("");
+        setVisibility("Public");
+        setCategory("Politics");
+        setQuestions([
+          {
+            id: nextId(),
+            type: "RADIO",
+            label: "What is your preferred choice?",
+            options: ["Option A", "Option B", "Option C", "New Option"],
+            required: true,
+          },
+        ]);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed",
+          text: res?.message ?? "Poll create করা যায়নি।",
+        });
+      }
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Poll create করার সময় সমস্যা হয়েছে।";
+
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: message,
+      });
+    }
   };
 
   return (

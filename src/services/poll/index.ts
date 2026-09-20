@@ -1,8 +1,11 @@
 import {
+  TAnswerPayload,
   TCreatePollPayload,
   TCreatePollResult,
   TGetPollsResult,
   TPoll,
+  TPollAnalytics,
+  TPollResponse,
 } from "@/types/poll.type";
 import { apiClientRaw, ApiResponse } from "../apiClient";
 
@@ -27,13 +30,30 @@ export const getPolls = async (): Promise<ApiResponse<TGetPollsResult>> => {
 };
 
 export const getPollById = async (
-  token: string,
   pollId: string,
 ): Promise<ApiResponse<TPoll>> => {
   return apiClientRaw<TPoll>(`/polls/${pollId}`, {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  });
+};
+
+// ---------- poll response ----------
+
+export const submitPollResponse = async (
+  pollId: string,
+  answers: TAnswerPayload[],
+): Promise<ApiResponse<TPollResponse>> => {
+  return apiClientRaw<TPollResponse>(`/poll-response/${pollId}/responses`, {
+    method: "POST",
+    body: JSON.stringify({ answers }),
+  });
+};
+
+export const getPollAnalytics = async (
+  pollId: string,
+): Promise<ApiResponse<TPollAnalytics>> => {
+  return apiClientRaw<TPollAnalytics>(`/poll-response/${pollId}/analytics`, {
+    // ✅
+    method: "GET",
   });
 };

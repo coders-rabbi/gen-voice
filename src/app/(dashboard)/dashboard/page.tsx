@@ -8,6 +8,7 @@ import PageTitle from "../components/page-Title";
 import { getAllNews, getNewsTotalView } from "@/services/news/news.service";
 import { getFromLocalStorage } from "../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
+import { getPolls } from "@/services/poll";
 
 const TitleDetails = {
   title: "Overview",
@@ -20,7 +21,8 @@ const page = async () => {
   const newsData = await getAllNews();
   const newsTotalViews = await getNewsTotalView();
   const totalViews = newsTotalViews?.data;
-
+  const res = await getPolls();
+  const polls = res?.data;
   return (
     <div>
       <PageTitle TitleDetails={TitleDetails} />
@@ -28,6 +30,7 @@ const page = async () => {
         userData={userDataFromDB}
         newsData={newsData}
         totalViews={totalViews as number}
+        polls={polls}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
         <TrafficSources />

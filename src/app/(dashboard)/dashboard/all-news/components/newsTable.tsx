@@ -253,17 +253,19 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
 
                   <TableCell className="text-right">
                     <DropdownMenu>
-                      <DropdownMenuTrigger>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="size-8"
-                          disabled={updatingId === item?._id}
-                        >
-                          <MoreHorizontalIcon />
-                          <span className="sr-only">Open menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
+                      <DropdownMenuTrigger
+                        render={
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="size-8"
+                            disabled={updatingId === item?._id}
+                          >
+                            <MoreHorizontalIcon />
+                            <span className="sr-only">Open menu</span>
+                          </Button>
+                        }
+                      />
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem className="flex items-center gap-1 text-[#0E5FD9]">
                           <Link href={`all-news/${item?.newsId}`}>

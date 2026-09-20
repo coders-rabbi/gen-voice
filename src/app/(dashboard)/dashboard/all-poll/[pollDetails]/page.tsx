@@ -2,13 +2,16 @@
 
 import PageTitle from "@/app/(dashboard)/components/page-Title";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { FaArrowLeft, FaEye, FaUsers } from "react-icons/fa6";
 import PollInfoCards from "../components/pollInfoCards";
 import { IconType } from "react-icons";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import PollResponseDonutCharts from "../components/detailsPieChart";
+import { useParams } from "next/navigation";
+import useSWR from "swr";
+import { getPollAnalytics, getPollById } from "@/services/poll";
 
 const TitleDetails = {
   title: "Poll Details",
@@ -20,7 +23,7 @@ const TitleDetails = {
   ],
 };
 
-// ১) UI-related config (icon, color) — এগুলো backend থেকে আসবে না, তাই static থাকবে
+// UI-related config (icon, color) — backend থেকে আসবে না, static থাকবে
 type CardConfig = {
   key: "totalVotes" | "visibility" | "status" | "daysLeft";
   name: string;
@@ -60,16 +63,6 @@ const cardConfig: CardConfig[] = [
   },
 ];
 
-// ২) API থেকে আসা raw response shape
-// 🔽 এখানে তোমার backend যা যা field নামে পাঠায় সেভাবে বসাও
-type PollStatsResponse = {
-  totalVotes: number | string;
-  isPublic: boolean; // true হলে "Public", false হলে "Private" — visibility card-এর জন্য
-  pollStatus: string; // যেমন: "active" | "closed" | "draft" — status card-এর জন্য
-  daysLeft: number | string;
-};
-
-// ৩) UI card গুলোর key অনুযায়ী normalize করা shape
 type PollStats = {
   totalVotes: number | string;
   visibility: string;
@@ -78,32 +71,70 @@ type PollStats = {
 };
 
 const page = () => {
-  const [stats, setStats] = useState<PollStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { pollDetails: pollId } = useParams();
+  console.log("ID", pollId);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        // 🔽 তোমার আসল API endpoint দিয়ে বদলে দাও
-        const res = await fetch("/api/polls/stats");
-        const data: PollStatsResponse = await res.json();
+  const {
+    data: res,
+    error,
+    isLoading,
+  } = useSWR(pollId ? ["poll", pollId] : null, () =>
+    getPollById(pollId as string),
+  );
 
-        // raw API response কে card-friendly shape এ map করা হচ্ছে
-        setStats({
-          totalVotes: data.totalVotes ?? 0,
-          visibility: data.isPublic ? "Public" : "Private",
-          status: data.pollStatus ?? "N/A",
-          daysLeft: data.daysLeft ?? 0,
-        });
-      } catch (error) {
-        console.error("Failed to fetch poll stats:", error);
-      } finally {
-        setLoading(false);
-      }
+  const poll = res?.data;
+  console.log("Poll Data", poll);
+
+  const { data: resAnalytics } = useSWR(
+    pollId ? ["Analytics", pollId] : null,
+    () => getPollAnalytics(pollId as string),
+  );
+
+  const analytics = resAnalytics?.data;
+  console.log("resAnalytics:", resAnalytics); // 👈 পুরো response
+  console.log("analytics:", analytics); // 👈 শুধু data অংশ
+
+  const stats: PollStats | null = useMemo(() => {
+    if (!poll) return null;
+
+    const now = new Date();
+    const start = poll.startDate ? new Date(poll.startDate) : null;
+    const end = poll.endDate ? new Date(poll.endDate) : null;
+
+    console.log("poll:", poll);
+    console.log("start:", start, "end:", end);
+
+    let status = "Inactive";
+    let daysLeft: number | string = 0;
+
+    if (start && end) {
+      const endOfDay = new Date(end);
+      endOfDay.setHours(23, 59, 59, 999);
+
+      const isActive = start <= now && endOfDay >= now;
+      status = isActive ? "Active" : "Inactive";
+
+      // বাকি দিন হিসাব (শুধু active/upcoming হলে অর্থবহ)
+      const diffMs = endOfDay.getTime() - now.getTime();
+      daysLeft = diffMs > 0 ? Math.ceil(diffMs / (1000 * 60 * 60 * 24)) : 0;
+    }
+
+    console.log("computed stats:", {
+      totalVotes: poll.votes,
+      visibility: poll.visibility,
+      status,
+      daysLeft,
+    });
+
+    return {
+      totalVotes: poll.votes ?? 0,
+      visibility: poll.visibility ?? "N/A",
+      status,
+      daysLeft,
     };
+  }, [poll]);
 
-    fetchStats();
-  }, []);
+  const loading = isLoading;
 
   return (
     <div>
@@ -119,6 +150,11 @@ const page = () => {
           </Link>
         </div>
       </div>
+
+      {error && (
+        <p className="text-sm text-red-500 mt-4">Poll লোড করা যায়নি।</p>
+      )}
+
       <div className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {cardConfig.map((config) => (
           <PollInfoCards
@@ -133,9 +169,7 @@ const page = () => {
           />
         ))}
       </div>
-      <PollResponseDonutCharts />
-      {/* <DailyResponsesChart /> */}
-
+      <PollResponseDonutCharts analytics={analytics} />
     </div>
   );
 };

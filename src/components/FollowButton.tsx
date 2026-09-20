@@ -22,6 +22,9 @@ const FollowButton = ({ reporterId, token }: FollowButtonProps) => {
   const { data: followStatus, mutate: mutateStatus } = useSWR(
     token ? ["is-following", reporterId, token] : null,
     () => checkIsFollowing(reporterId, token as string),
+    {
+      shouldRetryOnError: false, // 👈 403/error এ বারবার retry বন্ধ
+    },
   );
 
   const { data: followerCount, mutate: mutateCount } = useSWR(

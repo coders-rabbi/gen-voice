@@ -1,61 +1,74 @@
+"use client";
+
+import { useMemo } from "react";
 import { Pie, PieChart, Cell, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TPollAnalytics, TResponseSummary } from "@/types/poll.type";
 
-const COLORS = {
-  answer1: "#4F6EF7",
-  answer2: "#1DD3B0",
-  answer3: "#FFB020",
-  other: "#F3F4F6",
+// একটা fixed color palette, option-এর সংখ্যা যতই হোক, cycle করে ব্যবহার হবে
+const PALETTE = [
+  "#4F6EF7",
+  "#1DD3B0",
+  "#FFB020",
+  "#F3F4F6",
+  "#EF4444",
+  "#8B5CF6",
+];
+
+type ChartSlice = {
+  key: string;
+  name: string;
+  value: number; // শতাংশ
+  count: number; // আসল কাউন্ট
+  fill: string;
 };
-
-type PollAnswerKey = keyof typeof COLORS;
-type PollDonutData = Record<PollAnswerKey, number>;
 
 type PollDonutCardProps = {
   title: string;
-  data: PollDonutData;
+  optionCounts: Record<string, number>;
 };
 
-const LEGEND_ITEMS: Array<{
-  key: PollAnswerKey;
-  label: string;
-  color: string;
-}> = [
-  { key: "answer1", label: "Answer 1", color: COLORS.answer1 },
-  { key: "answer2", label: "Answer 2", color: COLORS.answer2 },
-  { key: "answer3", label: "Answer 3", color: COLORS.answer3 },
-  { key: "other", label: "Other", color: COLORS.other },
-];
+// optionCounts (raw count) থেকে শতাংশসহ chart-friendly ডেটা বানানো
+const buildChartData = (optionCounts: Record<string, number>): ChartSlice[] => {
+  const entries = Object.entries(optionCounts);
+  const total = entries.reduce((sum, [, count]) => sum + count, 0);
 
-function PollDonutCard({ title, data }: PollDonutCardProps) {
-  const chartData: Array<{
-    key: PollAnswerKey;
-    name: string;
-    value: number;
-    fill: string;
-  }> = [
-    {
-      key: "answer2",
-      name: "Answer 2",
-      value: data.answer2,
-      fill: COLORS.answer2,
-    },
-    { key: "other", name: "Other", value: data.other, fill: COLORS.other },
-    {
-      key: "answer3",
-      name: "Answer 3",
-      value: data.answer3,
-      fill: COLORS.answer3,
-    },
-    {
-      key: "answer1",
-      name: "Answer 1",
-      value: data.answer1,
-      fill: COLORS.answer1,
-    },
-  ];
+  if (total === 0) return [];
 
+  return entries.map(([name, count], idx) => ({
+    key: name,
+    name,
+    value: Math.round((count / total) * 100),
+    count,
+    fill: PALETTE[idx % PALETTE.length],
+  }));
+};
+
+interface PollResponseDonutChartsProps {
+  analytics: TPollAnalytics | undefined;
+  questionId?: string;
+}
+
+function PollDonutCard({ title, optionCounts }: PollDonutCardProps) {
+  const chartData = useMemo(() => buildChartData(optionCounts), [optionCounts]);
   const filterId = `shadow-${title.replace(/\s+/g, "-")}`;
+
+  if (chartData.length === 0) {
+    return (
+      <Card className="rounded-2xl border border-gray-100 shadow-sm">
+        <CardHeader className="pb-0">
+          <CardTitle className="text-[#0B63E5] text-base font-semibold">
+            {title}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-center text-sm text-gray-400 py-10">
+            এখনো কোনো উত্তর জমা পড়েনি।
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="rounded-2xl border border-gray-100 shadow-sm">
@@ -128,32 +141,23 @@ function PollDonutCard({ title, data }: PollDonutCardProps) {
                 labelLine={false}
               >
                 {chartData.map((entry) => (
-                  <Cell
-                    key={entry.key}
-                    fill={entry.fill}
-                    stroke={entry.key === "other" ? "#E5E7EB" : "none"}
-                    strokeWidth={entry.key === "other" ? 1 : 0}
-                  />
+                  <Cell key={entry.key} fill={entry.fill} stroke="none" />
                 ))}
               </Pie>
             </PieChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="mt-2 grid grid-cols-4 gap-1.5">
-          {LEGEND_ITEMS.map((item) => (
-            <div
-              key={item.key}
-              className="flex items-center gap-0.5 justify-center"
-            >
+        <div className="mt-2 flex flex-wrap justify-center gap-2">
+          {chartData.map((item) => (
+            <div key={item.key} className="flex items-center gap-1">
               <span
                 className="h-2.5 w-2.5 rounded-full border"
-                style={{
-                  backgroundColor: item.color,
-                  borderColor: item.key === "other" ? "#D1D5DB" : item.color,
-                }}
+                style={{ backgroundColor: item.fill, borderColor: item.fill }}
               />
-              <span className="text-[10px] text-gray-500">{item.label}</span>
+              <span className="text-[10px] text-gray-500">
+                {item.name} ({item.count})
+              </span>
             </div>
           ))}
         </div>
@@ -162,37 +166,61 @@ function PollDonutCard({ title, data }: PollDonutCardProps) {
   );
 }
 
-export default function PollResponseDonutCharts() {
-  const allResponses: PollDonutData = {
-    answer1: 25,
-    answer2: 30,
-    answer3: 20,
-    other: 25,
-  };
-  const registeredResponses: PollDonutData = {
-    answer1: 25,
-    answer2: 30,
-    answer3: 20,
-    other: 25,
-  };
-  const unregisteredResponses: PollDonutData = {
-    answer1: 25,
-    answer2: 30,
-    answer3: 20,
-    other: 25,
-  };
+// একটা response array থেকে নির্দিষ্ট questionId এর optionCounts বের করা (registered/guest এর জন্য)
+const tallyOptionCounts = (
+  responses: TResponseSummary[],
+  questionId: string,
+): Record<string, number> => {
+  const counts: Record<string, number> = {};
+
+  responses.forEach((r) => {
+    const ans = r.answers.find((a) => a.questionId === questionId);
+    if (!ans) return;
+
+    const values = Array.isArray(ans.answer) ? ans.answer : [ans.answer];
+    values.forEach((v) => {
+      const label = v || "Other";
+      counts[label] = (counts[label] ?? 0) + 1;
+    });
+  });
+
+  return counts;
+};
+
+interface PollResponseDonutChartsProps {
+  analytics: TPollAnalytics | undefined;
+  questionId?: string; // ডিফল্টে প্রথম প্রশ্ন ধরা হচ্ছে
+}
+
+export default function PollResponseDonutCharts({
+  analytics,
+  questionId = "0",
+}: PollResponseDonutChartsProps) {
+  const allOptionCounts =
+    analytics?.questionStats.find((q) => q.questionId === questionId)
+      ?.optionCounts ?? {};
+
+  const registeredOptionCounts = useMemo(
+    () => tallyOptionCounts(analytics?.registeredResponses ?? [], questionId),
+    [analytics, questionId],
+  );
+
+  const guestOptionCounts = useMemo(
+    () => tallyOptionCounts(analytics?.guestResponses ?? [], questionId),
+    [analytics, questionId],
+  );
 
   return (
     <div className="mt-8 bg-gray-50 min-h-screen">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <PollDonutCard title="All Responses" data={allResponses} />
+        <PollDonutCard title="All Responses" optionCounts={allOptionCounts} />
         <PollDonutCard
           title="Registered User's Responses"
-          data={registeredResponses}
+          optionCounts={registeredOptionCounts}
         />
         <PollDonutCard
           title="Unregistered User's Responses"
-          data={unregisteredResponses}
+          optionCounts={guestOptionCounts}
         />
       </div>
     </div>

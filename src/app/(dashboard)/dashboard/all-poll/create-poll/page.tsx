@@ -21,21 +21,12 @@ const page = () => {
         <PageTitle TitleDetails={TitleDetails} />
         <div className="flex gap-1.5 mt-5 lg:mt-0">
           <Link
-            href="/dashboard"
+            href="/dashboard/all-poll"
             className="bg-[#F0F6FF] text-[#005CE8] border px-4 py-1 flex items-center gap-2 rounded-2xl border-[#005CE8] w-fit "
           >
             <FaArrowLeft />
             Back
           </Link>
-          {/* <button className="btn rounded-2xl border border-[#C0D7FA] bg-[#F0F6FF]">
-            Save Draft
-          </button>
-          <Link
-            href="all-poll/create-poll"
-            className="bg-[#005CE8] text-white border px-4 py-1 flex items-center gap-2 rounded-2xl border-[#F0F6FF] w-fit "
-          >
-            Publish Poll
-          </Link> */}
         </div>
       </div>
       <CreatePollForm />
