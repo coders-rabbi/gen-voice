@@ -62,7 +62,7 @@ const Polls = ({ polls, mutate }: pollProps) => {
   };
 
   const handleCopyLink = (id: string) => {
-    const url = `${window.location.origin}/all-poll/${id}`;
+    const url = `${window.location.origin}/polls/${id}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {
