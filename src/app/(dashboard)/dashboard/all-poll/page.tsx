@@ -141,7 +141,7 @@ const page = () => {
       </div>
       <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
         {polls?.map((item) => (
-          <Polls key={item?._id} polls={item} />
+          <Polls  key={item?._id} polls={item} mutate={mutate} />
         ))}
       </div>
     </div>

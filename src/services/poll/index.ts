@@ -37,6 +37,19 @@ export const getPollById = async (
   });
 };
 
+export const deletePoll = async (
+  token: string,
+  pollId: string,
+): Promise<ApiResponse<TPoll>> => {
+  return apiClientRaw<TPoll>(`/polls/${pollId}/delete`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 // ---------- poll response ----------
 
 export const submitPollResponse = async (

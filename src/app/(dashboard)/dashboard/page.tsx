@@ -37,7 +37,7 @@ const page = async () => {
       <OverviewCard
         userData={userDataFromDB}
         newsData={newsData}
-        totalViews={totalViews as number}
+        totalViews={trafficData?.totalVisits as number}
         polls={polls}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">

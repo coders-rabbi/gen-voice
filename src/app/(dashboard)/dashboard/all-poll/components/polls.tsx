@@ -4,11 +4,17 @@ import { CiCalendar } from "react-icons/ci";
 import { FaCopy, FaEye, FaPencil, FaTrash } from "react-icons/fa6";
 import { FiUsers } from "react-icons/fi";
 import { GoDotFill } from "react-icons/go";
+import { getFromLocalStorage } from "../../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
+import { deletePoll } from "@/services/poll";
+import Swal from "sweetalert2";
+
 interface pollProps {
   polls: TPoll;
+  mutate: () => void;
 }
 
-const Polls = ({ polls }: pollProps) => {
+const Polls = ({ polls, mutate }: pollProps) => {
   const isActive = (() => {
     if (!polls?.startDate || !polls?.endDate) return false;
 
@@ -19,6 +25,63 @@ const Polls = ({ polls }: pollProps) => {
 
     return start <= now && end >= now;
   })();
+
+  const token = getFromLocalStorage(authkey);
+
+  const handlePollDelete = async (id: string) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This poll will be permanently deleted.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#dc2626",
+    });
+
+    if (!result.isConfirmed) return;
+
+    const response = await deletePoll(token as string, id as string);
+
+    if (response?.success) {
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: "Poll has been deleted successfully.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      mutate(); // 👈 SWR কে বলে দিচ্ছে fresh data আনতে
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: response?.message || "Something went wrong.",
+      });
+    }
+  };
+
+  const handleCopyLink = (id: string) => {
+    const url = `${window.location.origin}/all-poll/${id}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Poll link copied to clipboard.",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Failed",
+          text: "Could not copy the link.",
+        });
+      });
+  };
 
   return (
     <div className="bg-[#F3FFF7] border rounded-md p-5">
@@ -62,8 +125,14 @@ const Polls = ({ polls }: pollProps) => {
         </Link>
         <div className="flex gap-2">
           <FaPencil className="border p-1 text-3xl rounded-md px-2" />
-          <FaCopy className="border p-1 text-3xl rounded-md px-2" />
-          <FaTrash className="border p-1 text-3xl rounded-md px-2 text-[#EC003F]" />
+          <FaCopy
+            onClick={() => handleCopyLink(polls?._id)}
+            className="border p-1 text-3xl rounded-md px-2 cursor-pointer"
+          />
+          <FaTrash
+            onClick={() => handlePollDelete(polls?._id)}
+            className="border p-1 text-3xl rounded-md px-2 text-[#EC003F]"
+          />
         </div>
       </div>
     </div>
