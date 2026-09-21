@@ -38,7 +38,7 @@ function getYoutubeVideoId(url?: string): string | null {
 
 const VideoNewsHorizontalCard = ({ videoNews }: VideoNewsProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const videoId = getYoutubeVideoId(videoNews?.videoUrl);
+  const videoId = getYoutubeVideoId(videoNews?.videoUrl ?? "");
   const thumbnail = videoId
     ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
     : null;
