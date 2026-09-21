@@ -16,11 +16,16 @@ export const trackVisit = async (
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ path }),
+    body: JSON.stringify({
+      path, // 👈 passed parameter ব্যবহার করো
+      referrer: document.referrer || "direct",
+    }),
   });
 };
 
-export const getTrafficStats = async (): Promise<ApiResponse<TTrafficStats>> => {
+export const getTrafficStats = async (): Promise<
+  ApiResponse<TTrafficStats>
+> => {
   return apiClientRaw<TTrafficStats>(`/traffic/stats`, {
     method: "GET",
   });

@@ -10,6 +10,7 @@ import { getPolls, submitPollResponse } from "@/services/poll";
 import { TAnswerPayload, TPoll } from "@/types/poll.type";
 import { getFromLocalStorage } from "../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
+import Advertisement from "@/components/advertisement";
 
 export const PollVoteCard = ({
   poll,
@@ -135,8 +136,12 @@ const VoteOpinion = () => {
 
   const token = getFromLocalStorage(authkey);
   return (
-    <div className="mt-5">
-      <div className="grid grid-cols-2 gap-3">
+    <div className="mt-5 h-[100vh] px-4">
+      <div className="mb-5">
+        <h1 className="text-2xl font-semibold mb-3">মতামত দিন</h1>
+        <p>আপনার মতামত আমাদের কাছে তত্যন্ত গুরুত্বপূর্ণ। সকলের মতামত আমরা গুরুত্বের সাথে গ্রহন করি।</p>
+      </div>
+      <div className="grid md:grid-cols-2 gap-3">
         {isLoading && <p className="text-xs text-[#6D757F]">Loading...</p>}
         {!isLoading &&
           polls
@@ -145,6 +150,7 @@ const VoteOpinion = () => {
               <PollVoteCard key={item._id} poll={item} token={token} />
             ))}
       </div>
+      <Advertisement />
     </div>
   );
 };
