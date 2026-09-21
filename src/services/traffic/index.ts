@@ -4,6 +4,7 @@ export type TTrafficStats = {
   totalVisits: number;
   registeredVisits: number;
   guestVisits: number;
+  bySource: Record<string, number>; // এটা নিশ্চিত করো
 };
 
 export const trackVisit = async (

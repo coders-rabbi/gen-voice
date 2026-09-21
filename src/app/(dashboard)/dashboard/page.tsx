@@ -41,7 +41,7 @@ const page = async () => {
         polls={polls}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-        <TrafficSources />
+        <TrafficSources traffic={trafficData}/>
         <PostGrowthChart/>
         <YearlyPostsChart newsData={newsData}/>
         <VisitorsChart traffic={trafficData}/>

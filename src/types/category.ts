@@ -3,6 +3,7 @@ export type TCategory = {
   categoryName: string;
   slug: string;
   description: string;
+  image: string | null;
   isFeatured: boolean;
   isDeleted: boolean;
   createdAt?: string;
@@ -11,6 +12,7 @@ export type TCategory = {
 
 export type TCreateCategoryPayload = {
   categoryName: string;
+  image: string;
   slug: string;
   description: string;
   isFeatured: boolean;
