@@ -83,7 +83,7 @@ const VideoNews = async ({ homeNews }: any) => {
           const item = allVideoNews?.[0];
           if (!item) return null;
 
-          const embedUrl = getYoutubeEmbedUrl(item?.videoUrl);
+          const embedUrl = getYoutubeEmbedUrl(item?.videoUrl ?? "");
 
           return (
             <div key={item?._id} className="my-4 grid grid-cols-2 gap-4">
