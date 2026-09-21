@@ -37,6 +37,22 @@ export const getPollById = async (
   });
 };
 
+
+export const updatePoll = async (
+  token: string,
+  id: string,
+  payload: Partial<TCreatePollPayload>,
+): Promise<ApiResponse<TCreatePollResult>> => {
+  return apiClientRaw<TCreatePollResult>(`/polls/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+};
+
 export const deletePoll = async (
   token: string,
   pollId: string,

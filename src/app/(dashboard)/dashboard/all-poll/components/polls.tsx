@@ -51,7 +51,7 @@ const Polls = ({ polls, mutate }: pollProps) => {
         timer: 2000,
         showConfirmButton: false,
       });
-      mutate(); // 👈 SWR কে বলে দিচ্ছে fresh data আনতে
+      mutate();
     } else {
       Swal.fire({
         icon: "error",
@@ -124,7 +124,10 @@ const Polls = ({ polls, mutate }: pollProps) => {
           Details
         </Link>
         <div className="flex gap-2">
-          <FaPencil className="border p-1 text-3xl rounded-md px-2" />
+          <Link href={`all-poll/update-poll/${polls?._id}`}>
+            <FaPencil className="border p-1 text-3xl rounded-md px-2" />
+          </Link>
+
           <FaCopy
             onClick={() => handleCopyLink(polls?._id)}
             className="border p-1 text-3xl rounded-md px-2 cursor-pointer"
