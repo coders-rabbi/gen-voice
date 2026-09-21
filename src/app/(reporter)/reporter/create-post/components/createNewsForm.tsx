@@ -17,12 +17,8 @@ type CategoriesProps = {
   reporterId: string;
 };
 
-const statusLabels: Record<
-  "draft" | "preview" | "published" | "pending",
-  string
-> = {
+const statusLabels: Record<"draft" | "published" | "pending", string> = {
   draft: "saved as draft",
-  preview: "saved as preview",
   published: "published",
   pending: "submitted for review",
 };
@@ -38,6 +34,7 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
   const [mediaType, setMediaType] = useState<"Image" | "Video">("Image");
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState(""); // ভিডিও লিংক
   const [categoryId, setCategoryId] = useState("");
   const [location, setLocation] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -70,12 +67,13 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
 
   const handleMediaTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMediaType(e.target.value as "Image" | "Video");
-    // Clear a previously selected file if it no longer matches the chosen type
+    // Media type পরিবর্তন হলে আগের ফাইল/লিংক ক্লিয়ার করা
     setFile(null);
     setFilePreview((prevUrl) => {
       if (prevUrl) URL.revokeObjectURL(prevUrl);
       return null;
     });
+    setVideoUrl("");
   };
 
   // Component unmount হলে বর্তমান preview URL revoke করা
@@ -114,15 +112,13 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
     if (!categoryId) {
       throw new Error("Please select a news category");
     }
-    if (!file) {
-      throw new Error(
-        mediaType === "Image"
-          ? "Please add a featured image"
-          : "Please add a featured image (used as the video thumbnail) and video file",
-      );
-    }
 
-    const uploadedUrl = await uploadFile(file);
+    if (mediaType === "Image" && !file) {
+      throw new Error("Please add a featured image");
+    }
+    if (mediaType === "Video" && !videoUrl.trim()) {
+      throw new Error("Please add a video link");
+    }
 
     const payload: TNewsPayload = {
       reporterId: reporterId,
@@ -134,7 +130,7 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
       shortDetails: shortDescription,
       content,
       contentType: mediaType === "Image" ? "Text" : mediaType,
-      featuredImageUrl: uploadedUrl,
+      featuredImageUrl: "N/A",
       imageCaption: "N/A",
       galleryImages: "N?A",
 
@@ -147,9 +143,15 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
       isAnonymous: isAnonymous === "Yes",
     };
 
-    if (mediaType === "Video") {
-      payload.videoUrl = uploadedUrl;
+    if (mediaType === "Image" && file) {
+      const uploadedUrl = await uploadFile(file);
+      payload.featuredImageUrl = uploadedUrl;
     }
+
+    if (mediaType === "Video") {
+      payload.videoUrl = videoUrl.trim();
+    }
+
     if (location) {
       payload.location = location;
     }
@@ -180,6 +182,7 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
       if (prevUrl) URL.revokeObjectURL(prevUrl);
       return null;
     });
+    setVideoUrl("");
     setCategoryId("");
     setLocation("");
   };
@@ -386,65 +389,77 @@ const CreateNewsForm = ({ categories, reporterId }: CategoriesProps) => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl">
-            <h3 className="text-lg font-semibold text-[#3E3232] mb-3">
-              Add File
-            </h3>
-
-            <div
-              onClick={() => document.getElementById("file-upload")?.click()}
-              className="relative w-full aspect-video bg-[#F8FAFC] border-2 border-dashed border-[#D9DEE7] rounded-2xl flex flex-col items-center justify-center transition-all hover:bg-[#F1F5F9] cursor-pointer overflow-hidden group"
-            >
+          {/* Video হলে শুধু লিংক ইনপুট */}
+          {mediaType === "Video" && (
+            <div className="w-full">
+              <legend className="fieldset-legend mb-2 block text-black">
+                Video Link
+              </legend>
               <input
-                type="file"
-                className="hidden"
-                accept={mediaType === "Image" ? "image/*" : "video/*"}
-                id="file-upload"
-                onChange={handleFileChange}
+                type="url"
+                value={videoUrl}
+                required
+                onChange={(e) => setVideoUrl(e.target.value)}
+                className="input validator bg-[#F5F5F5] rounded-[10px] w-full text-black"
+                placeholder="https://youtube.com/..."
               />
+            </div>
+          )}
 
-              {filePreview ? (
-                <>
-                  {mediaType === "Image" ? (
+          {/* Image হলে ফাইল আপলোড বক্স */}
+          {mediaType === "Image" && (
+            <div className="bg-white rounded-xl">
+              <h3 className="text-lg font-semibold text-[#3E3232] mb-3">
+                Add File
+              </h3>
+
+              <div
+                onClick={() => document.getElementById("file-upload")?.click()}
+                className="relative w-full aspect-video bg-[#F8FAFC] border-2 border-dashed border-[#D9DEE7] rounded-2xl flex flex-col items-center justify-center transition-all hover:bg-[#F1F5F9] cursor-pointer overflow-hidden group"
+              >
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                  id="file-upload"
+                  onChange={handleFileChange}
+                />
+
+                {filePreview ? (
+                  <>
                     <img
                       src={filePreview}
                       alt="Preview"
                       className="w-full h-full object-cover"
                     />
-                  ) : (
-                    <video
-                      src={filePreview}
-                      controls
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 opacity-0 group-hover:opacity-100 transition-all text-white font-medium text-sm">
-                    Change {mediaType === "Image" ? "Image" : "Video"}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="w-12 h-12 rounded-xl bg-[#2563EB] flex items-center justify-center mb-3">
-                    <ImagePlus className="text-white w-6 h-6" />
-                  </div>
-                  <p className="text-[#2563EB] font-semibold text-sm mb-1">
-                    Upload {mediaType === "Image" ? "Image" : "Video"}
-                  </p>
-                  <p className="text-xs text-[#94A3B8] text-center leading-snug">
-                    Drag & Drop or Choose file
-                    <br />
-                    To upload media MAX 10 MB.
-                  </p>
-                </>
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 opacity-0 group-hover:opacity-100 transition-all text-white font-medium text-sm">
+                      Change Image
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-12 h-12 rounded-xl bg-[#2563EB] flex items-center justify-center mb-3">
+                      <ImagePlus className="text-white w-6 h-6" />
+                    </div>
+                    <p className="text-[#2563EB] font-semibold text-sm mb-1">
+                      Upload Image
+                    </p>
+                    <p className="text-xs text-[#94A3B8] text-center leading-snug">
+                      Drag & Drop or Choose file
+                      <br />
+                      To upload media MAX 10 MB.
+                    </p>
+                  </>
+                )}
+              </div>
+
+              {file?.name && (
+                <p className="text-sm text-[#71717A] text-center mt-2 font-medium truncate max-w-full px-2">
+                  {file.name}
+                </p>
               )}
             </div>
-
-            {file?.name && (
-              <p className="text-sm text-[#71717A] text-center mt-2 font-medium truncate max-w-full px-2">
-                {file.name}
-              </p>
-            )}
-          </div>
+          )}
         </div>
 
         <div className="flex justify-between gap-2 my-6">

@@ -13,17 +13,18 @@ import { ProfileChart } from "@/components/dashboard/profileLineChart";
 import { getUserInfo } from "@/services/actions/auth.service";
 import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
 import useSWR from "swr";
-import { getFollowerCount } from "@/services/follow";
+import { getFollowerCount, getFollowingCount } from "@/services/follow";
 import { getMyReaction, getReporterReactionCounts } from "@/services/reaction";
 import { calculateRating } from "../../../../utils/calculateRating";
 import { TReactionCounts, TReactionType } from "@/types/reaction.type";
-import { Item } from "@radix-ui/react-dropdown-menu";
+import { getFromLocalStorage } from "../../../../utils/localStorage";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
   const [saveNews, setSaveNews] = useState<TNews[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const token = getFromLocalStorage(authkey)
 
   const userInfo = getUserInfo();
   const { data: repData, isLoading: isReporterLoading } = useSWR(
@@ -36,6 +37,12 @@ const Page = () => {
     () => getFollowerCount(repData?.data?._id as string),
   );
   const count = followerCount?.data?.count ?? 0;
+
+  const { data: followingCount } = useSWR(
+  token ? ["following-count", token] : null,
+  () => getFollowingCount(token as string),
+);
+const follwingCount = followingCount?.data?.count ?? 0; 
 
   const emptyCounts: TReactionCounts = {
     like: 0,
@@ -61,6 +68,7 @@ const Page = () => {
     reporterData: repData,
     count,
     rating,
+    follwingCount,
   };
 
   useEffect(() => {

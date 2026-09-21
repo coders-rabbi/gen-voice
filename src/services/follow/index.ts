@@ -44,6 +44,18 @@ export const getFollowerCount = async (
   });
 };
 
+export const getFollowingCount = async (
+  token: string, // 👈 missing ছিল
+): Promise<ApiResponse<{ count: number }>> => {
+  return apiClientRaw<{ count: number }>("/follow/following/count", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // 👈 missing ছিল
+    },
+  });
+};
+
 export const checkIsFollowing = async (
   reporterId: string,
   token: string,

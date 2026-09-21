@@ -15,6 +15,7 @@ import {
   getAllNews,
   getNewsByCategory,
   getNewsByReporterId,
+  bothContent,
 } from "@/services/news/news.service";
 import NewsDetailsSkeleton from "../components/newsDetailsSkeleton";
 import { splitContentAtMidpoint } from "../components/splitContent";
@@ -33,34 +34,74 @@ interface PageProps {
     newsDetails: string;
   }>;
 }
+
+// --- Helper: convert a YouTube watch/share URL into an embeddable URL ---
+function getEmbedUrl(url: string): string {
+  try {
+    const u = new URL(url);
+
+    // https://youtu.be/VIDEO_ID?si=...
+    if (u.hostname === "youtu.be") {
+      const videoId = u.pathname.slice(1);
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    // https://www.youtube.com/watch?v=VIDEO_ID
+    if (u.hostname.includes("youtube.com")) {
+      if (u.pathname.startsWith("/embed/")) {
+        return url; // already an embed url
+      }
+      const videoId = u.searchParams.get("v");
+      if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
+      }
+    }
+
+    // fallback: return as-is (e.g. already embeddable, or another provider)
+    return url;
+  } catch {
+    return url;
+  }
+}
+
 const page = async ({ params }: PageProps) => {
   const { newsDetails } = await params;
 
-  const data = await getAllNews();
-  const news = data.filter((news) => news?.newsId === newsDetails);
+  const data = await bothContent();
+  const newsData = data?.data;
+  const news = newsData.filter((news) => news?.newsId === newsDetails);
+
 
   if (!news.length) {
     return <NewsDetailsSkeleton />;
   }
 
-  const { first, second } = splitContentAtMidpoint(news?.[0]?.content);
+  const currentNews = news[0];
+  const isVideo =
+    currentNews?.contentType === "Video" &&
+    !!currentNews?.videoUrl &&
+    currentNews.videoUrl.trim() !== "";
+  const hasValidImage =
+    !!currentNews?.featuredImageUrl &&
+    currentNews.featuredImageUrl !== "N/A";
+
+  const { first, second } = splitContentAtMidpoint(currentNews?.content);
 
   const reporter = await getSingleReporterByReporterId(
-    news?.[0]?.reporterId?._id,
+    currentNews?.reporterId?._id,
   );
 
-
   const reporterOthersNews: TNews[] = await getNewsByReporterId(
-    news?.[0]?.reporterId?._id,
+    currentNews?.reporterId?._id,
   );
 
   const withOutDisplayNews = reporterOthersNews.filter(
     (item) => item?.newsId !== newsDetails,
   );
-  const res = await getCommentsByNewsId(news?.[0]?.newsId);
+  const res = await getCommentsByNewsId(currentNews?.newsId);
   const comments: TComments[] = Array.isArray(res?.data) ? res.data : [];
 
-  const categoryRes = await getNewsByCategory(news?.[0]?.categoryId?._id);
+  const categoryRes = await getNewsByCategory(currentNews?.categoryId?._id);
   const categoryNews = categoryRes.data;
   const categoryWithOutDisplayNews = categoryNews.filter(
     (item) => item?.newsId !== newsDetails,
@@ -70,31 +111,48 @@ const page = async ({ params }: PageProps) => {
     <div className="px-4">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div className="md:col-span-8">
-          <h1 className="text-xl md:text-3xl text-black">{news?.[0]?.title}</h1>
-          <Image
-            src={news?.[0]?.featuredImageUrl}
-            alt={news?.[0]?.title}
-            width={1200}
-            height={800}
-            className="w-full h-[60vh] object-cover rounded-[10px] my-5"
-            placeholder="blur"
-            blurDataURL="data:image/svg+xml;base64,..."
-          />
+          <h1 className="text-xl md:text-3xl text-black">
+            {currentNews?.title}
+          </h1>
+
+          {/* --- Media: video takes priority, then image, else nothing --- */}
+          {isVideo ? (
+            <div className="w-full aspect-video rounded-[10px] my-5 overflow-hidden bg-black">
+              <iframe
+                className="w-full h-full"
+                src={getEmbedUrl(currentNews?.videoUrl ?? "")}
+                title={currentNews.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          ) : hasValidImage ? (
+            <Image
+              src={currentNews.featuredImageUrl}
+              alt={currentNews.title}
+              width={1200}
+              height={800}
+              className="w-full h-[60vh] object-cover rounded-[10px] my-5"
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,..."
+            />
+          ) : null}
+
           <div className="flex flex-col md:flex-row  gap-3 justify-between flex-wrap">
             <div className="flex gap-2 md:gap-5">
               <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
                 <FaCalendar />
-                {news?.[0]?.publishAt
-                  ? new Date(news[0].publishAt).toISOString().split("T")[0]
+                {currentNews?.publishAt
+                  ? new Date(currentNews.publishAt).toISOString().split("T")[0]
                   : "N/A"}
               </p>
               <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
                 <FaComment />
-                comments : {news?.[0]?.commentCount}
+                comments : {comments?.length}
               </p>
               <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
                 <FaFile />
-                Category : {news?.[0].categoryId?.categoryName}
+                Category : {currentNews?.categoryId?.categoryName}
               </p>
             </div>
             <div className="flex gap-3">
@@ -121,6 +179,7 @@ const page = async ({ params }: PageProps) => {
               </Link>
             </div>
           </div>
+
           <div className="mt-10">
             <div className="mt-10">
               <div dangerouslySetInnerHTML={{ __html: first }} />
@@ -134,9 +193,9 @@ const page = async ({ params }: PageProps) => {
             <NewsComments comments={comments} />
 
             {/* comment form */}
-            <CommentForm newsId={news?.[0]?.newsId} />
+            <CommentForm newsId={currentNews?.newsId} />
           </div>
-          <NewsViewTracker newsId={news?.[0]?.newsId} />
+          <NewsViewTracker newsId={currentNews?.newsId} />
         </div>
 
         <div className="md:col-span-4">
@@ -164,7 +223,7 @@ const page = async ({ params }: PageProps) => {
             <hr className="w-full border-t border-[#3384FE33]" />
           </div>
           <div className="mt-5 flex gap-4 flex-wrap">
-            {news?.[0]?.tags?.map((item, index) => (
+            {currentNews?.tags?.map((item, index) => (
               <Link
                 href=""
                 key={index + 1}

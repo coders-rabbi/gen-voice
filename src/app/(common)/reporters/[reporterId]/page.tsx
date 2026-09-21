@@ -1,7 +1,5 @@
 import Image from "next/image";
-import banner from "@/assets/writer/writerBanner.jpg";
 import NewsCardVertical from "@/components/newsCardVertical";
-import manImage from "@/assets/home/man2.jpg";
 import { getNewsByReporterId } from "@/services/news/news.service";
 import { FaNewspaper, FaPlus, FaStar, FaUser } from "react-icons/fa6";
 import { TNews } from "@/types/news";

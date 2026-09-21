@@ -12,7 +12,7 @@ interface newsProps {
 }
 
 const ProfileInfo = ({ extraDetails }: newsProps) => {
-  const { pendingNews, publishedNews, reporterData, count, rating } =
+  const { pendingNews, publishedNews, reporterData, count, rating, follwingCount } =
     extraDetails;
 
   const pathname = usePathname();
@@ -38,13 +38,13 @@ const ProfileInfo = ({ extraDetails }: newsProps) => {
       {/* Stats */}
       <div className="flex flex-wrap gap-x-5 gap-y-2 md:gap-x-10">
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-          <FaStar className="text-[#3385FF]" /> Rate : {rating}
+          <FaStar className="text-[#3385FF]" /> Rate : {rating | 0}
         </p>
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-          <FaUser className="text-[#3385FF]" /> Follower : {count}
+          <FaUser className="text-[#3385FF]" /> Follower : {count | 0}
         </p>
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
-          <FaUser className="text-[#3385FF]" /> Following :
+          <FaUser className="text-[#3385FF]" /> Following : {follwingCount | 0}
         </p>
         <p className="flex items-center gap-2 text-sm text-[#3E3232BF]">
           <MdOutlinePostAdd className="text-[#3385FF]" /> News :{" "}

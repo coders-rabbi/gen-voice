@@ -1,22 +1,52 @@
 import Image from "next/image";
 import manimg from "@/assets/home/man.jpg";
 import { GoBookmark } from "react-icons/go";
+import { FaPlay } from "react-icons/fa";
 import { TNews } from "@/types/news";
 
 interface newProps {
   news: TNews;
 }
+
+const isValidUrl = (src?: string | null): src is string =>
+  !!src && (src.startsWith("/") || /^https?:\/\//.test(src));
+
+const getYouTubeId = (url?: string | null): string | null => {
+  if (!url) return null;
+  const match = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+  );
+  return match ? match[1] : null;
+};
+
 const NewsCardVertical = ({ news }: newProps) => {
+  const hasValidImage = isValidUrl(news?.featuredImageUrl);
+  const youtubeId = getYouTubeId(news?.videoUrl);
+
+  let imageSrc: string | typeof manimg = manimg;
+  if (hasValidImage) {
+    imageSrc = news.featuredImageUrl!;
+  } else if (youtubeId) {
+    imageSrc = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+  }
+
   return (
     <div className="flex flex-col gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 items-center w-full h-[400px] justify-between">
       <div className="relative w-full h-[200px] flex-shrink-0">
         <Image
-          src={news?.featuredImageUrl}
+          src={imageSrc}
           width={500}
           height={200}
-          alt="Gen voice"
+          alt={news?.title ?? "Gen voice"}
           className="rounded-xl object-cover w-full h-full"
         />
+        {youtubeId && !hasValidImage && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-xl">
+            <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
+              <FaPlay className="text-red-600 text-sm ml-0.5" />
+            </div>
+          </div>
+        )}
       </div>
       <div className="flex flex-col flex-1 justify-between w-full min-h-0">
         <div className="overflow-hidden">

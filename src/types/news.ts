@@ -84,7 +84,7 @@ export type TNews = {
   featuredImageUrl: string;
   imageCaption?: string;
   galleryImages?: string[];
-  videoUrl?: string;
+  videoUrl?: string | null;
   tags: string[];
   location?: string;
   source?: string;

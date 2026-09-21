@@ -180,6 +180,14 @@ export const getSingleNewsByNewsId = async (
   });
 };
 
+
+export const bothContent = async (
+): Promise<ApiResponse<TNews[]>> => {
+  return apiClientRaw<TNews[]>("/news/both-content", {
+    method: "GET",
+  });
+};
+
 export const updateNews = async (
   newsId: string,
   payload: Partial<TNewsPayload>,

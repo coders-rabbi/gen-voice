@@ -4,19 +4,32 @@ import manimg from "@/assets/home/man.jpg";
 import { GoBookmark } from "react-icons/go";
 import { TNews } from "@/types/news";
 import Link from "next/link";
+import { isValidImageSrc, getYoutubeThumbnail } from "@/lib/image-utils";
 
 interface NewsCardProps {
   news: TNews;
 }
+
 const NewsCard = ({ news }: NewsCardProps) => {
+  const hasValidImage = isValidImageSrc(news?.featuredImageUrl);
+  const youtubeThumb = !hasValidImage
+    ? getYoutubeThumbnail(news?.videoUrl)
+    : null;
+
+  const imageSrc = hasValidImage
+    ? news.featuredImageUrl!
+    : youtubeThumb
+      ? youtubeThumb
+      : img04;
+
   return (
     <div>
       <Link href={`/news/${news?.newsId}`}>
         <div className="flex gap-2 bg-white rounded-xl shadow-sm p-2 border border-gray-100 items-center">
           <div className="w-[35%] relative flex-shrink-0">
             <Image
-              src={news?.featuredImageUrl || img04}
-              alt="Gen voice"
+              src={imageSrc}
+              alt={news?.title || "Gen voice"}
               width={200}
               height={200}
               className="rounded-xl object-cover w-full h-[150px]"

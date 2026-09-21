@@ -17,7 +17,7 @@ const Sports = ({ news }: NewsProps) => {
         </div>
 
         <Link
-          href="categories/Sport"
+          href="categories/Sports"
           className="border border-[#D1E2FD] px-3 py-1.5 rounded-2xl"
         >
           View All
