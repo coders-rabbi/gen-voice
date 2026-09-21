@@ -44,6 +44,12 @@ const VideoNewsHorizontalCard = ({ videoNews }: VideoNewsProps) => {
     : null;
   const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 
+  // publishAt কে আলাদা ভ্যারিয়েবলে বের করে নিলাম যাতে টাইপ নিরাপদ থাকে
+  const publishAt = videoNews?.publishAt;
+  const publishDate = publishAt
+    ? publishAt.slice(0, publishAt.indexOf("T"))
+    : "";
+
   const handlePlayClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -98,8 +104,7 @@ const VideoNewsHorizontalCard = ({ videoNews }: VideoNewsProps) => {
             {videoNews?.title || "Using Instagram tawo promote your"}
           </h3>
           <p className="flex items-center gap-1 text-xs text-[#6D757F] mt-2.5">
-            <CiCalendar />{" "}
-            {videoNews?.publishAt?.slice(0, videoNews.publishAt.indexOf("T"))}
+            <CiCalendar /> {publishDate}
           </p>
         </div>
       </Link>
