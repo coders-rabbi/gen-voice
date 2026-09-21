@@ -431,13 +431,13 @@ export default function CreatePollForm() {
                     {questions.length} question{questions.length !== 1 && "s"}
                   </p>
                 </div>
-                <button
+                {/* <button
                   type="button"
                   className="flex items-center gap-1.5 border rounded-full px-4 py-1.5 text-sm hover:bg-gray-50"
                 >
                   <Eye className="w-4 h-4" />
                   Preview
-                </button>
+                </button> */}
               </div>
 
               <div className="flex flex-col gap-6">

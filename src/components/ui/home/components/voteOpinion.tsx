@@ -10,10 +10,12 @@ import { MdArrowForwardIos } from "react-icons/md";
 import vote from "@/assets/home/vote.png";
 import { getPolls, submitPollResponse } from "@/services/poll";
 import { TAnswerPayload, TPoll } from "@/types/poll.type";
+import { getFromLocalStorage } from "../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
 
 // ---------- একটা single poll card, নিজস্ব answer state সহ ----------
 
-const PollVoteCard = ({ poll }: { poll: TPoll }) => {
+const PollVoteCard = ({ poll, token }: { poll: TPoll, token: string | null }) => {
   // key: questionIndex (string) → selected option
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -47,7 +49,7 @@ const PollVoteCard = ({ poll }: { poll: TPoll }) => {
 
     setSubmitting(true);
     try {
-      await submitPollResponse(poll._id, payload);
+      await submitPollResponse(token, poll._id, payload);
       Swal.fire({
         icon: "success",
         title: "ধন্যবাদ!",
@@ -133,6 +135,8 @@ const VoteOpinion = () => {
   const { data: res, isLoading } = useSWR("polls", getPolls);
   const polls = res?.data;
 
+  const token = getFromLocalStorage(authkey);
+
   return (
     <div className="mt-5">
       <div className="flex justify-between items-center">
@@ -165,7 +169,7 @@ const VoteOpinion = () => {
         {!isLoading &&
           polls
             ?.slice(0, 2)
-            .map((item) => <PollVoteCard key={item._id} poll={item} />)}
+            .map((item) => <PollVoteCard key={item._id} poll={item} token={token} />)}
       </div>
     </div>
   );

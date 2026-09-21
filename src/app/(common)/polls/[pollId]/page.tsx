@@ -6,6 +6,8 @@ import { getPollById } from "@/services/poll";
 import { PollVoteCard } from "../page";
 import PollCardSkeleton from "../components/pollCardSkeleton";
 import Advertisement from "@/components/advertisement";
+import { getFromLocalStorage } from "../../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
 
 const SinglePollPage = ({
   params,
@@ -22,9 +24,12 @@ const SinglePollPage = ({
   if (!poll)
     return <p className="text-xs text-[#6D757F]">Poll পাওয়া যায়নি</p>;
 
+  
+    const token = getFromLocalStorage(authkey);
+
   return (
     <div className="mt-5 max-w-4xl mx-auto h-[100vh]">
-      <PollVoteCard poll={poll} />
+      <PollVoteCard poll={poll} token={token} />
       <Advertisement/>
     </div>
   );

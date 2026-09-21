@@ -8,14 +8,18 @@ import { CiCalendar } from "react-icons/ci";
 import vote from "@/assets/home/vote.png";
 import { getPolls, submitPollResponse } from "@/services/poll";
 import { TAnswerPayload, TPoll } from "@/types/poll.type";
+import { getFromLocalStorage } from "../../../../utils/localStorage";
+import { authkey } from "@/constants/authkey";
 
-// ---------- একটা single poll card, নিজস্ব answer state সহ ----------
-
-export const PollVoteCard = ({ poll }: { poll: TPoll }) => {
-  // key: questionIndex (string) → selected option
+export const PollVoteCard = ({
+  poll,
+  token,
+}: {
+  poll: TPoll;
+  token: string | null;
+}) => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
-
   const handleSelect = (questionIndex: number, option: string) => {
     setAnswers((prev) => ({ ...prev, [questionIndex]: option }));
   };
@@ -45,7 +49,7 @@ export const PollVoteCard = ({ poll }: { poll: TPoll }) => {
 
     setSubmitting(true);
     try {
-      await submitPollResponse(poll._id, payload);
+      await submitPollResponse(token, poll._id, payload);
       Swal.fire({
         icon: "success",
         title: "ধন্যবাদ!",
@@ -129,6 +133,7 @@ const VoteOpinion = () => {
   const { data: res, isLoading } = useSWR("polls", getPolls);
   const polls = res?.data;
 
+  const token = getFromLocalStorage(authkey);
   return (
     <div className="mt-5">
       <div className="grid grid-cols-2 gap-3">
@@ -136,7 +141,9 @@ const VoteOpinion = () => {
         {!isLoading &&
           polls
             ?.slice(0, 2)
-            .map((item) => <PollVoteCard key={item._id} poll={item} />)}
+            .map((item) => (
+              <PollVoteCard key={item._id} poll={item} token={token} />
+            ))}
       </div>
     </div>
   );

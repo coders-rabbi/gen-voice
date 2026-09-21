@@ -37,7 +37,6 @@ export const getPollById = async (
   });
 };
 
-
 export const updatePoll = async (
   token: string,
   id: string,
@@ -69,11 +68,16 @@ export const deletePoll = async (
 // ---------- poll response ----------
 
 export const submitPollResponse = async (
+  token: string | null,
   pollId: string,
   answers: TAnswerPayload[],
 ): Promise<ApiResponse<TPollResponse>> => {
   return apiClientRaw<TPollResponse>(`/poll-response/${pollId}/responses`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
     body: JSON.stringify({ answers }),
   });
 };
