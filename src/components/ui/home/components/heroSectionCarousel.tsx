@@ -36,7 +36,7 @@ export function HeroSectionCarousel({ news }: NewsProps) {
                   width={1200}
                   height={600}
                   alt={item?.title || "Dynamic Hero Image"}
-                  className="w-full max-h-[80vh] object-cover block"
+                  className="w-full max-h-[85vh] object-cover block"
                   priority={index === 0}
                 />
               </Link>

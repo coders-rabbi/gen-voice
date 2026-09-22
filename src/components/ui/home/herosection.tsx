@@ -19,7 +19,7 @@ const Herosection = async ({ news }: newsProps) => {
   const firstNews = news[0];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 mb-14 gap-4 ">
+    <div className="grid grid-cols-1 lg:grid-cols-12 mb-8 gap-4 ">
       <div className="md:col-span-8">
         <div className="flex gap-3 items-center">
           <Image src={breakingImage} alt="gen voice" className="h-auto" />
@@ -52,7 +52,7 @@ const Herosection = async ({ news }: newsProps) => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-4">
-          {publishedNews.slice(0, 5).map((item) => (
+          {publishedNews.slice(0, 4).map((item) => (
             <NewsCard key={item._id} news={item} />
           ))}
         </div>
