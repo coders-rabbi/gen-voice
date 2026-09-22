@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ImagePlus } from "lucide-react";
 import { IoClose } from "react-icons/io5";
@@ -57,9 +57,7 @@ const UpdateProfileForm = ({
   onSuccess,
 }: ProfileFormProps) => {
   // profile image state
-  const [profilePreview, setProfilePreview] = useState<string | null>(
-    defaultValues?.profileImage ?? null,
-  );
+  const [profilePreview, setProfilePreview] = useState<string | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [profileImagePublicId, setProfileImagePublicId] = useState<
     string | null
@@ -70,9 +68,7 @@ const UpdateProfileForm = ({
   );
 
   // cover image state
-  const [coverPreview, setCoverPreview] = useState<string | null>(
-    defaultValues?.coverImage ?? null,
-  );
+  const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null);
   const [coverImagePublicId, setCoverImagePublicId] = useState<string | null>(
     null,
@@ -84,24 +80,41 @@ const UpdateProfileForm = ({
   const profileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
 
-  console.log("profileImage:", defaultValues);
-  console.log("coverImage:", defaultValues?.coverImage);
-
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TReporter>({
     defaultValues: {
       name: {
-        firstName: defaultValues?.name?.firstName ?? "",
-        middleName: defaultValues?.name?.middleName ?? "",
-        lastName: defaultValues?.name?.lastName ?? "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
       },
-      contactNo: defaultValues?.contactNo ?? "",
-      presentAddress: defaultValues?.presentAddress ?? "",
+      contactNo: "",
+      presentAddress: "",
     },
   });
+
+  // ✅ data ache kina check kore reset + preview set kora hocche.
+  // data na thakle form empty i thakbe (initial defaultValues e already empty set kora ache).
+  useEffect(() => {
+    if (defaultValues && Object.keys(defaultValues).length > 0) {
+      reset({
+        name: {
+          firstName: defaultValues.name?.firstName ?? "",
+          middleName: defaultValues.name?.middleName ?? "",
+          lastName: defaultValues.name?.lastName ?? "",
+        },
+        contactNo: defaultValues.contactNo ?? "",
+        presentAddress: defaultValues.presentAddress ?? "",
+      });
+
+      setProfilePreview(defaultValues.profileImage ?? null);
+      setCoverPreview(defaultValues.coverImage ?? null);
+    }
+  }, [defaultValues, reset]);
 
   // shared upload helper
   const uploadImage = async (
@@ -200,13 +213,17 @@ const UpdateProfileForm = ({
 
       const payload = {
         ...data,
+        // ✅ notun image upload korle sheta jabe, na korle key i thakbe na
+        // (backend partial-update assume kore existing value overwrite hobe na)
         ...(profileImageUrl && {
           profileImage: profileImageUrl,
         }),
         ...(coverImageUrl && { coverImage: coverImageUrl }),
       };
 
+      console.log(payload)
       const res = await updateReporterById(reporterId, payload);
+      
 
       if (!res.success) {
         throw new Error(res?.message || "Update failed");
@@ -216,7 +233,7 @@ const UpdateProfileForm = ({
         Swal.fire({
           icon: "success",
           title: "Updated",
-          text: "Profile successfully created.",
+          text: "Profile successfully updated.",
           timer: 2000,
           showConfirmButton: false,
         });
