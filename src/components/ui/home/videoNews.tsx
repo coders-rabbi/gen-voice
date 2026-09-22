@@ -140,7 +140,7 @@ const VideoNews = async ({ homeNews }: any) => {
           ))}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
-          {allVideoNews.slice(2, 5).map((item) => (
+          {allVideoNews.slice(5, 8).map((item) => (
             <VideoNewsVerticalCard key={item._id} videoNews={item} />
           ))}
         </div>

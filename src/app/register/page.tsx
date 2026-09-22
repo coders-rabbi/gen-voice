@@ -10,6 +10,8 @@ import { createReporter } from "@/services/reporter/reporterService";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa6";
+import { loginUser } from "@/services/actions/user.login";
+import { useRouter } from "next/navigation";
 
 type SignupFormValues = {
   name: {
@@ -37,6 +39,7 @@ const page = () => {
     reset, // eta already thakle ekhan theke use korben
     formState: { errors },
   } = useForm<SignupFormValues>();
+  const router = useRouter();
 
   const onSubmit = async (data: SignupFormValues) => {
     const { email, password, ...reporterData } = data;
@@ -47,14 +50,26 @@ const page = () => {
       setLoading(true);
       const res = await createReporter(payload);
       if (res.success) {
-        reset(); // form clear
-        await Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "account create successfully",
-          timer: 2000,
-          showConfirmButton: false,
+        reset();
+        const LoginRes = await loginUser({
+          email: userData?.email,
+          password: userData?.password,
         });
+        console.log("Login from register:", LoginRes);
+        if (LoginRes?.success) {
+          await Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Account created successfully",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+          if (LoginRes?.success) {
+            localStorage.setItem("accessToken", LoginRes.data);
+            router.push("/reporter");
+            router.refresh();
+          }
+        }
       }
     } catch (error: any) {
       console.log(error);

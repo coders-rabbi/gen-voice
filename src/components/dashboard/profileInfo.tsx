@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import defaultUser from "@/assets/dashboard/user.jpg"
 import { FaPlus, FaStar, FaUser, FaArrowLeft } from "react-icons/fa6";
 import { PiNotebookBold } from "react-icons/pi";
 import { MdOutlinePostAdd } from "react-icons/md";
@@ -23,7 +24,7 @@ const ProfileInfo = ({ extraDetails }: newsProps) => {
       {/* Image + Name */}
       <div className="flex gap-2.5 items-center shrink-0">
         <Image
-          src={reporterData?.data?.profileImage}
+          src={reporterData?.data?.profileImage || defaultUser}
           alt="gen voice"
           className="w-16 h-16 md:w-20 md:h-20 object-cover rounded-[12px]"
           width={100}

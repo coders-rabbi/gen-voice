@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Image from "next/image";
-import banner from "@/assets/writer/writerBanner.jpg";
+import defaultCover from "@/assets/writer/writerBanner.jpg";
 import ProfileInfo from "@/components/dashboard/profileInfo";
 import { getSingleReporterAllNews } from "@/services/news/news.service";
 import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
@@ -62,7 +62,7 @@ const Page = () => {
   return (
     <div>
       <Image
-        src={reporterData?.data?.coverImage as string}
+        src={reporterData?.data?.coverImage  || defaultCover}
         alt="gen voice"
         width={500}
         height={500}

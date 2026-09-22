@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import defaultCover from "@/assets/writer/writerBanner.jpg";
 import NewsCardVertical from "@/components/newsCardVertical";
 import PostSatisfactionReaction from "@/components/dashboard/postSatisfactionReaction";
 import ProfileInfo from "@/components/dashboard/profileInfo";
@@ -14,7 +15,7 @@ import { getUserInfo } from "@/services/actions/auth.service";
 import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
 import useSWR from "swr";
 import { getFollowerCount, getFollowingCount } from "@/services/follow";
-import { getMyReaction, getReporterReactionCounts } from "@/services/reaction";
+import { getReporterReactionCounts } from "@/services/reaction";
 import { calculateRating } from "../../../../utils/calculateRating";
 import { TReactionCounts, TReactionType } from "@/types/reaction.type";
 import { getFromLocalStorage } from "../../../../utils/localStorage";
@@ -25,7 +26,7 @@ const Page = () => {
   const [saveNews, setSaveNews] = useState<TNews[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const token = getFromLocalStorage(authkey)
+  const token = getFromLocalStorage(authkey);
 
   const userInfo = getUserInfo();
   const { data: repData, isLoading: isReporterLoading } = useSWR(
@@ -40,19 +41,18 @@ const Page = () => {
   const count = followerCount?.data?.count ?? 0;
 
   const { data: followingCount } = useSWR(
-  token ? ["following-count", token] : null,
-  () => getFollowingCount(token as string),
-);
-const follwingCount = followingCount?.data?.count ?? 0; 
+    token ? ["following-count", token] : null,
+    () => getFollowingCount(token as string),
+  );
+  const follwingCount = followingCount?.data?.count ?? 0;
 
- const { data: mySaved } = useSWR(
-  token ? ["my-saved", token] : null,
-  () => getMySavedNews(token as string),
-);
+  const { data: mySaved } = useSWR(token ? ["my-saved", token] : null, () =>
+    getMySavedNews(token as string),
+  );
 
-const savedNews = mySaved?.data;
-const saveNewsCount = savedNews?.length
-console.log(savedNews)
+  const savedNews = mySaved?.data;
+  const saveNewsCount = savedNews?.length;
+  console.log(savedNews);
 
   const emptyCounts: TReactionCounts = {
     like: 0,
@@ -119,7 +119,7 @@ console.log(savedNews)
   return (
     <div className="">
       <Image
-        src={repData?.data?.coverImage as string}
+        src={repData?.data.coverImage || defaultCover}
         alt="gen voice"
         width={500}
         height={500}
