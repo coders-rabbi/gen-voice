@@ -52,7 +52,7 @@ const Herosection = async ({ news }: newsProps) => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-4">
-          {publishedNews.slice(0, 3).map((item) => (
+          {publishedNews.slice(0, 5).map((item) => (
             <NewsCard key={item._id} news={item} />
           ))}
         </div>

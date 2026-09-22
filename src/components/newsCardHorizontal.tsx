@@ -1,7 +1,7 @@
 import Image from "next/image";
 import img04 from "@/assets/home/img4.jpg";
 import manimg from "@/assets/home/man.jpg";
-import { GoBookmark } from "react-icons/go";
+import { FaPlay } from "react-icons/fa6";
 import { TNews } from "@/types/news";
 import Link from "next/link";
 import { isValidImageSrc, getYoutubeThumbnail } from "@/lib/image-utils";
@@ -12,15 +12,20 @@ interface NewsCardProps {
 }
 
 const NewsCard = ({ news }: NewsCardProps) => {
-  const hasValidImage = isValidImageSrc(news?.featuredImageUrl);
-  const youtubeThumb = !hasValidImage
-    ? getYoutubeThumbnail(news?.videoUrl)
-    : null;
+  // video-ke priority deya hocche — page.tsx-er detail page-er sathe consistent
+  const isVideo =
+    news?.contentType === "Video" &&
+    !!news?.videoUrl &&
+    news.videoUrl.trim() !== "";
 
-  const imageSrc = hasValidImage
-    ? news.featuredImageUrl!
-    : youtubeThumb
-      ? youtubeThumb
+  const youtubeThumb = isVideo ? getYoutubeThumbnail(news.videoUrl) : null;
+
+  const hasValidImage = isValidImageSrc(news?.featuredImageUrl);
+
+  const imageSrc = youtubeThumb
+    ? youtubeThumb
+    : hasValidImage
+      ? news.featuredImageUrl!
       : img04;
 
   return (
@@ -35,6 +40,14 @@ const NewsCard = ({ news }: NewsCardProps) => {
               height={200}
               className="rounded-xl object-cover w-full h-[150px]"
             />
+            {/* video hole play icon overlay, jate user bujhte pare eta video content */}
+            {youtubeThumb && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-full bg-black/60 flex items-center justify-center">
+                  <FaPlay className="text-white text-sm ml-0.5" />
+                </div>
+              </div>
+            )}
           </div>
           <div className="flex flex-col flex-1 justify-between h-full gap-2">
             <div>
