@@ -1,7 +1,6 @@
 import Topnotice from "./components/topnotice";
 import Image from "next/image";
 import breakingImage from "@/assets/home/Frame.png";
-import img01 from "@/assets/home/Image1.png";
 import TechnologyCard from "./components/technology";
 import NewsCard from "@/components/newsCardHorizontal";
 import Link from "next/link";

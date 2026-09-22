@@ -12,6 +12,7 @@ import userImg from "@/assets/home/man.jpg";
 import { IoMdExit } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { AuthPayload } from "../../../../utils/jwt";
+import SearchBar from "@/components/searchBar";
 
 const categories = [
   { label: "Food", href: "/categories/food" },
@@ -198,25 +199,7 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-end gap-2">
-          <label className="input hidden sm:inline-flex outline-none bg-[#EAF3FF] border-0 rounded-xl w-[60%]">
-            <svg
-              className="h-[1em] opacity-50 "
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <g
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2.5"
-                fill="none"
-                stroke="currentColor"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
-            <input type="search" required placeholder="Search Anything" />
-          </label>
+          <SearchBar />
           {userLoggedIn ? (
             <div className="flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md">
               <Link href="/reporter">
