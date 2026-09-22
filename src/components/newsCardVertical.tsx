@@ -32,7 +32,7 @@ const NewsCardVertical = ({ news }: newProps) => {
   }
 
   return (
-    <Link href={`/news/${news?._id}`}>
+    <Link href={`/news/${news?.newsId}`}>
       <div className="flex flex-col gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 items-center w-full h-[400px] justify-between">
         <div className="relative w-full h-[200px] flex-shrink-0">
           <Image
