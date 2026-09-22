@@ -4,6 +4,7 @@ import { GoBookmark } from "react-icons/go";
 import { FaPlay } from "react-icons/fa";
 import { TNews } from "@/types/news";
 import Link from "next/link";
+import SaveButton from "./saveButton";
 
 interface newProps {
   news: TNews;
@@ -78,9 +79,7 @@ const NewsCardVertical = ({ news }: newProps) => {
               </div>
             </div>
 
-            <button className="text-blue-500 hover:text-blue-600 p-1 mr-1">
-              <GoBookmark className="text-2xl" />
-            </button>
+            <SaveButton newsId={news?._id} reporterId={news?.reporterId?._id} />
           </div>
         </div>
       </div>

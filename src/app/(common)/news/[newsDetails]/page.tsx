@@ -30,9 +30,8 @@ import NewsViewTracker from "../components/viewCountracker";
 import { getSingleReporterByReporterId } from "@/services/reporter/reporterService";
 import ShareButton from "../components/shareButton";
 import CommentScrollButton from "../components/Commentscrollbutton";
+import SaveButton from "@/components/saveButton";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
-
 
 interface PageProps {
   params: Promise<{
@@ -163,13 +162,10 @@ const page = async ({ params }: PageProps) => {
                 url={`${siteUrl}/news/${currentNews?.newsId}`}
                 title={currentNews?.title}
               />
-              <Link
-                href=""
-                className="px-3 py-1 bg-[#F5F5F5] flex items-center w-fit rounded-[8px] gap-1.5"
-              >
-                <CiBookmark />
-                Save
-              </Link>
+              <SaveButton
+                newsId={currentNews?._id}
+                reporterId={currentNews?.reporterId?._id}
+              />
               <CommentScrollButton />
             </div>
           </div>

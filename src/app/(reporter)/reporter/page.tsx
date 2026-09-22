@@ -18,6 +18,7 @@ import { getMyReaction, getReporterReactionCounts } from "@/services/reaction";
 import { calculateRating } from "../../../../utils/calculateRating";
 import { TReactionCounts, TReactionType } from "@/types/reaction.type";
 import { getFromLocalStorage } from "../../../../utils/localStorage";
+import { getMySavedNews } from "@/services/savedNews";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
@@ -43,6 +44,15 @@ const Page = () => {
   () => getFollowingCount(token as string),
 );
 const follwingCount = followingCount?.data?.count ?? 0; 
+
+ const { data: mySaved } = useSWR(
+  token ? ["my-saved", token] : null,
+  () => getMySavedNews(token as string),
+);
+
+const savedNews = mySaved?.data;
+const saveNewsCount = savedNews?.length
+console.log(savedNews)
 
   const emptyCounts: TReactionCounts = {
     like: 0,
@@ -198,14 +208,14 @@ const follwingCount = followingCount?.data?.count ?? 0;
           </div>
         </div>
 
-        {saveNews.length === 0 ? (
+        {savedNews?.length === 0 ? (
           <p className="text-[#3E3232] text-sm flex flex-col justify-center items-center h-50">
             No saved posts yet.
           </p>
         ) : (
           <div className="grid md:grid-cols-4 gap-2">
-            {myNews.map((item) => (
-              <NewsCardVertical key={item._id} news={item} />
+            {savedNews?.map((item) => (
+              <NewsCardVertical key={item._id} news={item?.newsId} />
             ))}
           </div>
         )}

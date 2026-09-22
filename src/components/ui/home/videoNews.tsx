@@ -86,7 +86,7 @@ const VideoNews = async ({ homeNews }: any) => {
           const embedUrl = getYoutubeEmbedUrl(item?.videoUrl ?? "");
 
           return (
-            <div key={item?._id} className="my-4 grid grid-cols-2 gap-4">
+            <div key={item?._id} className="my-4 md:grid grid-cols-2 gap-4">
               <div className="overflow-hidden rounded-lg aspect-video bg-black">
                 {embedUrl ? (
                   <iframe
@@ -125,7 +125,7 @@ const VideoNews = async ({ homeNews }: any) => {
                   </p>
                   <Link
                     href={`/news/${item?.newsId}`}
-                    className="btn border-1 py-1.5 px-3 flex items-center gap-2 w-fit rounded-sm mt-3"
+                    className="btn border-1 py-1.5 px-3 flex items-center gap-2 md:w-fit rounded-sm mt-3"
                   >
                     Read More <MdArrowOutward />
                   </Link>
@@ -134,12 +134,12 @@ const VideoNews = async ({ homeNews }: any) => {
             </div>
           );
         })()}
-        <div className="grid grid-cols-3 gap-4 mt-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
           {allVideoNews.slice(1, 4).map((item) => (
             <VideoNewsHorizontalCard key={item._id} videoNews={item} />
           ))}
         </div>
-        <div className="grid grid-cols-3 gap-4 mt-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
           {allVideoNews.slice(2, 5).map((item) => (
             <VideoNewsVerticalCard key={item._id} videoNews={item} />
           ))}
