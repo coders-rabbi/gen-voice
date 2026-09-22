@@ -28,6 +28,11 @@ import { TComments } from "@/types/comment.type";
 import RelatedNews from "../components/relatedNews";
 import NewsViewTracker from "../components/viewCountracker";
 import { getSingleReporterByReporterId } from "@/services/reporter/reporterService";
+import ShareButton from "../components/shareButton";
+import CommentScrollButton from "../components/Commentscrollbutton";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+
 
 interface PageProps {
   params: Promise<{
@@ -71,7 +76,6 @@ const page = async ({ params }: PageProps) => {
   const newsData = data?.data;
   const news = newsData.filter((news) => news?.newsId === newsDetails);
 
-
   if (!news.length) {
     return <NewsDetailsSkeleton />;
   }
@@ -82,8 +86,7 @@ const page = async ({ params }: PageProps) => {
     !!currentNews?.videoUrl &&
     currentNews.videoUrl.trim() !== "";
   const hasValidImage =
-    !!currentNews?.featuredImageUrl &&
-    currentNews.featuredImageUrl !== "N/A";
+    !!currentNews?.featuredImageUrl && currentNews.featuredImageUrl !== "N/A";
 
   const { first, second } = splitContentAtMidpoint(currentNews?.content);
 
@@ -156,13 +159,10 @@ const page = async ({ params }: PageProps) => {
               </p>
             </div>
             <div className="flex gap-3">
-              <Link
-                href=""
-                className="px-3 py-1 bg-[#F5F5F5] flex items-center w-fit rounded-[8px] gap-1.5"
-              >
-                <BsSend />
-                Share
-              </Link>
+              <ShareButton
+                url={`${siteUrl}/news/${currentNews?.newsId}`}
+                title={currentNews?.title}
+              />
               <Link
                 href=""
                 className="px-3 py-1 bg-[#F5F5F5] flex items-center w-fit rounded-[8px] gap-1.5"
@@ -170,13 +170,7 @@ const page = async ({ params }: PageProps) => {
                 <CiBookmark />
                 Save
               </Link>
-              <Link
-                href=""
-                className="px-3 py-1 bg-[#F5F5F5] flex items-center w-fit rounded-[8px] gap-1.5"
-              >
-                <FaRegCommentDots />
-                Comment
-              </Link>
+              <CommentScrollButton />
             </div>
           </div>
 
@@ -189,7 +183,7 @@ const page = async ({ params }: PageProps) => {
           </div>
 
           {/* reader comment section */}
-          <div className="my-12">
+          <div className="my-12" id="comment-section">
             <NewsComments comments={comments} />
 
             {/* comment form */}
@@ -237,7 +231,9 @@ const page = async ({ params }: PageProps) => {
           {/* reporter uploaded news */}
           <div className="flex items-center gap-2 mb-2 mt-10">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-            <h2 className="text-xl text-[#3E3232] ">User's Uploaded News</h2>
+            <h2 className="text-xl text-[#3E3232] ">
+              Reporter's Uploaded News
+            </h2>
           </div>
           <div className="flex gap-3 items-center w-full mb-2">
             <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
