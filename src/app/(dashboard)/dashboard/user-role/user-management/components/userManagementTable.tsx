@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import defaultUser from "@/assets/defaultUser.jpg";
 import {
   Table,
   TableBody,
@@ -113,7 +114,15 @@ export function UserTable() {
             <TableCell className="font-medium text-[#414651]">
               {idx + 1}
             </TableCell>
-            <TableCell>
+            <TableCell className="flex items-center gap-2">
+              <Image
+                src={user?.profileImage || defaultUser}
+                alt={user?.adminName}
+                width={100}
+                height={100}
+                className="rounded-full w-16"
+                unoptimized
+              />
               <div className=" items-center gap-3">
                 <p className="font-medium text-[#181D27]">{user.adminName}</p>
                 <p className="font-medium text-[#181D27]">{user.email}</p>

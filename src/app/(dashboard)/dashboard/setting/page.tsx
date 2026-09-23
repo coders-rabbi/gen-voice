@@ -2,9 +2,9 @@
 
 import PageTitle from "../../components/page-Title";
 import Link from "next/link";
-import { FaArrowLeft, FaPlus } from "react-icons/fa6";
+import { FaArrowLeft, FaCamera, FaPen, FaPlus } from "react-icons/fa6";
 import Image from "next/image";
-import userImage from "@/assets/dashboard/user.jpg";
+import defaultUser from "@/assets/defaultUser.jpg";
 import { useForm } from "react-hook-form";
 import { getUserInfo } from "@/services/actions/auth.service";
 import { useSingleReporter } from "@/hooks/useSingleReporter";
@@ -36,6 +36,15 @@ const Page = () => {
   const [adminData, setAdminData] = useState<TAdmin | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // image upload states (About page er pattern follow kora)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [uploadedImagePublicId, setUploadedImagePublicId] = useState<
+    string | undefined
+  >(undefined);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
   const token = getFromLocalStorage(authkey);
   const userInfo = getUserInfo();
 
@@ -51,12 +60,68 @@ const Page = () => {
     },
   });
 
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadError("File size must be less than 10 MB");
+      return;
+    }
+
+    // preview immediately dekhiye dei
+    setPreviewUrl(URL.createObjectURL(file));
+
+    try {
+      setIsUploading(true);
+      setUploadError(null);
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch(
+        "https://gen-voice-backend.onrender.com/api/v1/upload/upload_file",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.message || "Upload failed");
+      }
+
+      setUploadedImageUrl(result.data.url);
+      setUploadedImagePublicId(result.data.publicId);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Upload failed");
+      setPreviewUrl(null);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const onSubmit = async (payload: TAdminForm) => {
+    const profileImage =
+      uploadedImageUrl ?? adminData?.profileImage ?? undefined;
+    const profileImagePublicId =
+      uploadedImagePublicId ||
+      (adminData as any)?.profileImagePublicId ||
+      undefined;
+
+    // empty string hole field bad diye dao, jate accidentally overwrite na hoy
+    const updatePayload: Partial<TAdmin> = {
+      ...(payload.adminName?.trim() ? { adminName: payload.adminName } : {}),
+      profileImage,
+    };
+
     try {
       const response = await updateAdminInfo(
         userInfo?._id as string,
         token as string,
-        { adminName: payload.adminName },
+        updatePayload,
       );
       if (response.success) {
         await Swal.fire({
@@ -80,6 +145,10 @@ const Page = () => {
 
   const handleReset = () => {
     reset();
+    setPreviewUrl(null);
+    setUploadedImageUrl(null);
+    setUploadedImagePublicId("");
+    setUploadError(null);
     console.log("Form Reset");
   };
 
@@ -93,6 +162,14 @@ const Page = () => {
           token as string,
         );
         setAdminData(data);
+
+        // existing image thakle preview + uploaded state populate koro,
+        // nahole re-upload na korle onSubmit e image lost hoye jabe
+        if (data?.profileImage) {
+          setPreviewUrl(data.profileImage);
+          setUploadedImageUrl(data.profileImage);
+          setUploadedImagePublicId((data as any)?.profileImagePublicId ?? "");
+        }
       } catch (err) {
         console.error("Failed to fetch admin data:", err);
       } finally {
@@ -121,13 +198,44 @@ const Page = () => {
       </div>
 
       <div className="mt-10 border rounded-2xl p-5">
-        <Image
-          src={userImage}
-          alt="user image"
-          width={100}
-          height={100}
-          className="rounded-full object-cover w-[100px] h-[100px]"
-        />
+        <label
+          htmlFor="profileImage"
+          className="relative cursor-pointer w-fit block group"
+        >
+          {previewUrl || adminData?.profileImage ? (
+            <Image
+              src={previewUrl || (adminData?.profileImage as string)}
+              alt="user image"
+              width={100}
+              height={100}
+              className="rounded-full object-cover w-[100px] h-[100px]"
+              unoptimized
+            />
+          ) : (
+            <div className="w-[100px] h-[100px] rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center">
+              <FaCamera className="text-gray-400" size={28} />
+            </div>
+          )}
+
+          {/* edit icon overlay */}
+          <span className="absolute bottom-0 right-0 bg-[#005CE8] text-white rounded-full p-2 border-2 border-white flex items-center justify-center">
+            <FaPen size={12} />
+          </span>
+
+          <input
+            id="profileImage"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+        </label>
+        {isUploading && (
+          <p className="text-xs text-gray-500 mt-1">Uploading...</p>
+        )}
+        {uploadError && (
+          <p className="text-xs text-red-500 mt-1">{uploadError}</p>
+        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
           <div className="flex flex-col gap-1.5">
@@ -184,7 +292,7 @@ const Page = () => {
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isUploading}
               className="flex items-center justify-center gap-2 bg-[#005CE8] text-white rounded-lg py-3 font-medium hover:bg-[#0049ba] transition disabled:opacity-60"
             >
               <span className="bg-white/20 rounded p-1 flex items-center justify-center">
