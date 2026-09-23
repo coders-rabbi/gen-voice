@@ -46,15 +46,26 @@ export const getNewsByReporterId = async (repId: string) => {
   });
 };
 
-export async function getRecentNews() {
-  const data = await getAllNews();
-  return [...data].sort((a, b) => {
-    const dateA = a.publishAt ? new Date(a.publishAt).getTime() : 0;
-    const dateB = b.publishAt ? new Date(b.publishAt).getTime() : 0;
-    return dateB - dateA;
-  });
-}
+export const getRecentNews = async (
+  query: TNewsQueryParams = {},
+): Promise<TNews[]> => {
+  const searchParams = new URLSearchParams();
 
+  Object.entries(query).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      searchParams.append(key, String(value));
+    }
+  });
+
+  const queryString = searchParams.toString();
+  const url = queryString
+    ? `/news/recent-news?${queryString}`
+    : "/news/recent-news";
+
+  return apiClient<TNews[]>(url, {
+    cache: "no-cache",
+  });
+};
 // export async function getPopularNews() {
 //   const data = await getAllNews();
 //   return [...data].sort(
@@ -180,9 +191,7 @@ export const getSingleNewsByNewsId = async (
   });
 };
 
-
-export const bothContent = async (
-): Promise<ApiResponse<TNews[]>> => {
+export const bothContent = async (): Promise<ApiResponse<TNews[]>> => {
   return apiClientRaw<TNews[]>("/news/both-content", {
     method: "GET",
   });
