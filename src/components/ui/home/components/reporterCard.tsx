@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import reporterImage from "@/assets/home/man.jpg";
+import reporterImage from "@/assets/defaultUser.jpg";
 import { FaEye, FaPlus, FaRegBookmark } from "react-icons/fa6";
 import Link from "next/link";
 import { TReporter } from "@/types/reporter";
@@ -24,7 +24,7 @@ const ReporterCard = ({ reporter }: reporterProps) => {
     <div>
       <div className="flex items-center gap-2 border p-1.5 w-full rounded-[12px]">
         <Image
-          src={reporterImage}
+          src={reporter?.profileImage || reporterImage}
           alt="gen voice"
           width={100}
           height={100}

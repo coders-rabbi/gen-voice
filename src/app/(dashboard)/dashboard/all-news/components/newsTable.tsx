@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 import { MoreHorizontalIcon } from "lucide-react";
 import Swal from "sweetalert2";
 
@@ -24,7 +25,6 @@ import { IoMdCloseCircleOutline, IoMdEye } from "react-icons/io";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { CiStar } from "react-icons/ci";
 import { FaTrash } from "react-icons/fa6";
-import user from "@/assets/dashboard/user.jpg";
 import Image from "next/image";
 import { getAllNewsCategories } from "@/services/category";
 import NewsFilter from "./newsFillter";
@@ -54,6 +54,11 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
   const [newsData, setNewsData] = useState<TNews[]>([]);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // filter states (NewsFilter theke lift kora)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch] = useDebounce(searchTerm, 500);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   // pagination states
   const [page, setPage] = useState(1);
@@ -86,6 +91,8 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
 
       const data = await getAllNews({
         status: mappedStatus,
+        categoryId: selectedCategory === "all" ? undefined : selectedCategory,
+        searchTerm: debouncedSearch.trim() || undefined,
         page: targetPage,
         limit,
       });
@@ -100,13 +107,19 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
     }
   };
 
+  // tab change hole page reset
   useEffect(() => {
     setPage(1);
   }, [onValueChange]);
 
+  // search/category change hole o page reset (nahole page 3 e filter korle empty dekhabe)
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, selectedCategory]);
+
   useEffect(() => {
     fetchNewsData(page);
-  }, [page, onValueChange]);
+  }, [page, onValueChange, debouncedSearch, selectedCategory]);
 
   const handleStatusUpdate = async (newsId: string, status: TStatus) => {
     setUpdatingId(newsId);
@@ -169,7 +182,13 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
 
   return (
     <div className="border mt-5">
-      <NewsFilter categories={categories} />
+      <NewsFilter
+        categories={categories}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+      />
 
       <div className="overflow-x-auto">
         <Table className="border">
@@ -200,11 +219,12 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2 max-w-40">
                       <Image
-                        src={user}
+                        src={item?.featuredImageUrl}
                         alt="user Icon"
                         width={40}
                         height={40}
                         className="rounded-xs shrink-0 size-10 object-cover"
+                        unoptimized
                       />
                       <p className="truncate min-w-0">{item?.title}</p>
                     </div>
@@ -213,11 +233,12 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
                   <TableCell className="text-[#525252]">
                     <div className="flex items-center gap-2 max-w-35">
                       <Image
-                        src={user}
+                        src={item?.reporterId?.profileImage}
                         alt="user Icon"
                         width={40}
                         height={40}
                         className="rounded-full shrink-0 size-10 object-cover"
+                        unoptimized
                       />
                       <p className="truncate min-w-0">
                         {item?.reporterId?.fullName}

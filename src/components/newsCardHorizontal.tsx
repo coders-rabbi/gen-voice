@@ -64,8 +64,10 @@ const NewsCard = ({ news }: NewsCardProps) => {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 relative flex-shrink-0">
                   <Image
-                    src={manimg}
+                    src={news?.reporterId?.profileImage}
                     alt="Author"
+                    width={7}
+                    height={7}
                     className="rounded-xl object-cover w-full h-full border-2 border-purple-400"
                   />
                 </div>

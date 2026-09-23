@@ -1,7 +1,7 @@
 import Topnotice from "./components/topnotice";
 import Image from "next/image";
 import breakingImage from "@/assets/home/Frame.png";
-import TechnologyCard from "./components/technology";
+import FeaturedCategoryCard from "./components/featuredCategoryCard";
 import NewsCard from "@/components/newsCardHorizontal";
 import Link from "next/link";
 import { HeroSectionCarousel } from "./components/heroSectionCarousel";
@@ -15,7 +15,6 @@ interface newsProps {
 const Herosection = async ({ news }: newsProps) => {
   const allNews: TNews[] = await getAllNews();
   const publishedNews = allNews.filter((item) => item.status === "published");
-  const firstNews = news[0];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 mb-8 gap-4 ">
@@ -25,7 +24,7 @@ const Herosection = async ({ news }: newsProps) => {
           <Topnotice />
         </div>
         <HeroSectionCarousel news={publishedNews} />
-        <TechnologyCard news={firstNews} />
+        <FeaturedCategoryCard />
       </div>
 
       <div className="md:col-span-4 w-full mt-5 md:mt-0">

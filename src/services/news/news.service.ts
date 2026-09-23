@@ -211,3 +211,9 @@ export const updateNews = async (
     body: JSON.stringify(payload),
   });
 };
+
+export const getFeaturedNews = async (): Promise<ApiResponse<TNews[]>> => {
+  return apiClientRaw<TNews[]>(`/news/featured-news`, {
+    method: "GET",
+  });
+};

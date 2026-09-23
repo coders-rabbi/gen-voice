@@ -1,5 +1,4 @@
 "use client";
-import img01 from "@/assets/home/Image1.png";
 import {
   Carousel,
   CarouselContent,

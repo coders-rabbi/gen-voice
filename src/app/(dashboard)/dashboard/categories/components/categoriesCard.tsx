@@ -74,7 +74,7 @@ const CategoriesCard = ({ item, onUpdated }: CategoriesCardProps) => {
       </div>
       <div className="flex justify-between mt-4">
         <p className="font-semibold">
-          18 <span className="font-normal">Posts</span>
+          {item?.newsCount} <span className="font-normal">Posts</span>
         </p>
         <div className="flex items-center gap-1.5">
           <FaEdit

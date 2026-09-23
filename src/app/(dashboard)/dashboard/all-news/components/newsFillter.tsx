@@ -1,16 +1,22 @@
 "use client";
 
-import { useState } from "react";
 import { TCategory } from "@/types/category";
 
 type Props = {
   categories: TCategory[];
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  selectedCategory: string;
+  onCategoryChange: (value: string) => void;
 };
 
-const NewsFilter = ({ categories }: Props) => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [searchTerm, setSearchTerm] = useState("");
-
+const NewsFilter = ({
+  categories,
+  searchTerm,
+  onSearchChange,
+  selectedCategory,
+  onCategoryChange,
+}: Props) => {
   return (
     <div className="flex justify-between items-center p-2.5">
       <div className="flex items-center gap-2 w-full max-w-sm px-3 py-2 border rounded-lg">
@@ -31,7 +37,7 @@ const NewsFilter = ({ categories }: Props) => {
         <input
           type="text"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search users, posts, polls....."
           className="w-full bg-transparent text-sm text-gray-600 placeholder-gray-400 outline-none"
         />
@@ -40,7 +46,7 @@ const NewsFilter = ({ categories }: Props) => {
       <div className="relative w-fit">
         <select
           value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          onChange={(e) => onCategoryChange(e.target.value)}
           className="appearance-none px-4 py-2 pr-9 border border-gray-300 rounded-lg text-sm text-gray-800 bg-white cursor-pointer outline-none"
         >
           <option value="all">All Category</option>

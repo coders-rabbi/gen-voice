@@ -15,7 +15,7 @@ export const navItems: {
   { label: "All News", path: "/dashboard/all-news", feature: "all-news" },
   { label: "All Polls", path: "/dashboard/all-poll", feature: "all-poll" },
   {
-    label: "User & Rolls",
+    label: "Users & Role",
     path: "/dashboard/user-role",
     feature: "user-role",
   },

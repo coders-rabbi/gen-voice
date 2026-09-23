@@ -33,7 +33,7 @@ const page = () => {
           className="flex flex-col items-center gap-7 border border-[#CFDFF7] rounded-md p-5"
         >
           <FaUserShield className="text-4xl text-[#005CE8]" />
-          <h3>Roll Management</h3>
+          <h3>Role Management</h3>
         </Link>
         <Link
           href="user-role/user-management"

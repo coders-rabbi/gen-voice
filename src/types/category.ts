@@ -6,6 +6,7 @@ export type TCategory = {
   image: string | null;
   isFeatured: boolean;
   isDeleted: boolean;
+  newsCount: number;
   createdAt?: string;
   updatedAt?: string;
 };
