@@ -3,8 +3,7 @@
 
 import { Menu } from "lucide-react";
 import Image from "next/image";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import DemoUser from "@/assets/dashboard/user.jpg";
+import DemoUser from "@/assets/defaultUser.jpg";
 import { RxExit } from "react-icons/rx";
 import { getUserInfo, removeUser } from "@/services/actions/auth.service";
 import { useRouter } from "next/navigation";
@@ -13,6 +12,7 @@ import { authkey } from "@/constants/authkey";
 import { useEffect, useState } from "react";
 import { getSingleAdminUser } from "@/services/adminUser/admin.user";
 import { TAdmin } from "@/types/admin.type";
+import { useAdminProfile } from "@/hooks/useAdminProfile";
 
 type TAdminInfo = {
   _id: string;
@@ -23,36 +23,9 @@ type TAdminInfo = {
 interface DashboardNavbarProps {
   onMenuClick: () => void;
 }
-
 const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
-  const decodedData = getUserInfo();
-  const token = getFromLocalStorage(authkey);
   const router = useRouter();
-
-  const [adminData, setAdminData] = useState<TAdmin | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchAdminData = async () => {
-      try {
-        setLoading(true);
-
-        const data = await getSingleAdminUser(
-          decodedData?._id as string,
-          token as string,
-        );
-        setAdminData(data);
-      } catch (err) {
-        console.error("Failed to fetch admin data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (decodedData?._id && token) {
-      fetchAdminData();
-    }
-  }, [decodedData?._id, token]);
+  const { adminData } = useAdminProfile();
 
   const handleSingOut = () => {
     removeUser();
@@ -95,14 +68,13 @@ const DashboardNavbar = ({ onMenuClick }: DashboardNavbarProps) => {
         </div>
 
         <div className="flex items-center gap-3">
-          <IoIosNotificationsOutline className="text-2xl" />
           <div className="flex items-center gap-1.5">
             <Image
-              src={DemoUser}
+              src={adminData?.profileImage || DemoUser}
               alt="User Image"
               width={40}
               height={40}
-              className="rounded-full"
+              className="rounded-full w-10 h-10"
             />
             <div className="hidden md:flex md:flex-col gap-0.5 text-xs">
               <h4>{adminData?.adminName || "Loading..."}</h4>

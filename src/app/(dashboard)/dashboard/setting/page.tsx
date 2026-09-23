@@ -1,21 +1,17 @@
 "use client";
 
-import PageTitle from "../../components/page-Title";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaArrowLeft, FaCamera, FaPen, FaPlus } from "react-icons/fa6";
 import Image from "next/image";
-import defaultUser from "@/assets/defaultUser.jpg";
 import { useForm } from "react-hook-form";
-import { getUserInfo } from "@/services/actions/auth.service";
-import { useSingleReporter } from "@/hooks/useSingleReporter";
-import {
-  getSingleAdminUser,
-  updateAdminInfo,
-} from "@/services/adminUser/admin.user";
+import Swal from "sweetalert2";
+import { FaArrowLeft, FaCamera, FaPen, FaPlus } from "react-icons/fa6";
+
+import PageTitle from "../../components/page-Title";
+import { useAdminProfile } from "@/hooks/useAdminProfile";
+import { updateAdminInfo } from "@/services/adminUser/admin.user";
 import { getFromLocalStorage } from "../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
-import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
 import { TAdmin } from "@/types/admin.type";
 
 const TitleDetails = {
@@ -32,21 +28,16 @@ type TAdminForm = {
   email: string;
 };
 
-const Page = () => {
-  const [adminData, setAdminData] = useState<TAdmin | null>(null);
-  const [loading, setLoading] = useState(true);
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 
-  // image upload states (About page er pattern follow kora)
+const Page = () => {
+  const { adminData, adminId, mutate } = useAdminProfile();
+  const token = getFromLocalStorage(authkey);
+
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const [uploadedImagePublicId, setUploadedImagePublicId] = useState<
-    string | undefined
-  >(undefined);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
-
-  const token = getFromLocalStorage(authkey);
-  const userInfo = getUserInfo();
 
   const {
     register,
@@ -54,22 +45,34 @@ const Page = () => {
     reset,
     formState: { isSubmitting },
   } = useForm<TAdminForm>({
-    defaultValues: {
-      adminName: "",
-      email: userInfo?.email ?? "",
-    },
+    defaultValues: { adminName: "", email: "" },
   });
+
+  // data এলে (বা mutate-এর পর বদলালে) form ভরে দাও
+  useEffect(() => {
+    if (adminData) {
+      reset({
+        adminName: adminData.adminName ?? "",
+        email: adminData.email ?? "",
+      });
+    }
+  }, [adminData, reset]);
+
+  const clearImageState = () => {
+    setPreviewUrl(null);
+    setUploadedImageUrl(null);
+    setUploadError(null);
+  };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 10 * 1024 * 1024) {
+    if (file.size > MAX_FILE_SIZE) {
       setUploadError("File size must be less than 10 MB");
       return;
     }
 
-    // preview immediately dekhiye dei
     setPreviewUrl(URL.createObjectURL(file));
 
     try {
@@ -81,20 +84,13 @@ const Page = () => {
 
       const res = await fetch(
         "https://gen-voice-backend.onrender.com/api/v1/upload/upload_file",
-        {
-          method: "POST",
-          body: formData,
-        },
+        { method: "POST", body: formData },
       );
-
       const result = await res.json();
 
-      if (!res.ok) {
-        throw new Error(result.message || "Upload failed");
-      }
+      if (!res.ok) throw new Error(result.message || "Upload failed");
 
       setUploadedImageUrl(result.data.url);
-      setUploadedImagePublicId(result.data.publicId);
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : "Upload failed");
       setPreviewUrl(null);
@@ -103,27 +99,22 @@ const Page = () => {
     }
   };
 
-  const onSubmit = async (payload: TAdminForm) => {
-    const profileImage =
-      uploadedImageUrl ?? adminData?.profileImage ?? undefined;
-    const profileImagePublicId =
-      uploadedImagePublicId ||
-      (adminData as any)?.profileImagePublicId ||
-      undefined;
-
-    // empty string hole field bad diye dao, jate accidentally overwrite na hoy
+  const onSubmit = async ({ adminName }: TAdminForm) => {
     const updatePayload: Partial<TAdmin> = {
-      ...(payload.adminName?.trim() ? { adminName: payload.adminName } : {}),
-      profileImage,
+      ...(adminName.trim() ? { adminName } : {}),
+      profileImage: uploadedImageUrl ?? adminData?.profileImage ?? undefined,
     };
 
     try {
       const response = await updateAdminInfo(
-        userInfo?._id as string,
+        adminId as string,
         token as string,
         updatePayload,
       );
+
       if (response.success) {
+        await mutate(); // navbar + এই page দুটোই আপডেট হবে
+        clearImageState(); // এখন server-এর নতুন ছবি দেখাবে
         await Swal.fire({
           icon: "success",
           title: "Success",
@@ -132,7 +123,7 @@ const Page = () => {
           showConfirmButton: false,
         });
       }
-    } catch (err) {
+    } catch {
       await Swal.fire({
         icon: "error",
         title: "failed",
@@ -144,43 +135,14 @@ const Page = () => {
   };
 
   const handleReset = () => {
-    reset();
-    setPreviewUrl(null);
-    setUploadedImageUrl(null);
-    setUploadedImagePublicId("");
-    setUploadError(null);
-    console.log("Form Reset");
+    reset({
+      adminName: adminData?.adminName ?? "",
+      email: adminData?.email ?? "",
+    });
+    clearImageState();
   };
 
-  useEffect(() => {
-    const fetchAdminData = async () => {
-      try {
-        setLoading(true);
-
-        const data = await getSingleAdminUser(
-          userInfo?._id as string,
-          token as string,
-        );
-        setAdminData(data);
-
-        // existing image thakle preview + uploaded state populate koro,
-        // nahole re-upload na korle onSubmit e image lost hoye jabe
-        if (data?.profileImage) {
-          setPreviewUrl(data.profileImage);
-          setUploadedImageUrl(data.profileImage);
-          setUploadedImagePublicId((data as any)?.profileImagePublicId ?? "");
-        }
-      } catch (err) {
-        console.error("Failed to fetch admin data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (userInfo?._id && token) {
-      fetchAdminData();
-    }
-  }, [userInfo?._id, token]);
+  const displayImage = previewUrl ?? adminData?.profileImage;
 
   return (
     <div>
@@ -189,7 +151,7 @@ const Page = () => {
         <div className="flex gap-1.5 mt-5 lg:mt-0">
           <Link
             href="/dashboard"
-            className="bg-[#F0F6FF] text-[#005CE8] border px-4 py-1 flex items-center gap-2 rounded-2xl border-[#005CE8] w-fit "
+            className="bg-[#F0F6FF] text-[#005CE8] border px-4 py-1 flex items-center gap-2 rounded-2xl border-[#005CE8] w-fit"
           >
             <FaArrowLeft />
             Back
@@ -202,9 +164,9 @@ const Page = () => {
           htmlFor="profileImage"
           className="relative cursor-pointer w-fit block group"
         >
-          {previewUrl || adminData?.profileImage ? (
+          {displayImage ? (
             <Image
-              src={previewUrl || (adminData?.profileImage as string)}
+              src={displayImage}
               alt="user image"
               width={100}
               height={100}
@@ -217,7 +179,6 @@ const Page = () => {
             </div>
           )}
 
-          {/* edit icon overlay */}
           <span className="absolute bottom-0 right-0 bg-[#005CE8] text-white rounded-full p-2 border-2 border-white flex items-center justify-center">
             <FaPen size={12} />
           </span>
@@ -230,6 +191,7 @@ const Page = () => {
             className="hidden"
           />
         </label>
+
         {isUploading && (
           <p className="text-xs text-gray-500 mt-1">Uploading...</p>
         )}
@@ -245,7 +207,7 @@ const Page = () => {
             <input
               id="name"
               type="text"
-              placeholder={adminData?.adminName}
+              placeholder="Write here..."
               {...register("adminName")}
               className="border border-gray-200 p-3 rounded-lg outline-0 focus:border-[#005CE8] placeholder:text-gray-400"
             />
@@ -258,11 +220,10 @@ const Page = () => {
             <input
               id="role"
               type="text"
-              name="role"
-              value={adminData?.role}
+              value={adminData?.role ?? ""}
               readOnly
               placeholder="Write here..."
-              className="border border-gray-200 p-3 rounded-lg outline-0 focus:border-[#005CE8] placeholder:text-gray-400"
+              className="border border-gray-200 p-3 rounded-lg outline-0 placeholder:text-gray-400"
             />
           </div>
 

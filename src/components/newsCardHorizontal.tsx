@@ -1,6 +1,6 @@
 import Image from "next/image";
 import img04 from "@/assets/home/img4.jpg";
-import manimg from "@/assets/home/man.jpg";
+import defaultImage from "@/assets/defaultUser.jpg";
 import { FaPlay } from "react-icons/fa6";
 import { TNews } from "@/types/news";
 import Link from "next/link";
@@ -64,10 +64,10 @@ const NewsCard = ({ news }: NewsCardProps) => {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 relative flex-shrink-0">
                   <Image
-                    src={news?.reporterId?.profileImage}
+                    src={news?.reporterId?.profileImage || defaultImage}
                     alt="Author"
-                    width={7}
-                    height={7}
+                    width={10}
+                    height={10}
                     className="rounded-xl object-cover w-full h-full border-2 border-purple-400"
                   />
                 </div>
