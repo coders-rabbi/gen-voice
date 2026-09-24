@@ -192,7 +192,7 @@ const page = async ({ params }: PageProps) => {
           {/* news reporter card */}
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-            <h2 className="text-xl text-[#3E3232] ">Reporter Profile</h2>
+            <h2 className="text-xl text-[#3E3232] ">রিপোর্টার প্রফাইল</h2>
           </div>
           <div className="flex gap-3 items-center w-full mb-2">
             <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
@@ -206,7 +206,7 @@ const page = async ({ params }: PageProps) => {
           </div>
           <div className="flex items-center gap-2 mb-2 mt-10">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-            <h2 className="text-xl text-[#3E3232] ">Tags</h2>
+            <h2 className="text-xl text-[#3E3232] ">ট্যাগ সমূহ</h2>
           </div>
           <div className="flex flex-col gap-0.5 flex-1">
             <hr className="w-full border-t border-[#3384FE33]" />
@@ -228,7 +228,7 @@ const page = async ({ params }: PageProps) => {
           <div className="flex items-center gap-2 mb-2 mt-10">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
             <h2 className="text-xl text-[#3E3232] ">
-              Reporter's Uploaded News
+              রিপোর্টারের অন্য নিউজ
             </h2>
           </div>
           <div className="flex gap-3 items-center w-full mb-2">

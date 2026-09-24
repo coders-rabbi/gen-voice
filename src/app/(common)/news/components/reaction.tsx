@@ -9,6 +9,7 @@ import {
 } from "@/services/reaction";
 import { getFromLocalStorage } from "../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
+import Swal from "sweetalert2";
 
 interface newsIdProps {
   newsId: string;
@@ -111,7 +112,13 @@ const Reaction = ({ newsId }: newsIdProps) => {
     } catch (error) {
       setCounts(prevCounts);
       setMyReaction(prevReaction);
-      console.error("Reaction failed:", error);
+      Swal.fire({
+        icon: "error",
+        title: "অক্ষম",
+        text: "রিয়েকশন দিতে হতে লগইন করতে হবে",
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } finally {
       setIsLoading(false);
     }
