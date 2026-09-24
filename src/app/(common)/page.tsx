@@ -19,7 +19,7 @@ const Home = async () => {
       <PopularCategory />
       <Sports news={homeNews?.Sports ?? []} />
       <VideoNews homeNews={homeNews} />
-      <SportsWidget />
+      {/* <SportsWidget /> */}
       <TechNews news={homeNews?.Technology ?? []} />
       <MusicNews news={homeNews?.Music ?? []} />
       <ToReporters />

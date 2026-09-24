@@ -271,7 +271,7 @@ const page = () => {
                   type="text"
                   placeholder="Write here..."
                   className="input input-bordered w-full bg-white text-gray-800 focus:outline-none border-gray-300 rounded-xs text-sm"
-                  {...register("presentAddress")}
+                  {...(register("presentAddress"), { required: true })}
                 />
               </div>
             </div>
@@ -286,7 +286,7 @@ const page = () => {
                   type="text"
                   placeholder="Write here..."
                   className="input input-bordered w-full bg-white text-gray-800 focus:outline-none border-gray-300 rounded-xs text-sm"
-                  {...register("permanentAddress")}
+                  {...(register("permanentAddress"), { required: true })}
                 />
               </div>
             </div>
@@ -295,14 +295,14 @@ const page = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-4">
               <div className="relative">
                 <label className="absolute -top-2.5 left-3 bg-white px-1 text-xs text-gray-500 z-10">
-                  Designation
+                  Profession
                 </label>
                 <div className="flex items-center justify-between border border-gray-300 rounded-xs text-sm text-gray-400 bg-white cursor-pointer hover:border-gray-400">
                   <input
                     type="text"
                     placeholder="Write here..."
                     className="input input-bordered w-full bg-white text-gray-800 focus:outline-none border-gray-300 rounded-xs text-sm"
-                    {...register("designation")}
+                    {...(register("designation"), { required: true })}
                   />
                 </div>
               </div>

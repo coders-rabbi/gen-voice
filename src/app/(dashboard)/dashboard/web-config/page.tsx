@@ -4,6 +4,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { TiContacts } from "react-icons/ti";
 
 import { MdContactMail } from "react-icons/md";
+import { RiHomeGearFill } from "react-icons/ri";
 
 const TitleDetails = {
   title: "Website Configuration",
@@ -43,6 +44,13 @@ const page = () => {
         >
           <MdContactMail className="text-4xl text-[#005CE8]" />
           <h3>Contact Information</h3>
+        </Link>
+        <Link
+          href="web-config/footer-branding"
+          className="flex flex-col items-center gap-7 border border-[#CFDFF7] rounded-md p-5"
+        >
+          <RiHomeGearFill className="text-4xl text-[#005CE8]" />
+          <h3>Footer & Branding</h3>
         </Link>
       </div>
     </div>

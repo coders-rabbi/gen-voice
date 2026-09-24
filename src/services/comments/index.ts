@@ -2,12 +2,14 @@ import { TCommentPyaload, TComments } from "@/types/comment.type";
 import { apiClientRaw, ApiResponse } from "../apiClient";
 
 export const createComment = async (
+  token: string,
   payload: TCommentPyaload,
 ): Promise<ApiResponse<TComments>> => {
   return apiClientRaw<TComments>("/comments/create-comment", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
   });

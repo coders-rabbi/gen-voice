@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { TCommentPyaload } from "@/types/comment.type";
 import { createCommentAction } from "@/services/actions/comment";
 import Reaction from "./reaction";
+import { authkey } from "@/constants/authkey";
+import { getFromLocalStorage } from "../../../../../utils/localStorage";
 
 interface newsIdProps {
   newsId: string;
@@ -21,6 +23,7 @@ const CommentForm = ({ newsId }: newsIdProps) => {
     formState: { errors },
   } = useForm<TCommentPyaload>();
   const [loading, setLoading] = useState(false);
+  const token = getFromLocalStorage(authkey);
 
   const onSubmit: SubmitHandler<TCommentPyaload> = async (data) => {
     const commentData = {
@@ -30,7 +33,14 @@ const CommentForm = ({ newsId }: newsIdProps) => {
 
     try {
       setLoading(true);
-      const res = await createCommentAction(commentData, pathname);
+      if (!token) {
+        throw new Error("কমেন্ট করতে হলে লগইন করুন");
+      }
+      const res = await createCommentAction(
+        token as string,
+        commentData,
+        pathname,
+      );
       if (res.success) {
         Swal.fire({
           title: "Thanks for your comment",
@@ -41,7 +51,7 @@ const CommentForm = ({ newsId }: newsIdProps) => {
       reset();
     } catch (err) {
       Swal.fire({
-        title: "Can't added your comment",
+        title: "মতামত দেওয়ার জন্য লগইন করুন",
         showConfirmButton: false,
         timer: 2000,
       });
@@ -65,8 +75,8 @@ const CommentForm = ({ newsId }: newsIdProps) => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div>
+        <div>
+          {/* <div>
             <div>
               <legend className="fieldset-legend text-black">Name</legend>
               <input
@@ -101,7 +111,7 @@ const CommentForm = ({ newsId }: newsIdProps) => {
                 </p>
               )}
             </div>
-          </div>
+          </div> */}
 
           <div className="w-full flex flex-col">
             <h4 className="mb-2">Comment</h4>
@@ -115,8 +125,8 @@ const CommentForm = ({ newsId }: newsIdProps) => {
                 {errors.comment.message}
               </p>
             )}
-            <div className="flex justify-between">
-              <Reaction newsId={newsId}/>
+            <div className="flex justify-between mt-5">
+              <Reaction newsId={newsId} />
               <button
                 type="submit"
                 disabled={loading}

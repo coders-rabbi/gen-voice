@@ -41,11 +41,11 @@ const NewsComments = async ({ comments }: commentsProps) => {
                   <div className="flex gap-4 items-center mb-3">
                     <Image
                       src={manImg}
-                      alt={comment.name || "Comment author"}
+                      alt={comment.userId?.email || "Comment author"}
                       className="w-16 h-16 rounded-xl object-cover"
                     />
                     <div>
-                      <h4>{comment.name || "Anonymous"}</h4>
+                      <h4>{comment.userId?.email || "Anonymous"}</h4>
                       <p className="flex gap-2 items-center text-[#3E3232BF]">
                         <FaCalendar />
                         {new Date(comment.createdAt).toLocaleDateString(

@@ -3,8 +3,13 @@ import logo from "@/assets/logo/logo.svg";
 import Link from "next/link";
 import { FaInstagram, FaTwitter } from "react-icons/fa6";
 import FooterVideoGallery from "./components/footerVideoGallery";
+import { getWebFooterInfo } from "@/services/footer";
 
-const Footer = () => {
+const Footer = async () => {
+  const res = await getWebFooterInfo();
+  const footerInfo = res?.data;
+  const videos = footerInfo?.videos ?? [];
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 px-4 gap-4 mt-12">
       <div className="md:col-span-9">
@@ -16,10 +21,7 @@ const Footer = () => {
               className="object-cover w-[220px] h-[50px]"
             />
             <p className="text-sm text-[#3E3232BF] mt-4 mr-5">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Egestas purus viverra accumsan in nisl nisi. Arcu cursus vitae
-              congue mauris rhoncus aenean vel elit scelerisque.
+              {footerInfo?.description}
             </p>
             {/* <div className="flex items-center gap-2 mb-2.5  mt-12">
               <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
@@ -59,7 +61,9 @@ const Footer = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2  ">
                   <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-                  <h2 className="text-[16px] text-[#3E3232] font-semibold">Category</h2>
+                  <h2 className="text-[16px] text-[#3E3232] font-semibold">
+                    Category
+                  </h2>
                 </div>
               </div>
 
@@ -71,17 +75,31 @@ const Footer = () => {
                 </div>
               </div>
               <ul className="flex flex-col gap-2 text-[#3E3232] mt-2">
-                <Link href="/" className="text-sm">Calture</Link>
-                <Link href="/" className="text-sm">Fashion</Link>
-                <Link href="/" className="text-sm">Featured</Link>
-                <Link href="/" className="text-sm">Food</Link>
-                <Link href="/" className="text-sm">Healthy Link ving</Link>
-                <Link href="/" className="text-sm">Technology</Link>
+                <Link href="/" className="text-sm">
+                  Calture
+                </Link>
+                <Link href="/" className="text-sm">
+                  Fashion
+                </Link>
+                <Link href="/" className="text-sm">
+                  Featured
+                </Link>
+                <Link href="/" className="text-sm">
+                  Food
+                </Link>
+                <Link href="/" className="text-sm">
+                  Healthy Link ving
+                </Link>
+                <Link href="/" className="text-sm">
+                  Technology
+                </Link>
               </ul>
               <div className="flex justify-between items-center mt-6">
                 <div className="flex items-center gap-2  ">
                   <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-                  <h2 className="text-[16px] text-[#3E3232] font-semibold">Follow Us On</h2>
+                  <h2 className="text-[16px] text-[#3E3232] font-semibold">
+                    Follow Us On
+                  </h2>
                 </div>
               </div>
 
@@ -94,14 +112,14 @@ const Footer = () => {
               </div>
               <div className="flex justify-between mt-2">
                 <Link
-                  href="/"
+                  href={footerInfo?.instagram as string | ""}
                   className="flex items-center gap-2 px-3 py-2 text-white rounded-xl bg-gradient-to-r from-[#F45C9F] to-[#FF7563] hover:opacity-90 transition-opacity"
                 >
                   <FaInstagram />
                   Instagram
                 </Link>
                 <Link
-                  href="/"
+                  href={footerInfo?.facebook as string | ""}
                   className="flex items-center gap-2 px-3 py-1.5 text-white rounded-xl bg-gradient-to-r from-[#2CA5E0] to-[#67C9F5] hover:opacity-90 transition-opacity"
                 >
                   <FaTwitter />
@@ -112,7 +130,9 @@ const Footer = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2  ">
                   <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-                  <h2 className="text-[16px] font-semibold text-[#3E3232] ">Quick Links</h2>
+                  <h2 className="text-[16px] font-semibold text-[#3E3232] ">
+                    Quick Links
+                  </h2>
                 </div>
               </div>
 
@@ -124,15 +144,25 @@ const Footer = () => {
                 </div>
               </div>
               <ul className="flex flex-col gap-2 text-[#3E3232] mt-2">
-                <Link href="/popular_news" className="text-sm">Popular New</Link>
-                <Link href="/recent_news" className="text-sm">Recent News</Link>
-                <Link href="/" className="text-sm">Featured News</Link>
-                <Link href="/" className="text-sm">Most Viewed News</Link>
+                <Link href="/popular_news" className="text-sm">
+                  Popular New
+                </Link>
+                <Link href="/recent_news" className="text-sm">
+                  Recent News
+                </Link>
+                <Link href="/" className="text-sm">
+                  Featured News
+                </Link>
+                <Link href="/" className="text-sm">
+                  Most Viewed News
+                </Link>
               </ul>
               <div className="flex justify-between items-center mt-3">
                 <div className="flex items-center gap-2  ">
                   <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-                  <h2 className="text-[16px] text-[#3E3232] font-semibold">Others Links</h2>
+                  <h2 className="text-[16px] text-[#3E3232] font-semibold">
+                    Others Links
+                  </h2>
                 </div>
               </div>
 
@@ -144,10 +174,18 @@ const Footer = () => {
                 </div>
               </div>
               <ul className="flex flex-col gap-2 text-[#3E3232] mt-2">
-                <Link href="/" className="text-sm">Home</Link>
-                <Link href="/about-us" className="text-sm">About Us</Link>
-                <Link href="/contact" className="text-sm">Contact</Link>
-                <Link href="/writers" className="text-sm">Writers</Link>
+                <Link href="/" className="text-sm">
+                  Home
+                </Link>
+                <Link href="/about-us" className="text-sm">
+                  About Us
+                </Link>
+                <Link href="/contact" className="text-sm">
+                  Contact
+                </Link>
+                <Link href="/writers" className="text-sm">
+                  Writers
+                </Link>
               </ul>
             </div>
           </div>
@@ -159,7 +197,8 @@ const Footer = () => {
             privacy policy | terms & conditions
           </p>
           <p className="text-gray-300 text-xs">
-            &copy; {new Date().getFullYear()} GenVoice | All rights reserved.
+            &copy; {new Date().getFullYear()} {footerInfo?.copyRight} | All
+            rights reserved.
           </p>
         </div>
       </div>
@@ -167,18 +206,20 @@ const Footer = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2  ">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-            <h2 className="text-[16px] text-[#3E3232] font-semibold">Top Videos</h2>
+            <h2 className="text-[16px] text-[#3E3232] font-semibold">
+              Top Videos
+            </h2>
           </div>
         </div>
 
-        <div className="flex gap-3 items-center w-full mt-2 mb-10">
+        <div className="flex gap-3 items-center w-full mt-2 mb-5">
           <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
           <div className="flex flex-col gap-0.5 flex-1">
             <hr className="w-full border-t border-[#3384FE33]" />
             <hr className="w-full border-t border-[#3384FE33]" />
           </div>
         </div>
-        <FooterVideoGallery />
+        <FooterVideoGallery videos={videos} />
       </div>
     </div>
   );
