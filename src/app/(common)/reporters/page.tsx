@@ -29,7 +29,7 @@ const Reporters = async () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2">
-          {reporters.map((item) => (
+          {reporters.result?.map((item) => (
             <ReporterCard key={item._id} reporter={item} />
           ))}
         </div>

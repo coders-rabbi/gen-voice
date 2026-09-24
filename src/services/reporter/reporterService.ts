@@ -1,16 +1,27 @@
 import { TReporter, TReporterQueryParams } from "@/types/reporter";
 import { apiClient, apiClientRaw, ApiResponse } from "../apiClient";
 
+export type TReporterMeta = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPage: number;
+};
+
+export type TReporterListResponse = {
+  meta: TReporterMeta;
+  result: TReporter[];
+};
+
 export const createReporter = async (payload: any) => {
   return apiClientRaw<TReporter>("/users/create-reporter", {
     method: "POST",
     body: JSON.stringify(payload),
   });
 };
-
 export const getAllReporter = async (
   query: TReporterQueryParams = {},
-): Promise<TReporter[]> => {
+): Promise<TReporterListResponse> => {
   const searchParams = new URLSearchParams();
 
   Object.entries(query).forEach(([key, value]) => {
@@ -22,7 +33,7 @@ export const getAllReporter = async (
   const queryString = searchParams.toString();
   const url = queryString ? `/reporters?${queryString}` : "/reporters";
 
-  return apiClient<TReporter[]>(url, {
+  return apiClient<TReporterListResponse>(url, {
     cache: "no-cache",
   });
 };

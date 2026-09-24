@@ -6,6 +6,7 @@ import ReporterCard from "./components/reporterCard";
 
 const ToReporters = async () => {
   const reporters = await getAllReporter();
+  console.log("Rabbi", reporters.result);
   return (
     <div className="mt-12">
       <div className="flex justify-between items-center">
@@ -34,8 +35,8 @@ const ToReporters = async () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:col-end-4 gap-2 mt-5">
-        {reporters.slice(0, 9).map((item) => (
-          <ReporterCard key={item._id} reporter={item}/>
+        {reporters.result.slice(0, 9).map((item) => (
+          <ReporterCard key={item._id} reporter={item} />
         ))}
       </div>
 
