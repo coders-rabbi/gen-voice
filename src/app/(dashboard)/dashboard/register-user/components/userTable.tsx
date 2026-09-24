@@ -60,8 +60,8 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
         limit,
       });
 
-      setReporter(data);
-      setHasNextPage(data.length === limit);
+      setReporter(data?.result);
+      setHasNextPage(data?.result?.length === limit);
     } catch (err) {
       console.error("Failed to fetch news:", err);
     } finally {
