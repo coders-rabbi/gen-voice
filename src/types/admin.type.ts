@@ -1,10 +1,10 @@
 export type TAdminPayload = {
   adminName: string;
   email: string;
-  profileImage: string | undefined;
-  profileImagePublicId: string | undefined;
   role: string;
   password: string;
+  profileImage?: string;
+  profileImagePublicId?: string;
 };
 
 export type TAdmin = {
