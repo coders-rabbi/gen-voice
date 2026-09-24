@@ -1,6 +1,5 @@
 import PageTitle from "@/app/(dashboard)/components/page-Title";
 import Link from "next/link";
-import React from "react";
 import { FaArrowLeft, FaPlus } from "react-icons/fa6";
 import CreatePollForm from "./components/createPollForm";
 

@@ -68,8 +68,28 @@ const addQuestionButtons: QuestionType[] = [
   "EMOJI",
 ];
 
+// প্রতিটি টাইপের ডিফল্ট অপশন (ব্যাকএন্ডে খালি options না যাওয়ার জন্য)
+const defaultOptions: Record<QuestionType, string[]> = {
+  TEXT: [],
+  RADIO: ["Option A", "Option B"],
+  CHECKBOX: ["Option A", "Option B"],
+  RATING: ["1", "2", "3", "4", "5"],
+  YESNO: ["Yes", "No"],
+  EMOJI: ["😡", "😕", "😐", "🙂", "😍"],
+};
+
 let idCounter = 1;
 const nextId = () => `q-${idCounter++}`;
+
+const createInitialQuestions = (): Question[] => [
+  {
+    id: nextId(),
+    type: "RADIO",
+    label: "What is your preferred choice?",
+    options: ["Option A", "Option B", "Option C", "New Option"],
+    required: true,
+  },
+];
 
 export default function CreatePollForm() {
   const [title, setTitle] = useState("");
@@ -98,25 +118,18 @@ export default function CreatePollForm() {
     }
   };
 
-  const [questions, setQuestions] = useState<Question[]>([
-    {
-      id: nextId(),
-      type: "RADIO",
-      label: "What is your preferred choice?",
-      options: ["Option A", "Option B", "Option C", "New Option"],
-      required: true,
-    },
-  ]);
+  const [questions, setQuestions] = useState<Question[]>(
+    createInitialQuestions,
+  );
 
   const addQuestion = (type: QuestionType) => {
-    const needsOptions = type === "RADIO" || type === "CHECKBOX";
     setQuestions((prev) => [
       ...prev,
       {
         id: nextId(),
         type,
         label: "Untitled question",
-        options: needsOptions ? ["Option A", "Option B"] : [],
+        options: [...defaultOptions[type]],
         required: false,
       },
     ]);
@@ -166,6 +179,23 @@ export default function CreatePollForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // ভ্যালিডেশন: লেবেল খালি থাকলে বা Radio/Checkbox-এ ২টার কম অপশন থাকলে সাবমিট হবে না
+    const invalid = questions.find(
+      (q) =>
+        !q.label.trim() ||
+        ((q.type === "RADIO" || q.type === "CHECKBOX") &&
+          q.options.filter((o) => o.trim()).length < 2),
+    );
+
+    if (invalid) {
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid question",
+        text: "প্রতিটি প্রশ্নে লেবেল থাকতে হবে, আর Radio/Checkbox-এ কমপক্ষে ২টি অপশন লাগবে।",
+      });
+      return;
+    }
+
     const payload: PollPayload = {
       title,
       description,
@@ -195,15 +225,7 @@ export default function CreatePollForm() {
         setEndDate("");
         setVisibility("Public");
         setCategory("Politics");
-        setQuestions([
-          {
-            id: nextId(),
-            type: "RADIO",
-            label: "What is your preferred choice?",
-            options: ["Option A", "Option B", "Option C", "New Option"],
-            required: true,
-          },
-        ]);
+        setQuestions(createInitialQuestions());
       } else {
         Swal.fire({
           icon: "error",
@@ -405,7 +427,7 @@ export default function CreatePollForm() {
                     </button>
                   </div>
 
-                  {/* Options (radio / checkbox types) */}
+                  {/* RADIO / CHECKBOX: editable options */}
                   {(q.type === "RADIO" || q.type === "CHECKBOX") && (
                     <div className="mt-4 flex flex-col gap-3 pl-11">
                       {q.options.map((opt, i) => (
@@ -441,6 +463,49 @@ export default function CreatePollForm() {
                         <Plus className="w-4 h-4" />
                         Add Option
                       </button>
+                    </div>
+                  )}
+
+                  {/* TEXT: input preview */}
+                  {q.type === "TEXT" && (
+                    <div className="mt-4 pl-11">
+                      <input
+                        disabled
+                        placeholder="Respondent's answer will appear here"
+                        className="w-full border rounded-lg px-3.5 py-2.5 text-sm bg-gray-50 text-gray-400"
+                      />
+                    </div>
+                  )}
+
+                  {/* YES / NO: preview */}
+                  {q.type === "YESNO" && (
+                    <div className="mt-4 pl-11 flex gap-3">
+                      {q.options.map((opt, i) => (
+                        <span
+                          key={i}
+                          className="border rounded-full px-5 py-1.5 text-sm text-[#525252]"
+                        >
+                          {opt}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* RATING: preview */}
+                  {q.type === "RATING" && (
+                    <div className="mt-4 pl-11 flex gap-2">
+                      {q.options.map((_, i) => (
+                        <Star key={i} className="w-6 h-6 text-yellow-400" />
+                      ))}
+                    </div>
+                  )}
+
+                  {/* EMOJI: preview */}
+                  {q.type === "EMOJI" && (
+                    <div className="mt-4 pl-11 flex gap-3 text-2xl">
+                      {q.options.map((emoji, i) => (
+                        <span key={i}>{emoji}</span>
+                      ))}
                     </div>
                   )}
 
