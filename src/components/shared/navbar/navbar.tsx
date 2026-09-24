@@ -201,7 +201,7 @@ const Navbar = () => {
         <div className="navbar-end gap-2">
           <SearchBar />
           {userLoggedIn ? (
-            <div className="flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md">
+            <div className="md:flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md  hidden sm:block">
               <Link href="/reporter">
                 <Image
                   src={userImg}
@@ -253,37 +253,21 @@ const Navbar = () => {
             >
               {MobileNavItems}
               <div className="pt-2 mt-2 border-t border-gray-100 sm:hidden">
-                <label className="input input-sm flex items-center gap-2 outline-none bg-[#EAF3FF] border-0 rounded-xl px-3 w-full text-black mb-2">
-                  <svg
-                    className="h-4 w-4 opacity-50 shrink-0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      strokeWidth="2.5"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <circle cx="11" cy="11" r="8"></circle>
-                      <path d="m21 21-4.3-4.3"></path>
-                    </g>
-                  </svg>
-                  <input
-                    type="search"
-                    placeholder="Search Anything"
-                    className="bg-transparent outline-none w-full placeholder-gray-500 text-sm"
-                  />
-                </label>
                 {userLoggedIn ? (
-                  <div>
-                    <Image
-                      src={userImg}
-                      alt="user logo"
-                      height={40}
-                      width={40}
-                      className="rounded-2xl"
+                  <div className="flex gap-2 items-center justify-between bg-[#3385FF] px-2 py-1 rounded-md">
+                    <Link href="/reporter">
+                      <Image
+                        src={userImg}
+                        alt="user logo"
+                        height={20}
+                        width={30}
+                        className="rounded-2xl"
+                      />
+                    </Link>
+                    <IoMdExit
+                      className="text-2xl text-white hover:text-red-400 cursor-pointer"
+                      onClick={handleSingOut}
+                      title="Logout"
                     />
                   </div>
                 ) : (
