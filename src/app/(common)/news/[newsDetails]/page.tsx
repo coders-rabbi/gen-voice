@@ -140,8 +140,13 @@ const page = async ({ params }: PageProps) => {
             />
           ) : null}
 
+          <div className="-mt-2 text-gray-500">
+            <p className="flex gap-4">{currentNews?.slug} | ছবিঃ জেন ভয়েস</p>
+            <hr className="border w-full my-3" />
+          </div>
+
           <div className="flex flex-col md:flex-row  gap-3 justify-between flex-wrap">
-            <div className="flex gap-2 md:gap-5">
+            <div className="flex gap-4 justify-between">
               <p className="text-[#3E3232BF] text-sm flex items-center gap-1">
                 <FaCalendar />
                 {currentNews?.publishAt
@@ -227,9 +232,7 @@ const page = async ({ params }: PageProps) => {
           {/* reporter uploaded news */}
           <div className="flex items-center gap-2 mb-2 mt-10">
             <div className="w-1.5 h-4 rounded-3xl bg-[#3385FF]"></div>
-            <h2 className="text-xl text-[#3E3232] ">
-              রিপোর্টারের অন্য নিউজ
-            </h2>
+            <h2 className="text-xl text-[#3E3232] ">রিপোর্টারের অন্য নিউজ</h2>
           </div>
           <div className="flex gap-3 items-center w-full mb-2">
             <div className="w-8 h-2 rounded-br-2xl bg-[#3385FF] flex-shrink-0"></div>
