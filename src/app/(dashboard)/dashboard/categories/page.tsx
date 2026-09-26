@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import PageTitle from "../../components/page-Title";
 import CategoriesCard from "./components/categoriesCard";
 import { FaArrowLeft, FaPlus } from "react-icons/fa6";
 import AddCategoryModal from "./components/addCategoryModal";
 import { getAllNewsCategories } from "@/services/category";
 import { TCategory } from "@/types/category";
-import UpdateCategoryModal from "./components/updateCategoryModal";
+import useSWR from "swr";
+import CategoriesCardSkeleton from "./components/CategoriesCardSkeleton";
 
 const TitleDetails = {
   title: "Categories",
@@ -16,33 +17,14 @@ const TitleDetails = {
   breadcrumbs: [{ label: "Home", href: "/dashboard" }, { label: "Categories" }],
 };
 
-export type TCategry = {
-  id: number;
-  title: string;
-  featured: boolean;
-  posts: number;
-};
-
 const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [categories, setCategories] = useState<TCategory[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await getAllNewsCategories();
-      setCategories(data ?? []);
-    } catch (error) {
-      console.error("Failed to fetch categories:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const { data, error, isLoading, mutate } = useSWR<TCategory[]>(
+    "all-categories",
+    getAllNewsCategories,
+  );
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   return (
     <div>
@@ -65,17 +47,29 @@ const Page = () => {
           </button>
         </div>
       </div>
-      {/* <p>Test: {categories.length}</p> */}
+
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
-        {categories.map((item) => (
-          <CategoriesCard key={item._id} item={item} onUpdated={fetchData} />
-        ))}
+        {isLoading ? (
+          <CategoriesCardSkeleton />
+        ) : error ? (
+          <p className="col-span-full text-center text-red-500 py-6">
+            Failed to load categories.
+          </p>
+        ) : data?.length === 0 ? (
+          <p className="col-span-full text-center text-gray-400 py-6">
+            No categories found.
+          </p>
+        ) : (
+          data?.map((item) => (
+            <CategoriesCard key={item._id} item={item} onUpdated={mutate} />
+          ))
+        )}
       </div>
 
       <AddCategoryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSuccess={fetchData} // ✅
+        onSuccess={mutate}
       />
     </div>
   );
