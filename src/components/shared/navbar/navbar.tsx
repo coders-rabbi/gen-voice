@@ -8,7 +8,7 @@ import {
   isLoggedIn,
   removeUser,
 } from "@/services/actions/auth.service";
-import userImg from "@/assets/home/man.jpg";
+import defaultUser from "@/assets/defaultUser.jpg";
 import { IoMdExit } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { AuthPayload } from "../../../../utils/jwt";
@@ -207,7 +207,7 @@ const Navbar = () => {
             <div className="md:flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md  hidden sm:block">
               <Link href="/reporter">
                 <Image
-                  src={data?.userData?.profileImage || ""}
+                  src={data?.userData?.profileImage || defaultUser}
                   alt="user logo"
                   height={20}
                   width={30}
@@ -261,7 +261,7 @@ const Navbar = () => {
                   <div className="flex gap-2 items-center justify-between bg-[#3385FF] px-2 py-1 rounded-md">
                     <Link href="/reporter">
                       <Image
-                        src={data?.userData?.profileImage || ""}
+                        src={data?.userData?.profileImage || defaultUser}
                         alt="user logo"
                         height={20}
                         width={30}

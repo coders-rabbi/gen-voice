@@ -24,7 +24,7 @@ const ProfileInfo = ({ extraDetails }: newsProps) => {
       {/* Image + Name */}
       <div className="flex gap-2.5 items-center shrink-0">
         <Image
-          src={reporterData?.profileImage}
+          src={reporterData?.profileImage || defaultUser}
           alt="gen voice"
           className="w-16 h-16 md:w-20 md:h-20 object-cover rounded-[12px]"
           width={100}
