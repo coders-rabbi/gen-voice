@@ -13,6 +13,7 @@ import { IoMdExit } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { AuthPayload } from "../../../../utils/jwt";
 import SearchBar from "@/components/searchBar";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 const categories = [
   { label: "Food", href: "/categories/food" },
@@ -181,6 +182,8 @@ const Navbar = () => {
     </>
   );
 
+  const data = useUserProfile();
+
   return (
     <div className="container flex justify-center">
       <div className="navbar lg:w-fit bg-white px-4 z-50 rounded-xl gap-20 fixed">
@@ -204,11 +207,12 @@ const Navbar = () => {
             <div className="md:flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md  hidden sm:block">
               <Link href="/reporter">
                 <Image
-                  src={userImg}
+                  src={data?.userData?.profileImage || ""}
                   alt="user logo"
                   height={20}
                   width={30}
-                  className="rounded-2xl"
+                  className="rounded-full w-8 h-8"
+                  unoptimized
                 />
               </Link>
               <IoMdExit
@@ -257,11 +261,12 @@ const Navbar = () => {
                   <div className="flex gap-2 items-center justify-between bg-[#3385FF] px-2 py-1 rounded-md">
                     <Link href="/reporter">
                       <Image
-                        src={userImg}
+                        src={data?.userData?.profileImage || ""}
                         alt="user logo"
                         height={20}
                         width={30}
-                        className="rounded-2xl"
+                        className="rounded-full w-8 h-8"
+                        unoptimized
                       />
                     </Link>
                     <IoMdExit

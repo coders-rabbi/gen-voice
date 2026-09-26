@@ -1,33 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useSWR from "swr";
 import Image from "next/image";
 import defaultCover from "@/assets/writer/writerBanner.jpg";
 import ProfileInfo from "@/components/dashboard/profileInfo";
 import { getSingleReporterAllNews } from "@/services/news/news.service";
-import { getSingleReporterByUserId } from "@/services/reporter/reporterService";
-import { getUserInfo } from "@/services/actions/auth.service";
 import { TNews } from "@/types/news";
 import { authkey } from "@/constants/authkey";
 import { getFromLocalStorage } from "../../../../../utils/localStorage";
 import UpdateProfileForm from "./components/ProfileUpdateForm";
 import RepoterSkeleton from "../../components/reporterSkeleton";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const userInfo = getUserInfo();
-
   const {
-    data: reporterData,
+    userData: reporterData,
+    error,
     isLoading: isReporterLoading,
     mutate,
-  } = useSWR(
-    userInfo?._id ? ["singleReporterByUserId", userInfo._id] : null,
-    () => getSingleReporterByUserId(userInfo?._id as string),
-  );
+  } = useUserProfile();
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -56,13 +50,13 @@ const Page = () => {
   const profileExtraDetails = { pendingNews, publishedNews, reporterData };
 
   if (loading || isReporterLoading) {
-    return  <RepoterSkeleton />;
+    return <RepoterSkeleton />;
   }
 
   return (
     <div>
       <Image
-        src={reporterData?.data?.coverImage  || defaultCover}
+        src={reporterData?.coverImage || defaultCover}
         alt="gen voice"
         width={500}
         height={500}
@@ -76,8 +70,8 @@ const Page = () => {
       </div>
 
       <UpdateProfileForm
-        reporterId={reporterData?.data?._id}
-        defaultValues={reporterData?.data}
+        reporterId={reporterData?._id}
+        defaultValues={reporterData}
         onSuccess={() => mutate()}
       />
     </div>

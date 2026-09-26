@@ -1,8 +1,7 @@
-// src/hooks/useAdminProfile.ts
 "use client";
 
 import useSWR from "swr";
-import { getUserInfo } from "@/services/actions/auth.service"; // path তোমার প্রজেক্ট অনুযায়ী ঠিক করে নাও
+import { getUserInfo } from "@/services/actions/auth.service";
 import { authkey } from "@/constants/authkey";
 import { getSingleAdminUser } from "@/services/adminUser/admin.user";
 import { TAdmin } from "@/types/admin.type";

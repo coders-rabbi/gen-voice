@@ -23,7 +23,6 @@ import { getMySavedNews } from "@/services/savedNews";
 
 const Page = () => {
   const [myNews, setMyNews] = useState<TNews[]>([]);
-  const [saveNews, setSaveNews] = useState<TNews[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const token = getFromLocalStorage(authkey);
