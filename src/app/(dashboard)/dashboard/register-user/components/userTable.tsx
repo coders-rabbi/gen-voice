@@ -1,3 +1,5 @@
+"use client";
+
 import { MoreHorizontalIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -21,8 +23,7 @@ import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { MdBlock } from "react-icons/md";
 import { BiErrorAlt } from "react-icons/bi";
 import { useEffect, useState } from "react";
-import { TUser } from "@/types/user.type";
-import { getAllUser, updateUserStatus } from "@/services/users/user.service";
+import { updateUserStatus } from "@/services/users/user.service";
 import { TAB_STATUS_MAP } from "@/constants/news";
 import { getAllReporter } from "@/services/reporter/reporterService";
 import { TReporter } from "@/types/reporter";
@@ -31,6 +32,7 @@ import { PiArrowsCounterClockwiseLight } from "react-icons/pi";
 import { getFromLocalStorage } from "../../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
 import Swal from "sweetalert2";
+import { useDebouncedSearch } from "./userSearch";
 
 interface onChangeProps {
   onChangeValue: string;
@@ -40,13 +42,16 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
   const [reporterData, setReporter] = useState<TReporter[]>([]);
   const [loading, setLoading] = useState(false);
 
+  // search hook
+  const { searchTerm, setSearchTerm, debouncedTerm } = useDebouncedSearch();
+
   // pagination states
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [hasNextPage, setHasNextPage] = useState(false);
   const token = getFromLocalStorage(authkey);
 
-  const fetchReporterData = async (targetPage: number) => {
+  const fetchReporterData = async (targetPage: number, search?: string) => {
     setLoading(true);
     try {
       const mappedStatus =
@@ -58,9 +63,10 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
         isActive: mappedStatus,
         page: targetPage,
         limit,
+        searchTerm: search || undefined,
       });
 
-      setReporter(data?.result);
+      setReporter(data?.result ?? []);
       setHasNextPage(data?.result?.length === limit);
     } catch (err) {
       console.error("Failed to fetch news:", err);
@@ -74,8 +80,12 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
   }, [onChangeValue]);
 
   useEffect(() => {
-    fetchReporterData(page);
-  }, [page, onChangeValue]);
+    setPage(1);
+  }, [debouncedTerm]);
+
+  useEffect(() => {
+    fetchReporterData(page, debouncedTerm);
+  }, [page, onChangeValue, debouncedTerm]);
 
   const handlePrevPage = () => {
     setPage((prev) => Math.max(prev - 1, 1));
@@ -88,11 +98,11 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
   };
 
   const statusStyles: Record<string, string> = {
-    active: "text-[#22C55E] bg-[#DCFCE7] border-[#22C55E]", // green – good/active
-    pending: "text-[#F59E0B] bg-[#FEF3C7] border-[#F59E0B]", // amber – waiting
-    rejected: "text-[#EF4444] bg-[#FEE2E2] border-[#EF4444]", // red – rejected/error
-    blocked: "text-[#DC2626] bg-[#FEE2E2] border-[#DC2626]", // dark red – blocked
-    suspended: "text-[#6B7280] bg-[#F3F4F6] border-[#6B7280]", // gray – inactive
+    active: "text-[#22C55E] bg-[#DCFCE7] border-[#22C55E]",
+    pending: "text-[#F59E0B] bg-[#FEF3C7] border-[#F59E0B]",
+    rejected: "text-[#EF4444] bg-[#FEE2E2] border-[#EF4444]",
+    blocked: "text-[#DC2626] bg-[#FEE2E2] border-[#DC2626]",
+    suspended: "text-[#6B7280] bg-[#F3F4F6] border-[#6B7280]",
   };
 
   const getStatusStyle = (status?: string) =>
@@ -134,8 +144,7 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
         showConfirmButton: false,
       });
 
-      // Refresh the data after updating the status
-      await fetchReporterData(page);
+      await fetchReporterData(page, debouncedTerm);
     } catch (error) {
       console.error("Failed to update user status:", error);
       Swal.fire({
@@ -148,7 +157,7 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
 
   return (
     <div className="border mt-5">
-      <div className="flex items-center gap-2 w-full max-w-sm px-3 py-2  border rounded-lg m-2.5">
+      <div className="flex items-center gap-2 w-full max-w-sm px-3 py-2 border rounded-lg m-2.5">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-4 h-4 text-gray-500 shrink-0"
@@ -165,7 +174,9 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
         </svg>
         <input
           type="text"
-          placeholder="Search users, posts, polls....."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value.trimStart())}
+          placeholder="Search First Name, Number, Address....."
           className="w-full bg-transparent text-sm text-gray-600 placeholder-gray-400 outline-none"
         />
       </div>
@@ -182,6 +193,12 @@ export function UsersTable({ onChangeValue }: onChangeProps) {
         <TableBody>
           {loading ? (
             <ReporterTableSkeleton />
+          ) : reporterData.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={5} className="text-center text-gray-400 py-6">
+                No users found.
+              </TableCell>
+            </TableRow>
           ) : (
             reporterData.map((item, index) => (
               <TableRow key={index}>
