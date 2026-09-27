@@ -10,6 +10,7 @@ import { useState } from "react";
 import { loginUser } from "@/services/actions/user.login";
 import { storeUserInfo } from "@/services/actions/auth.service";
 import Swal from "sweetalert2";
+import ForgatePasswordModal from "./forgatePasswordModal";
 
 type FormValues = {
   email: string;
@@ -19,6 +20,7 @@ type FormValues = {
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   const {
@@ -142,14 +144,23 @@ const Page = () => {
               </p>
             )}
 
-            <button
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-[#3385FF] py-2.5 font-medium text-white transition hover:bg-[#2872e6] disabled:cursor-not-allowed disabled:opacity-60"
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? "Logging in..." : "Login"}
-              {!loading && <FaArrowRight className="text-sm" />}
-            </button>
+            <div className="flex gap-2 justify-between items-center mt-5">
+              <button
+                className="flex items-center justify-center gap-2 rounded-lg bg-[#3385FF] py-2 px-4 font-medium text-white transition hover:bg-[#2872e6] disabled:cursor-not-allowed disabled:opacity-60"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Login"}
+                {!loading && <FaArrowRight className="text-sm" />}
+              </button>
+
+              <p
+                onClick={() => setIsOpen(true)}
+                className="cursor-pointer text-gray-600 transition-colors duration-200 hover:text-blue-600"
+              >
+                Forgot Password?
+              </p>
+            </div>
 
             <Link
               href="register"
@@ -170,6 +181,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <ForgatePasswordModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   );
 };

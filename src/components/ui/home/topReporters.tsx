@@ -6,7 +6,6 @@ import ReporterCard from "./components/reporterCard";
 
 const ToReporters = async () => {
   const reporters = await getAllReporter();
-  console.log("Rabbi", reporters.result);
   return (
     <div className="mt-12">
       <div className="flex justify-between items-center">
