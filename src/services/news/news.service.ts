@@ -40,6 +40,27 @@ export const getAllNews = async (
   });
 };
 
+export const bothContent = async (
+  query: TNewsQueryParams = {},
+): Promise<TNews[]> => {
+  const searchParams = new URLSearchParams();
+
+  Object.entries(query).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      searchParams.append(key, String(value));
+    }
+  });
+
+  const queryString = searchParams.toString();
+  const url = queryString
+    ? `/news/both-content?${queryString}`
+    : "/news/both-content";
+
+  return apiClient<TNews[]>(url, {
+    cache: "no-cache",
+  });
+};
+
 export const getNewsByReporterId = async (repId: string) => {
   return apiClient<TNews[]>(`/news/${repId}/news`, {
     cache: "no-cache",
@@ -187,12 +208,6 @@ export const getSingleNewsByNewsId = async (
   newsId: string,
 ): Promise<ApiResponse<TNews>> => {
   return apiClientRaw<TNews>(`/news/${newsId}/single`, {
-    method: "GET",
-  });
-};
-
-export const bothContent = async (): Promise<ApiResponse<TNews[]>> => {
-  return apiClientRaw<TNews[]>("/news/both-content", {
     method: "GET",
   });
 };

@@ -29,13 +29,35 @@ import Image from "next/image";
 import { getAllNewsCategories } from "@/services/category";
 import NewsFilter from "./newsFillter";
 import { TNews } from "@/types/news";
-import { getAllNews, updateNewsStatus } from "@/services/news/news.service";
+import {
+  bothContent,
+  getAllNews,
+  updateNewsStatus,
+} from "@/services/news/news.service";
 import { authkey } from "@/constants/authkey";
 import { TAB_STATUS_MAP } from "@/constants/news";
 import { TCategory } from "@/types/category";
 import { getUserInfo } from "@/services/actions/auth.service";
 import { SkeletonRow } from "./SkeletonRow";
 import Link from "next/link";
+
+const isValidUrl = (src?: string | null): src is string =>
+  !!src && (src.startsWith("/") || /^https?:\/\//.test(src));
+
+const getYouTubeId = (url?: string | null): string | null => {
+  if (!url) return null;
+  const match = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+  );
+  return match ? match[1] : null;
+};
+
+const getNewsThumbnail = (news: TNews): string => {
+  if (isValidUrl(news?.featuredImageUrl)) return news.featuredImageUrl!;
+  const youtubeId = getYouTubeId(news?.videoUrl);
+  if (youtubeId) return `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+  return "/placeholder-news.jpg"; // fallback static image, path adjust koro
+};
 
 type TStatus =
   | "draft"
@@ -89,7 +111,7 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
           ? undefined
           : (TAB_STATUS_MAP[onValueChange as string] ?? onValueChange);
 
-      const data = await getAllNews({
+      const data = await bothContent({
         status: mappedStatus,
         categoryId: selectedCategory === "all" ? undefined : selectedCategory,
         searchTerm: debouncedSearch.trim() || undefined,
@@ -219,7 +241,7 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2 max-w-40">
                       <Image
-                        src={item?.featuredImageUrl}
+                        src={getNewsThumbnail(item)}
                         alt="user Icon"
                         width={40}
                         height={40}
