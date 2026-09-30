@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
 import { HiOutlinePhotograph } from "react-icons/hi";
-import Swal from "sweetalert2";
+import { toast } from "sonner";
 import { TCategory } from "@/types/category";
 import { updateNewsCategory } from "@/services/category";
 import { getFromLocalStorage } from "../../../../../../utils/localStorage";
@@ -154,13 +154,7 @@ const UpdateCategoryModal = ({
         payload,
       );
 
-      Swal.fire({
-        icon: "success",
-        title: "Updated",
-        text: result.message,
-        timer: 2000,
-        showConfirmButton: false,
-      });
+      toast.success(result?.message);
 
       onSuccess?.();
       resetForm();
@@ -171,11 +165,7 @@ const UpdateCategoryModal = ({
 
       setError(message);
 
-      Swal.fire({
-        icon: "error",
-        title: "Failed",
-        text: message,
-      });
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }

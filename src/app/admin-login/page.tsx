@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { adminLogin } from "@/services/actions/admin.login";
 import { storeUserInfo } from "@/services/actions/auth.service";
-import Swal from "sweetalert2";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 type LoginPayload = {
@@ -42,13 +42,7 @@ export default function SignInPage() {
 
       if (res.success) {
         storeUserInfo(res.data);
-        await Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "Admin login successfully",
-          timer: 2000,
-          showConfirmButton: false,
-        });
+        toast.success("Admin login successfull");
 
         router.push("/dashboard");
       } else {

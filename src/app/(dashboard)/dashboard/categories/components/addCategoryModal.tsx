@@ -5,7 +5,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
 import { HiOutlinePhotograph } from "react-icons/hi";
-import Swal from "sweetalert2";
+import { toast } from "sonner";
 import { createNewsCategory } from "@/services/category";
 import { getFromLocalStorage } from "../../../../../../utils/localStorage";
 import { authkey } from "@/constants/authkey";
@@ -145,25 +145,14 @@ const AddCategoryModal = ({ isOpen, onClose, onSuccess }: Props) => {
 
     try {
       await createNewsCategory(token as string, payload);
-
-      Swal.fire({
-        icon: "success",
-        title: "Added",
-        text: `"${data.categoryName}"Category successfully created.`,
-        timer: 2000,
-        showConfirmButton: false,
-      });
+      toast.success(`${data.categoryName} Category successfully created.`);
 
       onSuccess?.();
       reset(defaultValues);
       handleRemoveImage();
       onClose();
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Failed",
-        text: "Category তৈরি করা যায়নি। আবার চেষ্টা করুন।",
-      });
+      toast.error("Category তৈরি করা যায়নি। আবার চেষ্টা করুন।");
     }
   };
 

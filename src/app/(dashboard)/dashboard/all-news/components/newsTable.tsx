@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { MoreHorizontalIcon } from "lucide-react";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -155,26 +156,14 @@ const NewsTable = ({ onValueChange }: tabValueProps) => {
       if (!token) {
         return;
       }
-      const result = await updateNewsStatus(token, newsId, statusData);
-
-      await fetchNewsData(page); // একই page + tab filter বজায় থাকবে
-
-      Swal.fire({
-        icon: "success",
-        title: "Updated",
-        text: result?.message ?? "News status updated successfully.",
-        timer: 2000,
-        showConfirmButton: false,
-      });
+      await updateNewsStatus(token, newsId, statusData);
+      toast.success("News status updated successfully.");
+      await fetchNewsData(page);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "News status আপডেট করা যায়নি।";
 
-      Swal.fire({
-        icon: "error",
-        title: "Failed",
-        text: message,
-      });
+      toast.error(message);
     } finally {
       setUpdatingId(null);
     }

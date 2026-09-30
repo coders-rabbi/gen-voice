@@ -11,6 +11,7 @@ import { loginUser } from "@/services/actions/user.login";
 import { storeUserInfo } from "@/services/actions/auth.service";
 import Swal from "sweetalert2";
 import ForgatePasswordModal from "./forgatePasswordModal";
+import { toast } from "sonner";
 
 type FormValues = {
   email: string;
@@ -41,13 +42,15 @@ const Page = () => {
 
       if (res.success) {
         storeUserInfo(res.data);
-        await Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "Login successfully",
-          timer: 2000,
-          showConfirmButton: false,
-        });
+        // await Swal.fire({
+        //   icon: "success",
+        //   title: "Success",
+        //   text: "Login successfully",
+        //   timer: 2000,
+        //   showConfirmButton: false,
+        // });
+
+        toast.success("Login successful");
 
         router.push("/reporter");
       } else {

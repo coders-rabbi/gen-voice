@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ActiveUsersProvider } from "@/context/activeUserContext";
 import VisitTracker from "@/components/Visittracker";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -45,6 +46,7 @@ export default function RootLayout({
         <ActiveUsersProvider>
           <VisitTracker />
           {children}
+          <Toaster position="top-center" richColors/>
         </ActiveUsersProvider>
       </body>
     </html>
