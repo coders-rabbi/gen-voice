@@ -134,12 +134,10 @@ const Reaction = ({ newsId }: newsIdProps) => {
             onClick={() => handleReaction(type)}
             disabled={isLoading}
             title={label}
-            className="flex flex-col items-center gap-0.5 disabled:opacity-60 transition-transform hover:scale-125"
+            className="flex flex-col items-center gap-0.5 transition-transform hover:scale-125"
           >
             <span
-              className={`text-2xl transition-all ${
-                myReaction === type ? "" : "grayscale opacity-40"
-              }`}
+              className="text-2xl transition-all"
             >
               {emoji}
             </span>
