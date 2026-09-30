@@ -1,10 +1,60 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://gen-voice-backend.onrender.com/api/v1";
+import { authkey } from "@/constants/authkey";
+
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  "https://gen-voice-backend.onrender.com/api/v1";
 
 export type ApiResponse<T> = {
   statusCode: number;
   success: boolean;
   message: string;
   data: T;
+};
+
+// এই রুটগুলোতে ৪০১ পেলে রিফ্রেশ চেষ্টা হবে না
+const SKIP_REFRESH = ["/auth/login", "/auth/register", "/auth/refresh-token"];
+
+// একসাথে অনেক রিকোয়েস্ট ৪০১ পেলেও রিফ্রেশ কল হবে একবারই
+let refreshPromise: Promise<string | null> | null = null;
+
+const refreshAccessToken = (): Promise<string | null> => {
+  if (!refreshPromise) {
+    refreshPromise = (async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/auth/refresh-token`, {
+          method: "POST",
+          credentials: "include", // ব্রাউজার রিফ্রেশ টোকেন কুকি পাঠাবে
+        });
+        if (!res.ok) return null;
+
+        const json = await res.json();
+        const newToken =
+          typeof json.data === "string" ? json.data : json.data?.accessToken;
+        if (!newToken) return null;
+
+        localStorage.setItem(authkey, newToken);
+        return newToken as string;
+      } catch {
+        return null;
+      } finally {
+        refreshPromise = null;
+      }
+    })();
+  }
+  return refreshPromise;
+};
+
+const buildHeaders = (options?: RequestInit, newToken?: string) => {
+  const headers = new Headers(options?.headers);
+
+  // FormData (ফাইল আপলোড) হলে Content-Type ব্রাউজারকে বসাতে দাও
+  if (!headers.has("Content-Type") && !(options?.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
+  }
+  // রিট্রাইয়ের সময় পুরনো টোকেন বদলে নতুনটা বসবে
+  if (newToken) headers.set("Authorization", `Bearer ${newToken}`);
+
+  return headers;
 };
 
 export const apiClient = async <T>(
@@ -21,13 +71,34 @@ export const apiClientRaw = async <T>(
 ): Promise<ApiResponse<T>> => {
   const url = BASE_URL ? `${BASE_URL}${endpoint}` : endpoint;
 
-  const response = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-    ...options,
-  });
+  const send = (newToken?: string) =>
+    fetch(url, {
+      ...options,
+      credentials: "include", // headers এর বাইরে
+      headers: buildHeaders(options, newToken),
+    });
+
+  let response = await send();
+
+  // শুধু টোকেনসহ পাঠানো রিকোয়েস্ট ৪০১ পেলে রিফ্রেশ হবে
+  const hadAuth = new Headers(options?.headers).has("Authorization");
+
+  if (
+    response.status === 401 &&
+    hadAuth &&
+    !SKIP_REFRESH.includes(endpoint) &&
+    typeof window !== "undefined"
+  ) {
+    const newToken = await refreshAccessToken();
+
+    if (newToken) {
+      response = await send(newToken);
+    } else {
+      // রিফ্রেশ টোকেনও expire/invalid, তাই লগআউট
+      localStorage.removeItem(authkey);
+      window.location.href = "/login";
+    }
+  }
 
   let json: ApiResponse<T> | null = null;
   try {

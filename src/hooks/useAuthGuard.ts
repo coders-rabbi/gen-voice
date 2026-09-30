@@ -11,8 +11,6 @@ export const useAuthGuard = () => {
 
   useEffect(() => {
     const userInfo = getUserInfo();
-    console.log("userInfo:", userInfo); // eta ki dekhacche?
-    console.log("raw token:", localStorage.getItem("accessToken"));
 
     if (!userInfo?._id) {
       router.replace("/login");
