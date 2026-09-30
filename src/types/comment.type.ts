@@ -15,6 +15,7 @@ export type TCommentUser = {
   _id: string;
   email: string;
   role: string;
+  profileImage: string;
 };
 
 export type TComments = {

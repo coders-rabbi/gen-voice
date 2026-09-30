@@ -72,7 +72,7 @@ const page = async ({ params }: PageProps) => {
   const { newsDetails } = await params;
 
   const data = await bothContent();
-  const newsData = data?.data;
+  const newsData = data;
   const news = newsData.filter((news) => news?.newsId === newsDetails);
 
   if (!news.length) {
@@ -106,7 +106,7 @@ const page = async ({ params }: PageProps) => {
   const categoryRes = await getNewsByCategory(currentNews?.categoryId?._id);
   const categoryNews = categoryRes.data;
   const categoryWithOutDisplayNews = categoryNews.filter(
-    (item) => item?.newsId !== newsDetails,
+    (item) => item?.newsId !== newsDetails && item?.status === "published",
   );
 
   return (

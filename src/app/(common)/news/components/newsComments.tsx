@@ -40,9 +40,12 @@ const NewsComments = async ({ comments }: commentsProps) => {
                 <div className="flex justify-between">
                   <div className="flex gap-4 items-center mb-3">
                     <Image
-                      src={manImg}
+                      src={comment?.userId?.profileImage || ""}
                       alt={comment.userId?.email || "Comment author"}
+                      width={16}
+                      height={16}
                       className="w-16 h-16 rounded-xl object-cover"
+                      unoptimized
                     />
                     <div>
                       <h4>{comment.userId?.email || "Anonymous"}</h4>
