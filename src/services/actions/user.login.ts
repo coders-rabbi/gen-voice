@@ -14,3 +14,9 @@ export const loginUser = async (
     body: JSON.stringify(payload),
   });
 };
+
+export const logoutUser = async (): Promise<ApiResponse<null>> => {
+  return apiClientRaw<null>("/auth/logout", {
+    method: "POST",
+  });
+};

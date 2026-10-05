@@ -12,6 +12,17 @@ interface NewsProps {
 const Politics = async ({ news }: NewsProps) => {
   const featuredNews = news[0];
 
+  const isValidUrl = (url?: string) => {
+    if (!url) return false;
+    if (url.startsWith("/")) return true; // লোকাল ছবি
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -40,29 +51,18 @@ const Politics = async ({ news }: NewsProps) => {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3 mt-4">
         {featuredNews && (
           <div className="md:col-span-8">
+            // ...
             <Link href={`/news/${featuredNews?.newsId}`}>
               <Image
-                src={featuredNews.featuredImageUrl}
+                src={
+                  isValidUrl(featuredNews?.featuredImageUrl)
+                    ? featuredNews.featuredImageUrl
+                    : "/placeholder.jpg"
+                }
                 width={500}
                 height={500}
-                alt="gen voice"
-                className="w-full h-auto object-cover"
+                alt={featuredNews?.title || "News image"}
               />
-              <div className="mt-4">
-                <h2 className="text-[#6D757F] text-xs font-semibold">
-                  {featuredNews?.categoryId?.categoryName}
-                </h2>
-                <p className="text-[#183354] text-xl font-bold mt-1.5">
-                  {featuredNews.title}
-                </p>
-                <p className="flex items-center gap-1 text-[16px] text-[#6D757F] mt-2.5 font-semibold">
-                  <CiCalendar />{" "}
-                  {featuredNews?.publishAt?.slice(
-                    0,
-                    featuredNews.publishAt.indexOf("T"),
-                  )}
-                </p>
-              </div>
             </Link>
           </div>
         )}

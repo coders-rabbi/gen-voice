@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { AuthPayload } from "../../../../utils/jwt";
 import SearchBar from "@/components/searchBar";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { logoutUser } from "@/services/actions/user.login";
 
 const categories = [
   { label: "Food", href: "/categories/food" },
@@ -61,8 +62,11 @@ const Navbar = () => {
     closeTimer.current = setTimeout(() => setCategoryOpen(false), 200);
   };
 
-  const handleSingOut = () => {
-    removeUser();
+  const handleSingOut = async () => {
+    try {
+      await logoutUser();
+    } catch {}
+    removeUser(); // localStorage পরিষ্কার
     setUserInfo(null);
     setUserLoggedIn(false);
     router.refresh();

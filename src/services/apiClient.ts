@@ -12,7 +12,12 @@ export type ApiResponse<T> = {
 };
 
 // এই রুটগুলোতে ৪০১ পেলে রিফ্রেশ চেষ্টা হবে না
-const SKIP_REFRESH = ["/auth/login", "/auth/register", "/auth/refresh-token"];
+const SKIP_REFRESH = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/refresh-token",
+  "/auth/logout",
+];
 
 // একসাথে অনেক রিকোয়েস্ট ৪০১ পেলেও রিফ্রেশ কল হবে একবারই
 let refreshPromise: Promise<string | null> | null = null;
@@ -65,6 +70,19 @@ export const apiClient = async <T>(
   return json.data;
 };
 
+const PUBLIC_PATHS = [
+  "/",
+  "/news",
+  "/login",
+  "/register",
+  "/categories",
+  "/recent_news",
+  "/popular_news",
+];
+
+const isPublicPath = (path: string) =>
+  PUBLIC_PATHS.some((r) => path === r || (r !== "/" && path.startsWith(r)));
+
 export const apiClientRaw = async <T>(
   endpoint: string,
   options?: RequestInit,
@@ -80,8 +98,20 @@ export const apiClientRaw = async <T>(
 
   let response = await send();
 
-  // শুধু টোকেনসহ পাঠানো রিকোয়েস্ট ৪০১ পেলে রিফ্রেশ হবে
-  const hadAuth = new Headers(options?.headers).has("Authorization");
+  // শুধু আসল টোকেনসহ পাঠানো রিকোয়েস্ট ৪০১ পেলে রিফ্রেশ হবে
+  // ("Bearer null" / "Bearer undefined" ধরা হবে না)
+  const authHeader = new Headers(options?.headers).get("Authorization") || "";
+  const hadAuth =
+    authHeader.trim() !== "" && !/(null|undefined)$/i.test(authHeader.trim());
+
+  // ---- ডিবাগ লগ (সমস্যা মিটলে মুছে দিন) ----
+  if (response.status === 401 && typeof window !== "undefined") {
+    console.log("401 from:", endpoint);
+    console.log("Authorization:", authHeader);
+    console.log("localStorage token:", localStorage.getItem(authkey));
+    console.log("page:", window.location.pathname);
+  }
+  // -------------------------------------------
 
   if (
     response.status === 401 &&
@@ -96,7 +126,12 @@ export const apiClientRaw = async <T>(
     } else {
       // রিফ্রেশ টোকেনও expire/invalid, তাই লগআউট
       localStorage.removeItem(authkey);
-      window.location.href = "/login";
+      console.log("REDIRECT check from endpoint:", endpoint);
+
+      // শুধু প্রাইভেট পেজে থাকলে লগইনে পাঠান; পাবলিক পেজে গেস্ট হয়ে থাকুক
+      if (!isPublicPath(window.location.pathname)) {
+        window.location.href = "/login";
+      }
     }
   }
 
