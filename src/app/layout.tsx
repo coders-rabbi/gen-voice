@@ -42,11 +42,19 @@ export default function RootLayout({
       )}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8538918502717714"
+          crossOrigin="anonymous"
+        />
+        <meta name="google-adsense-account" content="ca-pub-8538918502717714" />
+      </head>
       <body className="bg-white" suppressHydrationWarning>
         <ActiveUsersProvider>
           <VisitTracker />
           {children}
-          <Toaster position="top-center" richColors/>
+          <Toaster position="top-center" richColors />
         </ActiveUsersProvider>
       </body>
     </html>
