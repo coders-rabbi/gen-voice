@@ -174,8 +174,8 @@ const Footer = async () => {
                 </div>
               </div>
               <ul className="flex flex-col gap-2 text-[#3E3232] mt-2">
-                <Link href="/" className="text-sm">
-                  Home
+                <Link href="/privacy-policy" className="text-sm">
+                  Privacy Policy
                 </Link>
                 <Link href="/about-us" className="text-sm">
                   About Us
