@@ -206,9 +206,12 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-end gap-2">
+          {/* মোবাইলে শুধু সার্চ আইকন দেখাবে (SearchBar কম্পোনেন্ট আইকন-অনলি হলে) */}
           <SearchBar />
+
+          {/* Desktop only: Sign In / Profile + Logout */}
           {userLoggedIn ? (
-            <div className="md:flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md  hidden sm:block">
+            <div className="hidden lg:flex gap-2 items-center bg-[#3385FF] px-2 py-1 rounded-md">
               <Link href="/reporter">
                 <Image
                   src={data?.userData?.profileImage || defaultUser}
@@ -228,12 +231,13 @@ const Navbar = () => {
           ) : (
             <Link
               href="/login"
-              className="btn btn-sm  text-center bg-[#3385FF] hover:bg-[#3385FF] border-0 rounded-xl text-white w-fit"
+              className="btn btn-sm hidden lg:inline-flex text-center bg-[#3385FF] hover:bg-[#3385FF] border-0 rounded-xl text-white w-fit"
             >
               Sign In
             </Link>
           )}
 
+          {/* Mobile / tablet hamburger menu */}
           <div className="dropdown dropdown-end lg:hidden">
             <div
               tabIndex={0}
@@ -260,7 +264,9 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-white rounded-box z-50 mt-3 w-52 p-2 shadow-lg border border-gray-100"
             >
               {MobileNavItems}
-              <div className="pt-2 mt-2 border-t border-gray-100 sm:hidden">
+
+              {/* Sign In / Profile + Logout এখন মোবাইল মেনুর ভেতরে */}
+              <div className="pt-2 mt-2 border-t border-gray-100">
                 {userLoggedIn ? (
                   <div className="flex gap-2 items-center justify-between bg-[#3385FF] px-2 py-1 rounded-md">
                     <Link href="/reporter">
