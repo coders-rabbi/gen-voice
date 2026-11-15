@@ -49,15 +49,6 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <meta name="google-adsense-account" content="ca-pub-8538918502717714" />
-        <script>
-          (function(s)
-          {
-            ((s.dataset.zone = "12267950"),
-            (s.src = "https://nap5k.com/tag.min.js"))
-          }
-          )([document.documentElement,
-          document.body].filter(Boolean).pop().appendChild(document.createElement('script')))
-        </script>
       </head>
       <body className="bg-white" suppressHydrationWarning>
         <ActiveUsersProvider>
