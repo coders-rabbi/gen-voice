@@ -32,6 +32,7 @@ import ShareButton from "../components/shareButton";
 import CommentScrollButton from "../components/Commentscrollbutton";
 import SaveButton from "@/components/saveButton";
 import MonetagAd from "@/components/MonetagAd";
+import MonetagIPP from "@/components/ads/MonetagIPP";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 interface PageProps {
@@ -180,7 +181,7 @@ const page = async ({ params }: PageProps) => {
             <div className="mt-10">
               <div dangerouslySetInnerHTML={{ __html: first }} />
               {/* <Advertisement /> */}
-              <MonetagAd/>
+              <MonetagIPP/>
               {second && <div dangerouslySetInnerHTML={{ __html: second }} />}
             </div>
           </div>
