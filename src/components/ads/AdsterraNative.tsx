@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const AD_KEY = "19dd77840952e69b112c74461acc41d4";
+const AD_KEY = "a9f8edcccd05e377d261fee79a2b7ea8";
 
 export default function AdsterraNative() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
