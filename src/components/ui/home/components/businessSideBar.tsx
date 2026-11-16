@@ -6,6 +6,7 @@ import sideBarImage from "@/assets/home/sidebarimage.jpg";
 import BusinessSideCart from "./businessSideCart";
 import { TNews } from "@/types/news";
 import { getAllNews } from "@/services/news/news.service";
+import AdsterraNative from "@/components/ads/AdsterraNative";
 
 const BusinessSideBar = async () => {
   const data = await getAllNews();
@@ -59,11 +60,7 @@ const BusinessSideBar = async () => {
 
         {/* side bar Image */}
         <div className="mt-3">
-          <Image
-            src={sideBarImage}
-            alt="gen voice"
-            className="h-[210px] w-full"
-          />
+          <AdsterraNative />
         </div>
       </div>
     </div>
