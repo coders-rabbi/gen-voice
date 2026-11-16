@@ -1,10 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  FaCalendar,
-  FaComment,
-  FaFile,
-} from "react-icons/fa6";
+import { FaCalendar, FaComment, FaFile } from "react-icons/fa6";
 import ReporterCard from "@/components/ui/home/components/reporterCard";
 import {
   getNewsByCategory,
@@ -25,7 +21,7 @@ import { getSingleReporterByReporterId } from "@/services/reporter/reporterServi
 import ShareButton from "../components/shareButton";
 import CommentScrollButton from "../components/Commentscrollbutton";
 import SaveButton from "@/components/saveButton";
-import MonetagBanner from "@/components/ads/MonetagBanner";
+import AdsterraNative from "@/components/ads/AdsterraNative";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 interface PageProps {
@@ -174,12 +170,8 @@ const page = async ({ params }: PageProps) => {
             <div className="mt-10">
               <div dangerouslySetInnerHTML={{ __html: first }} />
               {/* <Advertisement /> */}
-              <MonetagBanner
-                scriptSrc="https://nap5k.com/tag.min.js"
-                zoneId="12267570"
-                width={1200}
-                height={800}
-              />
+              <AdsterraNative />
+
               {second && <div dangerouslySetInnerHTML={{ __html: second }} />}
             </div>
           </div>
